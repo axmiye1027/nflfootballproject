@@ -2,12 +2,12 @@
 # cd backend
 
 # Database Commands
-# Mainly need to do these commands:
+# Mainly need to do these commands (recommend order):
+#  make db_clean		- deletes the database to reset it
+#  make import			- imports data into the database / create database
 #  make show-distances  - shows the distances table
 #  make show-stadiums   - shows the stadiums table
 #  make show-all        - shows all tables
-#  make db_clean		- deletes the database to reset it
-#  make import			- imports data into the database / create database
 DB := database/database.db
 SCHEMA := database/schema.sql
 IMPORT_SCRIPT := scripts/import_csv.py
@@ -27,7 +27,7 @@ show-stadiums:
 show-all: show-distances show-stadiums
 	@echo "Showing all tables"
 
-.PHONY: all create verify import clean show-distances show-stadiums show-all
+.PHONY: all create verify import db_clean show-distances show-stadiums show-all
 
 all: create verify
 
