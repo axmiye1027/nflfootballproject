@@ -1,4 +1,4 @@
-// homepage - first page to appear when opened
+// homepage / home button - first page to appear when opened
 
 import { useState } from 'react'
 import './styles/App.css'
