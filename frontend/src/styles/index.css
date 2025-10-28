@@ -1,11 +1,18 @@
+/* Global styles */
+
+/* GENERAL STYLES */
 :root {
+  /* Text - Basic typography */
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
+  --title: 'Garamond', cursive;
 
+  /* Color Scheme */
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color: #b94f9a;
+  background-color: #efb9d1;
+  border-color: #e32e5b;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -13,6 +20,7 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* ELEMENT STYLES */
 a {
   font-weight: 500;
   color: #646cff;
@@ -65,4 +73,25 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+
+/* CLASSES */
+.title {
+  font-family: var(--title);
+  font-size: 2.5em;
+  font-weight: 700;
+  text-align: center;
+  margin: 1em 0;
+}
+
+/* UTILITY CLASSES */
+
+/* Flexbox row container - make items side by side */
+.row {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
 }
