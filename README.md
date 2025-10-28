@@ -22,6 +22,15 @@ make show-stadiums      - shows stadium information
 
 - - -
 
+Frontend Notes
+    
+    - must insteall Node.js to use and run
+
+Run Frontend:
+    npm run dev
+    
+- - -
+
 
 BACKEND TABLE OF CONTENTS
 
@@ -40,3 +49,12 @@ BACKEND TABLE OF CONTENTS
 
 
 FRONT END TABLE OF CONTENTS
+
+    App.js
+    main page, basically index.html but for react
+
+    App.css
+    main styles, mostly global styles or styles 
+
+    componenets folder
+    where all reusable functions are stored

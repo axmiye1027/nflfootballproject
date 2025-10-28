@@ -1,9 +1,14 @@
 // homepage - first page to appear when opened
 
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './styles/App.css'
+
+// components
+import NavBar from './components/NavBar.jsx'
+import SearchBar from './components/SearchBar.jsx'
+import TeamInfo from './components/TeamInfo.jsx'
+// data
+//import teams from './data/teams.json'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -11,38 +16,36 @@ function App() {
   return (
     <>
       {/* NAVIGATION */}
-      <div className="row">
-        <a className="nav-btn" href="https://vitejs.dev" target="_blank" rel="noreferrer">
-          <img className="nav-img" alt="Vite logo" src={viteLogo} />
-        </a>
-
-        <a className="nav-btn" href="https://react.dev" target="_blank" rel="noreferrer">
-          <img className="nav-btn" alt="React logo" src={reactLogo} />
-        </a>
-
-        <a className="nav-btn" href="https://react.dev" target="_blank" rel="noreferrer">
-          <img className="nav-btn" alt="React logo" src={reactLogo} />
-        </a>
-      </div>
-        
-      <img className="nav-btn" alt="search button"
-          src="https://preview.redd.it/why-does-scootaloos-cutie-mark-have-a-wing-v0-ruz6lnq3z64c1.png?width=885&format=png&auto=webp&s=e151e0d62c13c97e5fab681a9a2077f38d93117f" />
-        
-        <img className="nav-btn" alt="admin button"
-          src="https://derpicdn.net/img/2016/8/9/1221208/full.png" />
-
-        <img className="nav-btn" alt="search button"
-          src="https://derpicdn.net/img/2016/4/23/1138655/large.png" />
+      <NavBar />
 
       {/* HEADER */}
-      <div className="title">List of Teams</div>
+      <div className="title" style={{ 
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundImage: `url('')` }}>List of Teams</div>
 
       {/* SEARCH - ICON - FILTERS */}
       <div className="row">
-        
+
+        {/* SEARCH BAR */}
+        <SearchBar />
+
+        {/* LOGO */}
+
+        {/* FILTERS */}
+        <select>
+          <option value="">All Teams</option>
+          <option value="AFC">AFC</option>
+          <option value="NFC">NFC</option>
+        </select>
+
       </div>
+      {/* END SEARCH - ICON - FILTERS */}
+
 
       {/* TEAM LIST */}
+      <TeamInfo />
+      {/* END TEAM LIST */}
     </>
   )
 }

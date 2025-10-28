@@ -7,12 +7,22 @@
   line-height: 1.5;
   font-weight: 400;
   --title: 'Garamond', cursive;
+  --header: 'Garamond';
 
   /* Color Scheme */
+  --purple: #b94f9a;
+  --purpleNeon: #ed1deb;
+  --purpleDark: #a0109e;
+  --red: #e32e5b;
+  --pink: #efb9d1;
+  --outline: #a71f61;
+
   color-scheme: light dark;
-  color: #b94f9a;
-  background-color: #efb9d1;
-  border-color: #e32e5b;
+  color: var(--purple);
+  background-color: var(--pink);
+  --border-color: var(--outline);
+
+  --border: 2px solid var(--border-color);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -22,12 +32,7 @@
 
 /* ELEMENT STYLES */
 a {
-  font-weight: 500;
-  color: #646cff;
   text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
 }
 
 body {
@@ -36,11 +41,7 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+  overflow-x: hidden;
 }
 
 button {
@@ -62,19 +63,6 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-}
-
 
 /* CLASSES */
 .title {
@@ -85,13 +73,19 @@ button:focus-visible {
   margin: 1em 0;
 }
 
+
 /* UTILITY CLASSES */
 
 /* Flexbox row container - make items side by side */
 .row {
   display: flex;
+  flex-direction: row;
   gap: 1rem;
-  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
+  width: 100%;
+}
+
+nav a:hover {
+  background-color: rgba(255, 255, 255, 0.5);
 }
