@@ -10,6 +10,11 @@ public:
     ~BackendManager();
 
     void login(string username, string password);
+    
+    void AddTeam();
+    void AddSouvenir();
+    void RemoveSouvinir();
+    void ModifySouvinirPrice();
 
 private:
 

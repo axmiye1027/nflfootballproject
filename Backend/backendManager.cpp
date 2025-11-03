@@ -1,13 +1,13 @@
 #include "backendManager.h"
 
-BackendManager::BackendManager()
+BackendManager::BackendManager() : isAdmin{false}
 {
 
 }
 
 BackendManager::~BackendManager()
 {
-    
+
 }
 
 void BackendManager::login(string username, string password)
@@ -21,4 +21,24 @@ void BackendManager::login(string username, string password)
     {
         cout << "Invalid credentials." << endl;
     }
+}
+
+void BackendManager::AddTeam()
+{
+
+}
+
+void BackendManager::AddSouvenir()
+{
+
+}
+
+void BackendManager::RemoveSouvinir()
+{
+
+}
+
+void BackendManager::ModifySouvinirPrice()
+{
+
 }
