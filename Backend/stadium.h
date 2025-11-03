@@ -31,12 +31,17 @@ class Stadium
 {
 public:
     Stadium(); // Default Constructor
-    Stadium(Location location, string roofType, string surface, int dateOpened, string conference, string division, vector<Souvenir> souvenirList); // Overloaded Constructor
-    Stadium(string city, string state, string roofType, string surface, int dateOpened, string conference, string division, vector<Souvenir> souvenirList);
+    Stadium(string teamName, string stadiumName, int capacity, Location location, string roofType, string surface, // Overloaded Constructor
+            int dateOpened, string conference, string division, vector<Souvenir> souvenirList);
+    Stadium(string teamName, string stadiumName, int capacity, string city, string state, string roofType, string surface, // Overloade Const (location split into 2 strings)
+            int dateOpened, string conference, string division, vector<Souvenir> souvenirList);
 
     ~Stadium(); // Destructor
 
     /* ------ Setters ------ */
+    void setTeamName(string teamName);
+    void setStadiumName(string stadiumName);
+    void setCapacity(int capacity);
     void setLocation(string city, string location);
     void setLocation(Location location);
     void setRoofType(string roofType);
@@ -52,6 +57,9 @@ public:
 
 
 private:
+    string   teamName;
+    string   stadiumName;
+    int      capacity;
     Location location; // could be pair<city, state> or two strings
     string   roofType; // could be enum
     string   surfaceType;
