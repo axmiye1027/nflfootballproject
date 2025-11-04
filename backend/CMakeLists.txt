@@ -1,42 +1,42 @@
-cmake_minimum_required(VERSION 3.14)
-project(nfl_cpp_api VERSION 0.1 LANGUAGES CXX)
+# Minimum required version for CMake
+cmake_minimum_required(VERSION 3.12)
 
+# Include vcpkg toolchain file
+set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/../dev/vcpkg/scripts/buildsystems/vcpkg.cmake" CACHE STRING "Vcpkg toolchain file")
+
+# Define your project name and the C++ standard you want to use
+project(NFL_PROJECT_NAME VERSION 1.0)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-include(FetchContent)
+# Define Windows target version (Windows 7 or later)
+add_definitions(-D_WIN32_WINNT=0x0601)
 
-# Fetch Crow and nlohmann/json
-FetchContent_Declare(
-  crow
-  GIT_REPOSITORY https://github.com/CrowCpp/Crow.git
-  GIT_TAG        v0.3          # pick a release tag; adjust if needed
+# Find required packages
+find_package(asio CONFIG REQUIRED)
+find_package(Crow CONFIG REQUIRED)
+
+# Add your executable target
+add_executable(
+    ${PROJECT_NAME} 
+    main.cpp
+    stadium.cpp
+    backendManager.cpp
 )
-FetchContent_Declare(
-  nlohmann_json
-  GIT_REPOSITORY https://github.com/nlohmann/json.git
-  GIT_TAG        v3.11.2
+
+# Add include directories
+target_include_directories(${PROJECT_NAME} PRIVATE
+    "${CMAKE_CURRENT_SOURCE_DIR}/../dev/vcpkg/installed/x64-windows/include"
 )
 
-FetchContent_MakeAvailable(crow nlohmann_json)
+# Link against Crow and its dependencies
+target_link_libraries(${PROJECT_NAME} 
+    PRIVATE 
+    Crow::Crow
+    asio::asio
+)
 
-add_executable(nfl_cpp_api main.cpp)
-
-# Crow may provide an imported target; try to link it if present,
-# otherwise add the Crow include dir as a fallback:
-if (TARGET Crow::Crow)
-  target_link_libraries(nfl_cpp_api PRIVATE Crow::Crow)
-else()
-  target_include_directories(nfl_cpp_api PRIVATE ${crow_SOURCE_DIR}/include)
+# On Windows, we need to link against Winsock
+if(WIN32)
+    target_link_libraries(${PROJECT_NAME} PRIVATE ws2_32)
 endif()
-
-# link JSON lib
-if (TARGET nlohmann_json::nlohmann_json)
-  target_link_libraries(nfl_cpp_api PRIVATE nlohmann_json::nlohmann_json)
-endif()
-
-# link sqlite3 (system-installed)
-find_package(PkgConfig REQUIRED)
-pkg_search_module(SQLITE3 REQUIRED sqlite3)
-target_include_directories(nfl_cpp_api PRIVATE ${SQLITE3_INCLUDE_DIRS})
-target_link_libraries(nfl_cpp_api PRIVATE ${SQLITE3_LIBRARIES})
