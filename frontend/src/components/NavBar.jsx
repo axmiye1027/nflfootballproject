@@ -3,8 +3,8 @@ function NavBar() {
     // STYLES
     const navStyle = {
         position: 'sticky',
-        top: 0,
-        left: 0,
+        top: '0px',
+        left: '0px',
         width: '100%',
         maxHeight: '5em',
         overflow: 'hidden',
@@ -17,7 +17,7 @@ function NavBar() {
 
     const navLogoStyle = {
         marginRight: 'auto',
-        height: '10em',
+        height: '12em',
         willChange: 'filter',
         transition: 'filter 300ms'
     };
