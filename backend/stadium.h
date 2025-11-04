@@ -25,6 +25,8 @@ struct Location
     {
         this->city  = location.city;
         this->state = location.state;
+        
+        return *this;
     }
 };
 
@@ -33,9 +35,9 @@ class Stadium
 {
 public:
     Stadium(); // Default Constructor
-    Stadium(string teamName, string stadiumName, int capacity, Location location, string roofType, string surface, // Overloaded Constructor
+    Stadium(string teamName, string stadiumName, int capacity, Location location, RoofType roofType, string surface, // Overloaded Constructor
             int dateOpened, string conference, string division, vector<Souvenir> souvenirList);
-    Stadium(string teamName, string stadiumName, int capacity, string city, string state, string roofType, string surface, // Overloade Const (location split into 2 strings)
+    Stadium(string teamName, string stadiumName, int capacity, string city, string state, RoofType roofType, string surface, // Overloade Const (location split into 2 strings)
             int dateOpened, string conference, string division, vector<Souvenir> souvenirList);
 
     ~Stadium(); // Destructor
@@ -46,7 +48,7 @@ public:
     void setCapacity(int capacity);
     void setLocation(string city, string location);
     void setLocation(Location location);
-    void setRoofType(string roofType);
+    void setRoofType(RoofType roofType);
     void setSurfaceType(string surfaceType);
     void setDateOpened(int dateOpened);
     void setConference(string conference);
