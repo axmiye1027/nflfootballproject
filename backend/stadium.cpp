@@ -8,7 +8,7 @@ Stadium::Stadium()
 }
 
 
-Stadium::Stadium(string teamName, string stadiumName, int capacity, Location location, string roofType, string surface, 
+Stadium::Stadium(string teamName, string stadiumName, int capacity, Location location, RoofType roofType, string surface, 
     int dateOpened, string conference, string division, vector<Souvenir> souvenirList)
 : teamName(teamName), stadiumName(stadiumName), capacity(capacity), location(location), roofType(roofType), surfaceType(surface), 
     dateOpened(dateOpened), conference(conference), division(division), souvenirList(souvenirList)
@@ -16,7 +16,7 @@ Stadium::Stadium(string teamName, string stadiumName, int capacity, Location loc
 }
 
 
-Stadium::Stadium(string teamName, string stadiumName, int capacity, string city, string state, string roofType, string surface, 
+Stadium::Stadium(string teamName, string stadiumName, int capacity, string city, string state, RoofType roofType, string surface, 
     int dateOpened, string conference, string division, vector<Souvenir> souvenirList)
 : teamName(teamName), stadiumName(stadiumName), capacity(capacity), roofType(roofType), surfaceType(surface), 
     dateOpened(dateOpened), conference(conference), division(division), souvenirList(souvenirList)
@@ -38,7 +38,7 @@ void Stadium::setCapacity(int capacity)              { this->capacity       = ca
 void Stadium::setLocation(string city, string state) { this->location.city  = city; 
                                                        this->location.state = state;       }
 void Stadium::setLocation(Location location)         { this->location       = location;    }
-void Stadium::setRoofType(string roofType)           { this->roofType       = roofType;    }
+void Stadium::setRoofType(RoofType roofType)         { this->roofType       = roofType;    }
 void Stadium::setSurfaceType(string surfaceType)     { this->surfaceType    = surfaceType; }
 void Stadium::setDateOpened(int dateOpened)          { this->dateOpened     = dateOpened;  }
 void Stadium::setConference(string conference)       { this->conference     = conference;  }
