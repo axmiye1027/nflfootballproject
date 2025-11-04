@@ -7,7 +7,7 @@
 #include <vector>
 using namespace std;
 
-enum RoofType {OPEN, FIXED, RETRACTABLE};
+enum RoofType {OPEN, FIXED_ROOF, RETRACTABLE};
 
 struct Souvenir
 {

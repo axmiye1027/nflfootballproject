@@ -1,0 +1,3 @@
+C:/Users/minik/Documents/GitHub/nflfootballproject/backend/build/CMakeFiles/NFL_PROJECT_NAME.dir
+C:/Users/minik/Documents/GitHub/nflfootballproject/backend/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/minik/Documents/GitHub/nflfootballproject/backend/build/CMakeFiles/ZERO_CHECK.dir
