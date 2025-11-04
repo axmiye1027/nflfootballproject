@@ -1,6 +1,6 @@
 ^C:\USERS\MINIK\DOCUMENTS\GITHUB\NFLFOOTBALLPROJECT\BACKEND\BUILD\CMAKEFILES\22586EBDE2A8F20993C873D615A7242F\GENERATE.STAMP.RULE
 setlocal
-"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/minik/Documents/GitHub/nflfootballproject/backend -BC:/Users/minik/Documents/GitHub/nflfootballproject/backend/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/minik/Documents/GitHub/nflfootballproject/backend/build/NFL_PROJECT_NAME.sln
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/minik/Documents/GitHub/nflfootballproject/backend -BC:/Users/minik/Documents/GitHub/nflfootballproject/backend/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/minik/Documents/GitHub/nflfootballproject/backend/build/NFLFootballBackend.sln
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone

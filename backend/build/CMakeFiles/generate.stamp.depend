@@ -98,6 +98,8 @@ C:/Program Files/CMake/share/cmake-4.1/Modules/Compiler/zOS-CXX-DetermineCompile
 C:/Program Files/CMake/share/cmake-4.1/Modules/CompilerId/VS-10.vcxproj.in
 C:/Program Files/CMake/share/cmake-4.1/Modules/FindPackageHandleStandardArgs.cmake
 C:/Program Files/CMake/share/cmake-4.1/Modules/FindPackageMessage.cmake
+C:/Program Files/CMake/share/cmake-4.1/Modules/FindPkgConfig.cmake
+C:/Program Files/CMake/share/cmake-4.1/Modules/FindSQLite3.cmake
 C:/Program Files/CMake/share/cmake-4.1/Modules/FindThreads.cmake
 C:/Program Files/CMake/share/cmake-4.1/Modules/Internal/CMakeCLinkerInformation.cmake
 C:/Program Files/CMake/share/cmake-4.1/Modules/Internal/CMakeCXXLinkerInformation.cmake
@@ -125,6 +127,7 @@ C:/Users/minik/Documents/GitHub/nflfootballproject/backend/build/CMakeFiles/4.1.
 C:/Users/minik/Documents/GitHub/nflfootballproject/backend/build/CMakeFiles/4.1.2/CMakeCXXCompiler.cmake
 C:/Users/minik/Documents/GitHub/nflfootballproject/backend/build/CMakeFiles/4.1.2/CMakeRCCompiler.cmake
 C:/Users/minik/Documents/GitHub/nflfootballproject/backend/build/CMakeFiles/4.1.2/CMakeSystem.cmake
+C:/Users/minik/Documents/GitHub/nflfootballproject/backend/build/CMakeFiles/cmake.verify_globs
 C:/Users/minik/Documents/GitHub/nflfootballproject/dev/vcpkg/installed/x64-windows/share/asio/asio-config.cmake
 C:/Users/minik/Documents/GitHub/nflfootballproject/dev/vcpkg/installed/x64-windows/share/asio/asio-targets.cmake
 C:/Users/minik/Documents/GitHub/nflfootballproject/dev/vcpkg/installed/x64-windows/share/crow/CrowConfig.cmake
