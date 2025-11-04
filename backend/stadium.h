@@ -7,9 +7,11 @@
 #include <vector>
 using namespace std;
 
+enum RoofType {OPEN, FIXED, RETRACTABLE};
 
 struct Souvenir
 {
+    int    stadiumId;
     string name;
     double price;
 };
@@ -57,11 +59,12 @@ public:
 
 
 private:
+    int      stadiumId;
     string   teamName;
     string   stadiumName;
     int      capacity;
     Location location; // could be pair<city, state> or two strings
-    string   roofType; // could be enum
+    RoofType roofType;
     string   surfaceType;
     int      dateOpened;
     string   conference;
