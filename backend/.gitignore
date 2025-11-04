@@ -1,1 +1,5 @@
 # Files that will NOT be tracked by Git
+
+# Compiled object files
+main
+*.o

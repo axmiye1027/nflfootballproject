@@ -1,3 +1,7 @@
+# Compiling main.cpp
+# To compile, run:
+
+
 # In order for Makefile to work make sure you are in the backend directory. Do that by doing:
 # cd backend
 
