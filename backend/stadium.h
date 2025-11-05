@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include <iostream>
-#include <string>
-#include <vector>
+#include "includes.h"
+#include "hash.h"
+
 using namespace std;
 
 enum RoofType {OPEN, FIXED, RETRACTABLE};
@@ -72,5 +72,5 @@ private:
     string   conference;
     string   division;
 
-    vector<Souvenir> souvenirList; // If each team/stadium has their own souvenirs
+    DoubleHashTable<Souvenir> souvenirList; // If each team/stadium has their own souvenirs
 };
