@@ -2,6 +2,39 @@
 # To compile, run:
 
 
+# Run API
+api:
+	curl -v http://localhost:18080/
+
+api-make:
+	cmake --build build-wsl -- -j4
+
+# restart server
+api-restart:
+	@echo "Restarting backend server..."
+	@# If server.pid exists and references a running process, try graceful stop then force
+	@if [ -f server.pid ]; then \
+		pid=`cat server.pid 2>/dev/null` ; \
+		if [ -n "$$pid" ] && kill -0 $$pid 2>/dev/null; then \
+			echo "Stopping pid $$pid" ; \
+			kill $$pid 2>/dev/null || true ; \
+			sleep 1 ; \
+			if kill -0 $$pid 2>/dev/null; then \
+				echo "Forcing kill $$pid" ; \
+				kill -9 $$pid 2>/dev/null || true ; \
+			fi ; \
+		fi ; \
+		rm -f server.pid ; \
+	fi
+	@# Start the server in background and save pid
+	@nohup ./build-wsl/NFL_PROJECT_NAME > server.log 2>&1 & echo $$! > server.pid ; \
+		echo "Started pid:`cat server.pid`" ;
+
+api-redeploy:
+	@echo "Rebuild and restart backend"
+	@$(MAKE) api-make
+	@$(MAKE) api-restart
+
 # In order for Makefile to work make sure you are in the backend directory. Do that by doing:
 # cd backend
 
@@ -32,6 +65,9 @@ show-all: show-distances show-stadiums
 	@echo "Showing all tables"
 
 .PHONY: all create verify import db_clean show-distances show-stadiums show-all
+
+.PHONY: api-make api-restart api-redeploy
+
 
 all: create verify
 

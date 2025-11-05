@@ -31,6 +31,8 @@ make show-stadiums      - shows stadium information
 Frontend Notes
     
     - must insteall Node.js to use and run
+    npm install axios
+    npm install react-router-dom
 
 Run Frontend:
     npm run dev
