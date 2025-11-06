@@ -36,9 +36,9 @@ class Stadium
 public:
     Stadium(); // Default Constructor
     Stadium(string teamName, string stadiumName, int capacity, Location location, RoofType roofType, string surface, // Overloaded Constructor
-            int dateOpened, string conference, string division, vector<Souvenir> souvenirList);
+            int dateOpened, string conference, string division, DoubleHashTable<Souvenir> souvenirList);
     Stadium(string teamName, string stadiumName, int capacity, string city, string state, RoofType roofType, string surface, // Overloade Const (location split into 2 strings)
-            int dateOpened, string conference, string division, vector<Souvenir> souvenirList);
+            int dateOpened, string conference, string division, DoubleHashTable<Souvenir> souvenirList);
 
     ~Stadium(); // Destructor
 
@@ -53,7 +53,7 @@ public:
     void setDateOpened(int dateOpened);
     void setConference(string conference);
     void setDivision(string division);
-    void setSouvenirList(vector<Souvenir> souvenirList);
+    void setSouvenirList(DoubleHashTable<Souvenir> souvenirList);
     /* --------------------- */
 
     void addSouvenir(Souvenir souvenir);

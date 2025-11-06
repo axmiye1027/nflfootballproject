@@ -9,7 +9,7 @@ Stadium::Stadium()
 
 
 Stadium::Stadium(string teamName, string stadiumName, int capacity, Location location, RoofType roofType, string surface, 
-    int dateOpened, string conference, string division, vector<Souvenir> souvenirList)
+    int dateOpened, string conference, string division, DoubleHashTable<Souvenir> souvenirList)
 : teamName(teamName), stadiumName(stadiumName), capacity(capacity), location(location), roofType(roofType), surfaceType(surface), 
     dateOpened(dateOpened), conference(conference), division(division), souvenirList(souvenirList)
 {
@@ -17,7 +17,7 @@ Stadium::Stadium(string teamName, string stadiumName, int capacity, Location loc
 
 
 Stadium::Stadium(string teamName, string stadiumName, int capacity, string city, string state, RoofType roofType, string surface, 
-    int dateOpened, string conference, string division, vector<Souvenir> souvenirList)
+    int dateOpened, string conference, string division, DoubleHashTable<Souvenir> souvenirList)
 : teamName(teamName), stadiumName(stadiumName), capacity(capacity), roofType(roofType), surfaceType(surface), 
     dateOpened(dateOpened), conference(conference), division(division), souvenirList(souvenirList)
 {
@@ -44,7 +44,8 @@ void Stadium::setDateOpened(int dateOpened)          { this->dateOpened     = da
 void Stadium::setConference(string conference)       { this->conference     = conference;  }
 void Stadium::setDivision(string division)           { this->division       = division;    }
 
-void Stadium::setSouvenirList(vector<Souvenir> souvenirList) { this->souvenirList = souvenirList; }
+void Stadium::setSouvenirList(DoubleHashTable<Souvenir> souvenirList) { this->souvenirList = souvenirList; }
 /* --------------------- */
 
-void Stadium::addSouvenir(Souvenir souvenir) { souvenirList.push_back(souvenir); }
+void Stadium::addSouvenir(Souvenir souvenir) { //souvenirList.insert(souvenir); 
+    } // needs a key
