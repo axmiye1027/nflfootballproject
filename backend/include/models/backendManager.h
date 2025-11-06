@@ -15,7 +15,8 @@ public:
     BackendManager();
     ~BackendManager();
 
-    void login(string username, string password);
+    bool login(string username, string password);
+
     
     void AddTeam();
     void AddSouvenir();

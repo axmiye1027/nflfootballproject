@@ -1,10 +1,15 @@
+import { BrowserRouter, Link, Route, Routes } from 'react-router-dom'
+
+// pages
+import LoginPage from "../pages/login.jsx"
+
 // NavBar componentS
 function NavBar() {
     // STYLES
     const navStyle = {
         position: 'sticky',
-        top: 0,
-        left: 0,
+        top: '0px',
+        left: '0px',
         width: '100%',
         maxHeight: '5em',
         overflow: 'hidden',
@@ -17,7 +22,7 @@ function NavBar() {
 
     const navLogoStyle = {
         marginRight: 'auto',
-        height: '10em',
+        height: '12em',
         willChange: 'filter',
         transition: 'filter 300ms'
     };
@@ -47,6 +52,13 @@ function NavBar() {
     // DISPLAY
     return (
         <nav style={navStyle}>
+        <BrowserRouter>
+            
+            {/* ROUTES */}
+            <Routes>
+                <Route path="/login" element={<LoginPage />} />
+            </Routes> 
+
             <div className="row" style={{ width: '100%', justifyContent: 'space-between' }}>
 
                 {/* PONY IMAGES */}
@@ -74,19 +86,21 @@ function NavBar() {
                     </a>
 
                     {/* LOGIN BUTTON */}
-                    <a style={navLinkStyle} href="">
-                        <img style={navImgStyle} alt="search button"
-                            src="https://preview.redd.it/why-does-scootaloos-cutie-mark-have-a-wing-v0-ruz6lnq3z64c1.png?width=885&format=png&auto=webp&s=e151e0d62c13c97e5fab681a9a2077f38d93117f" />
-                        <span style={navTextStyle}>Login</span>
-                    </a>
+                    
+                        <Link to="/login">
+                            <span style={navLinkStyle}>
+                                <img style={navImgStyle} alt="search button"
+                                    src="https://preview.redd.it/why-does-scootaloos-cutie-mark-have-a-wing-v0-ruz6lnq3z64c1.png?width=885&format=png&auto=webp&s=e151e0d62c13c97e5fab681a9a2077f38d93117f" />
+                                <span style={navTextStyle}>Login</span>
+                            </span>
+                        </Link>
                 </div>
                 {/* END BUTTONS */}
                 
             </div>
 
+        </BrowserRouter>
         </nav>
-
-        
     );
 }
 // END NavBar component

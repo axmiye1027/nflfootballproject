@@ -5,25 +5,20 @@ function SearchBar() {
     const searchBarStyle = {
         display: 'flex',
         alignItems: 'center',
-        border: '1px solid var(--outline)',
+        border: 'var(--border)',
         borderRadius: '4px',
         padding: '0.5em',
-        backgroundColor: 'var(--bg)',
-    };
-
-    const searchInputStyle = {
-        border: 'none',
-        outline: 'none',
-        flex: '1',
-        padding: '0.5em',
-        fontSize: '1em',
-        color: 'var(--text)',
+        color: 'var(--purple)',
+        backgroundColor: 'var(--white)',
     };
 
     // DISPLAY
     return (
-        <div className="search-bar">
-            <input type="text" placeholder="Search teams..." />
+        <div>
+            <input type="text"
+             placeholder="Search teams..." 
+             className="search-bar"
+             style={searchBarStyle} />
         </div>
     );
 }

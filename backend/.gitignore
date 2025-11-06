@@ -1,0 +1,8 @@
+# Files that will NOT be tracked by Git
+
+# Build artifacts - will be different for different build systems
+build/
+
+# Compiled object files
+main
+*.o

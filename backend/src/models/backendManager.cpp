@@ -12,17 +12,18 @@ BackendManager::~BackendManager()
 
 }
 
-void BackendManager::login(string username, string password)
+
+bool BackendManager::login(string username, string password)
 {
     if(username == "admin" && password == "admin")
     {
         cout << "Login successful." << endl;
         isAdmin = true;
+        return true;
     }
-    else
-    {
-        cout << "Invalid credentials." << endl;
-    }
+    cout << "Invalid credentials." << endl;
+    isAdmin = false;
+    return false;
 }
 
 void BackendManager::AddTeam()
