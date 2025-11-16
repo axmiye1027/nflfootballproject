@@ -1,13 +1,12 @@
-// backendManager.h
-
-#pragma once
-
+#include "includes.h"
 #include "stadium.h"
 
-#include <iostream>
-#include <vector>
+#include "hash.h"
+#include "dfs.h"
+#include "bfs.h"
 
-using namespace std;
+#ifndef BACKENDMANAGER_H
+#define BACKENDMANAGER_H
 
 class BackendManager
 {
@@ -26,7 +25,14 @@ public:
     // Need functions for DB to stadiums data structure
 
 private:
-    vector<Stadium> stadiums; // MAP OR UNORDERED MAP -- NOT FROM STL (vector for now bc idk)
+    // add stadium manager class here
+
+    DoubleHashTable<Stadium> stadiums;
+
+    AdjacencyList   dfsList;   // list used for dfs
+    AdjacencyMatrix bfsMatrix; // matrix used for bfs
 
     bool isAdmin;
 };
+
+#endif

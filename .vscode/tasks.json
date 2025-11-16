@@ -8,9 +8,6 @@
                 "-fdiagnostics-color=always",
                 "-g",
                 "${fileDirname}\\**.cpp",
-                // "${fileDirname}\\main.cpp",
-                // "${fileDirname}\\bfs.cpp",
-                // "${fileDirname}\\dfs.cpp",
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe"
             ],

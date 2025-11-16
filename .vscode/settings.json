@@ -46,7 +46,9 @@
         "iterator": "cpp",
         "numeric": "cpp",
         "random": "cpp",
-        "xstring": "cpp"
+        "xstring": "cpp",
+        "set": "cpp",
+        "queue": "cpp"
     },
     "cmake.ignoreCMakeListsMissing": true
 }

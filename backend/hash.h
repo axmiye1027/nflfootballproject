@@ -2,6 +2,9 @@
 
 using namespace std;
 
+#ifndef HASH_H
+#define HASH_H
+
 const int TABLE_SIZE  = 31;
 const int TABLE_SIZE2 = 29;
 
@@ -303,3 +306,5 @@ private:
         return key % size;
     }
 };
+
+#endif

@@ -1,11 +1,8 @@
-// stadium.h
-
-#pragma once
-
 #include "includes.h"
 #include "hash.h"
 
-using namespace std;
+#ifndef STADIUM_H
+#define STADIUM_H
 
 enum RoofType {OPEN, FIXED, RETRACTABLE};
 
@@ -74,3 +71,5 @@ private:
 
     DoubleHashTable<Souvenir> souvenirList; // If each team/stadium has their own souvenirs
 };
+
+#endif
