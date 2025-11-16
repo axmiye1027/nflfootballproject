@@ -1,0 +1,3 @@
+/mnt/c/Users/Aspen/OneDrive/Desktop/School/Current Classes/Fall 2025 - CS1D Data Structures/1. Group Project 2/nflfootballproject/backend/build-wsl/CMakeFiles/NFL_PROJECT_NAME.dir
+/mnt/c/Users/Aspen/OneDrive/Desktop/School/Current Classes/Fall 2025 - CS1D Data Structures/1. Group Project 2/nflfootballproject/backend/build-wsl/CMakeFiles/edit_cache.dir
+/mnt/c/Users/Aspen/OneDrive/Desktop/School/Current Classes/Fall 2025 - CS1D Data Structures/1. Group Project 2/nflfootballproject/backend/build-wsl/CMakeFiles/rebuild_cache.dir

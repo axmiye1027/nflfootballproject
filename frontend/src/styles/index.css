@@ -16,6 +16,7 @@
   --red: #e32e5b;
   --pink: #efb9d1;
   --outline: #a71f61;
+  --white: #ffffff;
 
   color: var(--purple);
   --bg-color: var(--pink);
@@ -63,6 +64,10 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+nav a:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
 
 /* CLASSES */
 .title {
@@ -71,6 +76,11 @@ button:focus-visible {
   font-weight: 700;
   text-align: center;
   margin: 1em 0;
+}
+
+/* search bar class */
+.search-bar:focus {
+  outline: none;
 }
 
 
@@ -86,6 +96,18 @@ button:focus-visible {
   width: 100%;
 }
 
-nav a:hover {
-  background-color: rgba(255, 255, 255, 0.5);
+/* Border utility classes - hide borders */
+.bt-0 {
+  border-top-color: var(--pink) !important;
+}
+
+.bb-0 {
+  border-bottom-color: var(--pink) !important;
+}
+
+.bl-0 {
+  border-left-color: var(--pink) !important;
+}
+.br-0 {
+  border-right-color: var(--pink) !important;
 }

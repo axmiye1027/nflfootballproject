@@ -1,0 +1,17 @@
+# Files that will NOT be tracked by Git
+
+# Node
+frontend/node_modules/
+frontend/build/
+
+# CMake
+backend/build/
+
+# vcpkg
+dev/vcpkg/buildtrees/
+dev/vcpkg/downloads/
+dev/vcpkg/packages/
+
+# OS junk
+.DS_Store
+Thumbs.db
