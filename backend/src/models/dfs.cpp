@@ -1,4 +1,4 @@
-#include "dfs.h"
+#include "models/dfs.h"
 
 AdjacencyList::AdjacencyList()
 {

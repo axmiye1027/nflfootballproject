@@ -4,7 +4,7 @@
 #include "hash.h"
 #include "dfs.h"
 #include "bfs.h"
-#include "../database/databaseManager.h"
+#include "database/databaseManager.h"
 
 
 #ifndef BACKENDMANAGER_H

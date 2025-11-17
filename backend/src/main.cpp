@@ -6,16 +6,18 @@
 // #include <crow.h>
 // #include <nlohmann/json.hpp>
 
+#include "crow.h"
+
 int main()
 {
     BackendManager backend;
 
-    // crow::SimpleApp app;
+    crow::SimpleApp app;
 
-    // // Test
-    // CROW_ROUTE(app, "/")([]() {
-    //     return "Hello World";
-    // });
+    // Test
+    CROW_ROUTE(app, "/")([]() {
+        return "Hello World";
+    });
 
     /***********************************************************************
      * ADMIN LOGIN - backendManager.cpp
@@ -76,7 +78,7 @@ int main()
     // End ADMIN LOGIN
 
     // Port and run
-    // app.port(18080).multithreaded().run();
+    app.port(18080).multithreaded().run();
 
     return 0;
 }

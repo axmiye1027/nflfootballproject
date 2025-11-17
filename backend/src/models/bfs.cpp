@@ -1,4 +1,4 @@
-#include "bfs.h"
+#include "models/bfs.h"
 
 AdjacencyMatrix::AdjacencyMatrix()
 {

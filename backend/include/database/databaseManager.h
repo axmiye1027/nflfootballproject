@@ -1,7 +1,6 @@
 // databaseManager.h
 
-#include "../sqlite/sqlite3.h"
-
+#include "sqlite3.h"
 #include "includes.h"
 
 class DatabaseManager
@@ -13,5 +12,4 @@ public:
 
 private:
     sqlite3* database;
-
 };

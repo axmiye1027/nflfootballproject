@@ -1,1 +1,0 @@
-/usr/bin/c++ -g CMakeFiles/NFL_PROJECT_NAME.dir/main.cpp.o CMakeFiles/NFL_PROJECT_NAME.dir/stadium.cpp.o CMakeFiles/NFL_PROJECT_NAME.dir/backendManager.cpp.o -o NFL_PROJECT_NAME 
