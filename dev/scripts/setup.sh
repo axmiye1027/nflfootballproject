@@ -3,8 +3,8 @@ set -e
 
 echo "=== Linux/macOS Setup Script Starting ==="
 
-REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-VCPKG_DIR="$REPO_ROOT/dev/vcpkg"
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+VCPKG_DIR="$REPO_ROOT/vcpkg"
 BACKEND_DIR="$REPO_ROOT/backend"
 BUILD_DIR="$BACKEND_DIR/build"
 
