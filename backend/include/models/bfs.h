@@ -1,4 +1,4 @@
-#include "include/includes.h"
+#include "../includes.h"
 
 /************************************************
  * bfs.h

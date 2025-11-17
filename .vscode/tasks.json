@@ -9,7 +9,6 @@
                 "-g",
                 "-I${workspaceFolder}\\backend\\include",
                 "-I${workspaceFolder}\\backend\\include\\models",
-                "${workspaceFolder}\\backend\\*.cpp",
                 "${workspaceFolder}\\backend\\src\\*.cpp",
                 "${workspaceFolder}\\backend\\src\\models\\*.cpp",
                 "-o",
