@@ -1,5 +1,5 @@
 #include "../includes.h"
-#include "../../hash.h"
+#include "hash.h"
 
 #ifndef STADIUM_H
 #define STADIUM_H

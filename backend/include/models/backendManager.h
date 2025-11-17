@@ -1,9 +1,9 @@
 #include "../includes.h"
 #include "stadium.h"
 
-#include "../../hash.h"
-#include "../../dfs.h"
-#include "../../bfs.h"
+#include "hash.h"
+#include "dfs.h"
+#include "bfs.h"
 
 #ifndef BACKENDMANAGER_H
 #define BACKENDMANAGER_H
