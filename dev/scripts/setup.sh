@@ -1,76 +1,37 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -e
 
-# -------------------------
-# Detect OS
-# -------------------------
-OS="$(uname -s)"
-REPO_ROOT="$( cd "$(dirname "$0")/.." ; pwd )"
-BACKEND="$REPO_ROOT/backend"
-VCPKG="$REPO_ROOT/dev/vcpkg"
+echo "=== Linux/macOS Setup Script Starting ==="
 
-echo "Detected OS: $OS"
+REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+VCPKG_DIR="$REPO_ROOT/dev/vcpkg"
+BACKEND_DIR="$REPO_ROOT/backend"
+BUILD_DIR="$BACKEND_DIR/build"
 
-# -------------------------
-# Windows-specific commands
-# -------------------------
-if [[ "$OS" == *"MINGW"* ]] || [[ "$OS" == *"CYGWIN"* ]] || [[ "$OS" == *"MSYS"* ]]; then
-    echo "Running Windows setup..."
-
-    if [ ! -d "$VCPKG" ]; then
-        echo "Cloning vcpkg..."
-        git clone https://github.com/microsoft/vcpkg.git "$VCPKG"
-    fi
-
-    cd "$VCPKG"
-    if [ ! -f "vcpkg.exe" ]; then
-        echo "Bootstrapping vcpkg..."
-        ./bootstrap-vcpkg.bat
-    fi
-
-    cd "$BACKEND"
-    "$VCPKG/vcpkg.exe" install crow asio sqlite3
-
-    cd "$BACKEND"
-    if [ -d "build" ]; then rm -rf build; fi
-    mkdir build
-    cd build
-    cmake .. -DCMAKE_TOOLCHAIN_FILE="$VCPKG/scripts/buildsystems/vcpkg.cmake"
-    cmake --build .
-
-    echo "Running NFLFootballBackend..."
-    NFLFootballBackend.exe
-
-# -------------------------
-# Linux/macOS commands
-# -------------------------
-else
-    echo "Running Linux/macOS setup..."
-
-    if [ ! -d "$VCPKG" ]; then
-        echo "Cloning vcpkg..."
-        git clone https://github.com/microsoft/vcpkg.git "$VCPKG"
-    fi
-
-    cd "$VCPKG"
-    if [ ! -f "vcpkg" ]; then
-        echo "Bootstrapping vcpkg..."
-        ./bootstrap-vcpkg.sh
-    fi
-
-    cd "$BACKEND"
-    "$VCPKG/vcpkg" install crow asio sqlite3
-
-    cd "$BACKEND"
-    if [ -d "build" ]; then rm -rf build; fi
-    mkdir build
-    cd build
-    cmake .. -DCMAKE_TOOLCHAIN_FILE="$VCPKG/scripts/buildsystems/vcpkg.cmake"
-    cmake --build .
-
-    echo "Running NFLFootballBackend..."
-    ./NFLFootballBackend
+# 1. Install vcpkg if missing
+if [ ! -d "$VCPKG_DIR" ]; then
+    echo "Cloning vcpkg..."
+    git clone https://github.com/microsoft/vcpkg "$VCPKG_DIR"
 fi
 
-# LINUX/MACOS -- RUN THIS TO MAKE IT EXECUTABLE
-# chmod +x dev/scripts/setup
+# 2. Bootstrap vcpkg
+echo "Bootstrapping vcpkg..."
+"$VCPKG_DIR/bootstrap-vcpkg.sh"
+
+# 3. Install packages
+echo "Installing vcpkg packages..."
+"$VCPKG_DIR/vcpkg" install crow asio sqlite3
+
+# 4. Configure CMake
+mkdir -p "$BUILD_DIR"
+echo "Running CMake configure..."
+cmake -B "$BUILD_DIR" -S "$BACKEND_DIR" -DCMAKE_TOOLCHAIN_FILE="$VCPKG_DIR/scripts/buildsystems/vcpkg.cmake"
+
+# 5. Build
+echo "Building project..."
+cmake --build "$BUILD_DIR" --config Release
+
+# 6. Run executable
+"$BUILD_DIR/NFLFootballBackend"
+
+echo "=== Setup Complete ==="
