@@ -1,13 +1,17 @@
 // databaseManager.h
 
+#include "../sqlite/sqlite3.h"
+
+#include "includes.h"
+
 class DatabaseManager
 {
 public:
-    DatabaseManager();
+    DatabaseManager(const string PATH = "backend/assets/database.db");
     ~DatabaseManager();
 
 
 private:
-
+    sqlite3* database;
 
 };

@@ -4,6 +4,8 @@
 #include "hash.h"
 #include "dfs.h"
 #include "bfs.h"
+#include "../database/databaseManager.h"
+
 
 #ifndef BACKENDMANAGER_H
 #define BACKENDMANAGER_H
@@ -32,6 +34,8 @@ private:
 
     AdjacencyList   dfsList;   // list used for dfs
     AdjacencyMatrix bfsMatrix; // matrix used for bfs
+
+    DatabaseManager databaseManager;
 
     bool isAdmin;
 };
