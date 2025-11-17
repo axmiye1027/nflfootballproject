@@ -23,21 +23,16 @@ file(GLOB_RECURSE SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
 add_executable(${PROJECT_NAME} ${SOURCES})
 
 # -------------------------
-# Vcpkg integration
+# Vcpkg libraries (link via targets)
 # -------------------------
-# If you haven't installed vcpkg yet, this won't break
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../dev/vcpkg/scripts/buildsystems/vcpkg.cmake")
-    set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/../dev/vcpkg/scripts/buildsystems/vcpkg.cmake"
-        CACHE STRING "Vcpkg toolchain file")
-endif()
+find_package(asio CONFIG REQUIRED)                # standalone Asio
+find_package(Crow CONFIG REQUIRED)                # Crow (optional if you use it)
+find_package(unofficial-sqlite3 CONFIG REQUIRED)  # SQLite3 via vcpkg
 
-# link libraries
-# find_package(crow CONFIG REQUIRED)      # For Crow
-find_package(asio CONFIG REQUIRED)      # For standalone Asio
-find_package(SQLite3 REQUIRED)   # For SQLite3
 target_link_libraries(
-  ${PROJECT_NAME} 
-  PRIVATE  
-  asio 
-  SQLite::SQLite3
+    ${PROJECT_NAME}
+    PRIVATE
+    asio::asio
+    Crow::Crow
+    unofficial::sqlite3::sqlite3
 )
