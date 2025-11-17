@@ -1,4 +1,4 @@
-#include "includes.h"
+#include "include/includes.h"
 
 /************************************************
  * bfs.h
@@ -9,19 +9,6 @@
  ***********************************************/
 #ifndef BFS_H
 #define BFS_H
-
-#pragma once
-
-#include <iostream>
-#include <vector>
-#include <string>
-#include <iomanip>
-#include <set>
-#include <deque>
-#include <limits>
-#include <queue>
-
-using namespace std;
 
 enum City { Seattle = 0, SanFrancisco, LosAngeles, Denver, Chicago, KansasCity, Dallas, Houston, Boston, NewYork, Atlanta, Miami, NumberOfCities };
 

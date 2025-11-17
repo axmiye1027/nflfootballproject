@@ -1,5 +1,5 @@
-#include "includes.h"
-#include "hash.h"
+#include "../includes.h"
+#include "../../hash.h"
 
 #ifndef STADIUM_H
 #define STADIUM_H
@@ -54,8 +54,6 @@ public:
     /* --------------------- */
 
     void addSouvenir(Souvenir souvenir);
-
-
 
 private:
     int      stadiumId;

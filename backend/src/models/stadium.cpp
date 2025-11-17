@@ -1,6 +1,6 @@
 // stadium.cpp
 
-#include "models/stadium.h"
+#include "../../include/models/stadium.h"
 
 
 Stadium::Stadium()

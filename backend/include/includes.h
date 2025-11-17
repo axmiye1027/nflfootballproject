@@ -6,5 +6,7 @@
 #include <iomanip>      // setw, left
 #include <unordered_map>
 #include <set>
+#include <deque>
+#include <limits>
 
 using namespace std;

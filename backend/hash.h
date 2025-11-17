@@ -1,6 +1,4 @@
-#include "includes.h"
-
-using namespace std;
+#include "include/includes.h"
 
 #ifndef HASH_H
 #define HASH_H
