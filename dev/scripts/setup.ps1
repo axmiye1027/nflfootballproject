@@ -6,6 +6,12 @@ $VcpkgDir = Join-Path $RepoRoot "dev\vcpkg"
 $BackendDir = Join-Path $RepoRoot "backend"
 $BuildDir = Join-Path $BackendDir "build"
 
+# Clean build directory if it exists
+if (Test-Path $BuildDir) {
+    Write-Host "Cleaning old build directory..."
+    Remove-Item -Recurse -Force $BuildDir
+}
+
 # 1. Install vcpkg if missing
 if (!(Test-Path $VcpkgDir)) {
     Write-Host "Cloning vcpkg..."
@@ -26,7 +32,10 @@ if (!(Test-Path $BuildDir)) {
 }
 
 Write-Host "Running CMake configure..."
-cmake -B "$BuildDir" -S "$BackendDir" -DCMAKE_TOOLCHAIN_FILE="$VcpkgDir\scripts\buildsystems\vcpkg.cmake"
+cmake -B "$BuildDir" -S "$BackendDir" `
+    -G "Ninja" `
+    -DCMAKE_TOOLCHAIN_FILE="$VcpkgDir/scripts/buildsystems/vcpkg.cmake" `
+    -DCMAKE_BUILD_TYPE=Release
 
 # 5. Build
 Write-Host "Building project..."
