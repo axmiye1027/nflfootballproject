@@ -31,8 +31,8 @@ public:
     DatabaseManager(const string& PATH = "backend/assets/database.db");
     ~DatabaseManager();
 
-    DatabaseManager(const NFLDatabaseManager&)            = delete;
-    DatabaseManager& operator=(const NFLDatabaseManager&) = delete;
+    DatabaseManager(const DatabaseManager&)            = delete;
+    DatabaseManager& operator=(const DatabaseManager&) = delete;
 
     void initializeDatabase();
 
