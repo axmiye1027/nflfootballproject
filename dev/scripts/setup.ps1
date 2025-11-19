@@ -1,10 +1,19 @@
 Write-Host "=== Windows Setup Script Starting ==="
 
-# Paths
-$RepoRoot = Split-Path $PSScriptRoot -Parent
-$VcpkgDir = Join-Path $RepoRoot "dev\vcpkg"
-$BackendDir = Join-Path $RepoRoot "backend"
-$BuildDir = Join-Path $BackendDir "build"
+# Determine script, dev, and project directories
+$ScriptDir  = Split-Path -Parent $MyInvocation.MyCommand.Path        # /dev/scripts
+$DevDir     = Split-Path -Parent $ScriptDir                          # /dev
+$ProjectDir = Split-Path -Parent $DevDir                             # /project root
+
+# Key folders
+$VcpkgDir   = Join-Path $DevDir     "vcpkg"                          # /dev/vcpkg
+$BackendDir = Join-Path $ProjectDir "backend"                        # /backend
+$BuildDir   = Join-Path $BackendDir "build"                          # /backend/build
+
+Write-Host "Repo root:   $RepoRoot"
+Write-Host "vcpkg dir:   $VcpkgDir"
+Write-Host "Backend dir: $BackendDir"
+Write-Host "Build dir:   $BuildDir"
 
 # Clean build directory if it exists
 if (Test-Path $BuildDir) {

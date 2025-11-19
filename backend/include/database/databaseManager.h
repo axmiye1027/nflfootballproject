@@ -11,7 +11,7 @@ struct Distance
     double distanceKm;
 };
 
-struct Stadium 
+struct StadiumStruct
 {
     int    idStadium;
     string team;
@@ -56,12 +56,12 @@ public:
     Distance*        getDistance(const string& locationA,const string& locationB);
     vector<Distance> getAllDistances();
 
-    Stadium*        getStadiumById(int stadiumId);
-    Stadium*        getStadiumByTeam(const string& team);
-    vector<Stadium> getAllStadiums();
+    StadiumStruct*        getStadiumById(int stadiumId);
+    StadiumStruct*        getStadiumByTeam(const string& team);
+    vector<StadiumStruct> getAllStadiums();
 
-    vector<Stadium> getStadiumsByConference(const string& conference);
-    vector<Stadium> getStadiumsByDivision(const string& division);
+    vector<StadiumStruct> getStadiumsByConference(const string& conference);
+    vector<StadiumStruct> getStadiumsByDivision(const string& division);
 
 private:
     sqlite3* db;

@@ -8,10 +8,7 @@ frontend/build/
 backend/build/
 
 # vcpkg
-dev/vcpkg/buildtrees/
-dev/vcpkg/downloads/
-dev/vcpkg/packages/
-dev/vcpkg/installed/
+dev/vcpkg/
 
 # OS junk
 .DS_Store

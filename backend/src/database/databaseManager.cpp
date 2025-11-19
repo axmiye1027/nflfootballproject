@@ -194,17 +194,17 @@ int DatabaseManager::addStadium(const string& team,
     return static_cast<int>(sqlite3_last_insert_rowid(db));
 }
 
-Stadium* DatabaseManager::getStadiumById(int stadiumId)
+StadiumStruct* DatabaseManager::getStadiumById(int stadiumId)
 {
     string sql = "SELECT * FROM stadiums WHERE idStadium = ?";
     sqlite3_stmt* stmt = prepareStatement(sql);
     
     sqlite3_bind_int(stmt, 1, stadiumId);
     
-    Stadium* result = nullptr;
+    StadiumStruct* result = nullptr;
     if (sqlite3_step(stmt) == SQLITE_ROW) 
     {
-        result = new Stadium();
+        result = new StadiumStruct();
 
         result->idStadium   = getColumnInt(stmt, 0);
         result->team        = getColumnText(stmt, 1);
@@ -222,17 +222,17 @@ Stadium* DatabaseManager::getStadiumById(int stadiumId)
     return result;
 }
 
-Stadium* DatabaseManager::getStadiumByTeam(const string& team) 
+StadiumStruct* DatabaseManager::getStadiumByTeam(const string& team) 
 {
     string sql = "SELECT * FROM stadiums WHERE team = ?";
     sqlite3_stmt* stmt = prepareStatement(sql);
     
     sqlite3_bind_text(stmt, 1, team.c_str(), -1, SQLITE_TRANSIENT);
     
-    Stadium* result = nullptr;
+    StadiumStruct* result = nullptr;
     if (sqlite3_step(stmt) == SQLITE_ROW)
     {
-        result = new Stadium();
+        result = new StadiumStruct();
 
         result->idStadium    = getColumnInt(stmt, 0);
         result->team         = getColumnText(stmt, 1);
@@ -250,15 +250,15 @@ Stadium* DatabaseManager::getStadiumByTeam(const string& team)
     return result;
 }
 
-vector<Stadium> DatabaseManager::getAllStadiums() 
+vector<StadiumStruct> DatabaseManager::getAllStadiums() 
 {
     string sql = "SELECT * FROM stadiums";
     sqlite3_stmt* stmt = prepareStatement(sql);
     
-    vector<Stadium> stadiums;
+    vector<StadiumStruct> stadiums;
     while (sqlite3_step(stmt) == SQLITE_ROW) 
     {
-        Stadium s;
+        StadiumStruct s;
 
         s.idStadium   = getColumnInt(stmt, 0);
         s.team        = getColumnText(stmt, 1);
@@ -278,17 +278,17 @@ vector<Stadium> DatabaseManager::getAllStadiums()
     return stadiums;
 }
 
-vector<Stadium> DatabaseManager::getStadiumsByConference(const string& conference) 
+vector<StadiumStruct> DatabaseManager::getStadiumsByConference(const string& conference) 
 {
     string sql = "SELECT * FROM stadiums WHERE conference = ?";
     sqlite3_stmt* stmt = prepareStatement(sql);
     
     sqlite3_bind_text(stmt, 1, conference.c_str(), -1, SQLITE_TRANSIENT);
     
-    vector<Stadium> stadiums;
+    vector<StadiumStruct> stadiums;
     while (sqlite3_step(stmt) == SQLITE_ROW) 
     {
-        Stadium s;
+        StadiumStruct s;
 
         s.idStadium   = getColumnInt(stmt, 0);
         s.team        = getColumnText(stmt, 1);
@@ -308,17 +308,17 @@ vector<Stadium> DatabaseManager::getStadiumsByConference(const string& conferenc
     return stadiums;
 }
 
-vector<Stadium> DatabaseManager::getStadiumsByDivision(const string& division) 
+vector<StadiumStruct> DatabaseManager::getStadiumsByDivision(const string& division) 
 {
     string sql = "SELECT * FROM stadiums WHERE division = ?";
     sqlite3_stmt* stmt = prepareStatement(sql);
     
     sqlite3_bind_text(stmt, 1, division.c_str(), -1, SQLITE_TRANSIENT);
     
-    vector<Stadium> stadiums;
+    vector<StadiumStruct> stadiums;
     while (sqlite3_step(stmt) == SQLITE_ROW) 
     {
-        Stadium s;
+        StadiumStruct s;
 
         s.idStadium   = getColumnInt(stmt, 0);
         s.team        = getColumnText(stmt, 1);
