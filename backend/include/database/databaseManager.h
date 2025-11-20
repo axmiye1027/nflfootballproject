@@ -1,7 +1,7 @@
 // databaseManager.h
 
-#include "sqlite3.h"
-#include "includes.h"
+#include "../../../dev/vcpkg/buildtrees/sqlite3/src/nf-3510000-c7baf9d080.clean/sqlite3.h"
+#include "../includes.h"
 
 struct Distance 
 {
@@ -28,7 +28,7 @@ struct StadiumStruct
 class DatabaseManager
 {
 public:
-    DatabaseManager(const string& PATH = "backend/assets/database.db");
+    DatabaseManager(const string& PATH = "backend/assets/database.db"); // todo: fix the path & broken includes
     ~DatabaseManager();
 
     DatabaseManager(const DatabaseManager&)            = delete;

@@ -4,7 +4,7 @@
 
 BackendManager::BackendManager() : isAdmin{false}
 {
-    
+
 }
 
 BackendManager::~BackendManager()
