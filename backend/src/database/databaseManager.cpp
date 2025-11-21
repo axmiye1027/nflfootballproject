@@ -206,8 +206,8 @@ StadiumStruct* DatabaseManager::getStadiumById(int stadiumId)
     {
         result = new StadiumStruct();
 
-        result->idStadium   = getColumnInt(stmt, 0);
-        result->team        = getColumnText(stmt, 1);
+        result->stadiumId   = getColumnInt(stmt, 0);
+        result->stadiumName = getColumnText(stmt, 1);
         result->stadiumName = getColumnText(stmt, 2);
         result->capacity    = getColumnInt(stmt, 3);
         result->location    = getColumnText(stmt, 4);
@@ -234,8 +234,8 @@ StadiumStruct* DatabaseManager::getStadiumByTeam(const string& team)
     {
         result = new StadiumStruct();
 
-        result->idStadium    = getColumnInt(stmt, 0);
-        result->team         = getColumnText(stmt, 1);
+        result->stadiumId    = getColumnInt(stmt, 0);
+        result->stadiumName  = getColumnText(stmt, 1);
         result->stadiumName  = getColumnText(stmt, 2);
         result->capacity     = getColumnInt(stmt, 3);
         result->location     = getColumnText(stmt, 4);
@@ -260,8 +260,8 @@ vector<StadiumStruct> DatabaseManager::getAllStadiums()
     {
         StadiumStruct s;
 
-        s.idStadium   = getColumnInt(stmt, 0);
-        s.team        = getColumnText(stmt, 1);
+        s.stadiumId   = getColumnInt(stmt, 0);
+        s.stadiumName = getColumnText(stmt, 1);
         s.stadiumName = getColumnText(stmt, 2);
         s.capacity    = getColumnInt(stmt, 3);
         s.location    = getColumnText(stmt, 4);
@@ -290,8 +290,8 @@ vector<StadiumStruct> DatabaseManager::getStadiumsByConference(const string& con
     {
         StadiumStruct s;
 
-        s.idStadium   = getColumnInt(stmt, 0);
-        s.team        = getColumnText(stmt, 1);
+        s.stadiumId   = getColumnInt(stmt, 0);
+        s.stadiumName = getColumnText(stmt, 1);
         s.stadiumName = getColumnText(stmt, 2);
         s.capacity    = getColumnInt(stmt, 3);
         s.location    = getColumnText(stmt, 4);
@@ -320,8 +320,8 @@ vector<StadiumStruct> DatabaseManager::getStadiumsByDivision(const string& divis
     {
         StadiumStruct s;
 
-        s.idStadium   = getColumnInt(stmt, 0);
-        s.team        = getColumnText(stmt, 1);
+        s.stadiumId   = getColumnInt(stmt, 0);
+        s.stadiumName = getColumnText(stmt, 1);
         s.stadiumName = getColumnText(stmt, 2);
         s.capacity    = getColumnInt(stmt, 3);
         s.location    = getColumnText(stmt, 4);
