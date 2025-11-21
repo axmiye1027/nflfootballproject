@@ -30,7 +30,7 @@ struct StadiumStruct
 class DatabaseManager
 {
 public:
-    DatabaseManager(const string& PATH = "backend/assets/database.db"); // todo: fix the path & broken includes
+    DatabaseManager(const string& PATH = "../assets/database.db");
     ~DatabaseManager();
 
     DatabaseManager(const DatabaseManager&)            = delete;

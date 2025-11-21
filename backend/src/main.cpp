@@ -7,9 +7,13 @@
 // #include <nlohmann/json.hpp>
 
 #include "crow.h"
+#include <filesystem>
 
 int main()
 {
+    std::cout << "Current working dir: " 
+              << std::filesystem::current_path() << "\n";
+
     BackendManager backend;
 
     crow::SimpleApp app;
