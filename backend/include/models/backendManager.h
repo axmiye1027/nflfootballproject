@@ -1,3 +1,6 @@
+
+#include <algorithm>
+
 #include "../includes.h"
 #include "stadium.h"
 
@@ -18,11 +21,13 @@ public:
 
     bool login(string username, string password);
 
-    
-    void AddTeam();
-    void AddSouvenir();
-    void RemoveSouvinir();
-    void ModifySouvinirPrice();
+    // NEEDS TO BE UPDATED WITH SOUVENIRS
+    void populateStadiums(); // Grabs Stadiums info from database and stores in stadiums
+
+    void addTeam();
+    void addSouvenir();
+    void removeSouvinir();
+    void modifySouvenirPrice();
     // Move team and souvenir functions to stadium class?
 
     // Need functions for DB to stadiums data structure

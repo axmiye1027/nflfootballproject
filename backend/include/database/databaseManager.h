@@ -1,7 +1,9 @@
 // databaseManager.h
 
-#include "sqlite3.h"
-#include "includes.h"
+#pragma once
+
+#include <sqlite3.h>
+#include "../includes.h"
 
 struct Distance 
 {
@@ -13,8 +15,8 @@ struct Distance
 
 struct StadiumStruct
 {
-    int    idStadium;
-    string team;
+    int    stadiumId;
+    string teamName;
     string stadiumName;
     int    capacity;
     string location;
@@ -28,7 +30,7 @@ struct StadiumStruct
 class DatabaseManager
 {
 public:
-    DatabaseManager(const string& PATH = "backend/assets/database.db");
+    DatabaseManager(const string& PATH = "backend/assets/database.db"); // todo: fix the path & broken includes
     ~DatabaseManager();
 
     DatabaseManager(const DatabaseManager&)            = delete;
@@ -36,6 +38,8 @@ public:
 
     void initializeDatabase();
 
+
+    /****************** EDIT DATABASE ******************/
     int  addDistance(const string& locationA, const string& locationB, double distanceKm);
     bool updateDistance(int distanceId, double distanceKm);
     bool deleteDistance(int distanceId);
@@ -52,7 +56,9 @@ public:
     bool updateStadium(int stadiumId, const string& field, const string& value);
     bool updateStadiumInt(int stadiumId, const string& field, int value);
     bool deleteStadium(int stadiumId); 
+    /***************************************************/
 
+    /***************** GET FROM DATABASE ***************/
     Distance*        getDistance(const string& locationA,const string& locationB);
     vector<Distance> getAllDistances();
 
@@ -62,6 +68,7 @@ public:
 
     vector<StadiumStruct> getStadiumsByConference(const string& conference);
     vector<StadiumStruct> getStadiumsByDivision(const string& division);
+    /***************************************************/
 
 private:
     sqlite3* db;
