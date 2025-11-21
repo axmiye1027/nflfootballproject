@@ -4,7 +4,7 @@
 
 std::ostream& operator<<(std::ostream& os, const Stadium& s) 
 {
-    os << "Stadium[name=" << s.stadiumName;
+    os << s.stadiumName;
     return os;
 }
 
