@@ -3,8 +3,7 @@
 #ifndef HASH_H
 #define HASH_H
 
-const int TABLE_SIZE  = 31;
-const int TABLE_SIZE2 = 29;
+const int TABLE_SIZE  = 13;
 
 template<typename T>
 struct keyInput
@@ -28,6 +27,16 @@ public:
         }
     }
 
+    DoubleHashTable(int size) : size{size}, count{0}
+    {
+        table = new keyInput<T>[size];
+
+        for (int i = 0; i < size; ++i) 
+        {
+            table[i].key = -1; // Mark all slots as empty
+        }
+    }
+
     ~DoubleHashTable()
     {
         delete [] table;
@@ -36,14 +45,13 @@ public:
     // Insert a value into the hash table
     bool insert(keyInput<T> input) 
     {
-        if (count >= size) 
+        if (count >= size * 0.7) 
         {
-            cout << "Hash table is full" << endl;
-            return false;
+            rehash();
         }
 
-        int i = 0;
-        int index = hash1(input.key);
+        int i                 = 0;
+        int index             = hash1(input.key);
         int firstDeletedIndex = -1;
 
         while (i < size)
@@ -164,144 +172,102 @@ private:
     {
         return (hash1(key) + i * hash2(key)) % size;
     }
-};
 
-template<typename T>
-class QuadraticHashTable
-{
-public:
-    QuadraticHashTable() : size{TABLE_SIZE2}, count{0} // Fixed size per assignment
+    bool isPrime(int n) 
     {
-        table = new keyInput<T>[size];
-        for (int i = 0; i < size; ++i) 
+        if (n <= 1)                   return false;
+        if (n <= 3)                   return true;
+        if (n % 2 == 0 || n % 3 == 0) return false;
+        
+        for (int i = 5; i * i <= n; i += 6) 
         {
-            table[i].key = -1; // Mark all slots as empty
-        }
-    }
-
-    ~QuadraticHashTable() 
-    {
-        delete[] table;
-    }
-    
-    // Insert a value into the hash table
-    bool insert(keyInput<T> input)
-    {
-        int baseIndex = hash1(input.key);
-        int firstDeletedIndex = -1;
-
-        for (int j = 0; j < size; ++j)
-        {
-            int index = (baseIndex + j * j) % size;
-
-            if (table[index].key == input.key)
-            {
-                table[index].value = input.value;
-                cout << "Updated " << input.key << " to " << input.value << endl;
-                return true;
-            }
-
-            if (table[index].key == -2 && firstDeletedIndex == -1)
-            {
-                firstDeletedIndex = index;
-            }
-
-            if (table[index].key == -1)
-            {
-                int insertIndex    = (firstDeletedIndex != -1) ? firstDeletedIndex : index;
-                table[insertIndex] = input;
-
-                count++;
-
-                cout << "Inserted " << input.key << " " << input.value << endl;
-                return true;
-            }
-        }
-
-        cout << "Unable to insert key " << input.key << ": No available position" << endl;
-        return false;
-    }
-
-    // Remove a key from the hash table
-    bool remove(int key)
-    {
-        int baseIndex = hash1(key);
-
-        for (int j = 0; j < size; ++j)
-        {
-            int index = (baseIndex + j * j) % size;
-
-            if (table[index].key == key)
-            {
-                table[index].key = -2;
-                count--;
-                cout << "Key " << key << " was removed" << endl;
-                return true;
-            }
-            else if (table[index].key == -1)
-            {
-                break;
-            }   
-        }
-
-        cout << "Key " << key << " not found" << endl;
-        return false;
-    }
-
-    // Search for a key in the hash table
-    bool search(int key)
-    {
-        int baseIndex = hash1(key);
-
-        for (int j = 0; j < size; ++j)
-        {
-            int index = (baseIndex + j * j) % size;
-
-            if (table[index].key == key)
-            {
-                return true;
-            }
-            else if (table[index].key == -1)
-            {
+            if (n % i == 0 || n % (i + 2) == 0)
+            {    
                 return false;
             }
         }
-
-        return false;
+        return true;
     }
 
-    // Print the hash table
-    void printTable() 
+    int nextPrime(int n) 
     {
+        while (!isPrime(n)) 
+        {
+            n++;
+        }
+        return n;
+    }
+
+    void rehash() 
+    {
+        int oldSize           = size;
+        keyInput<T>* oldTable = table;
+        
+        size = nextPrime(size * 2);
+        
+        table = new keyInput<T>[size];
         for (int i = 0; i < size; i++) 
         {
-            cout << "Index " << i << ": ";
-
-            if (table[i].key == -1) 
-            {
-                cout << "Empty";
-            }
-            else if (table[i].key == -2)
-            {
-                cout << "Available";
-            }
-            else 
-            {
-                cout << table[i].key << " " << table[i].value;
-            }
-
-            cout << endl;
+            table[i].key = -1;
         }
+        
+        count = 0;
+        
+        cout << "Rehashing from size " << oldSize << " to " << size << endl;
+        
+        for (int i = 0; i < oldSize; i++) 
+        {
+            if (oldTable[i].key != -1 && oldTable[i].key != -2) 
+            {
+                insertWithoutResize(oldTable[i]);
+            }
+        }
+        
+        delete[] oldTable;
     }
 
-private:
-    keyInput<T>* table; // The table
-    int          size;  // Size of the table
-    int          count; // Amount of stored keys
-
-    int hash1(int key) 
+    bool insertWithoutResize(keyInput<T> input) 
     {
-        return key % size;
+        int i = 0;
+        int index = hash1(input.key);
+        int firstDeletedIndex = -1;
+
+        while (i < size) 
+        {
+            if (table[index].key == input.key) 
+            {
+                table[index].value = input.value;
+                return true;
+            }
+
+            if (table[index].key == -2 && firstDeletedIndex == -1) 
+            {
+                firstDeletedIndex = index;
+            }
+            
+            if (table[index].key == -1) 
+            {
+                break;
+            }
+
+            i++;
+            index = doubleHash(input.key, i);
+        }
+
+        int insertIndex;
+
+        if(firstDeletedIndex != -1)
+        {
+            insertIndex = firstDeletedIndex; 
+        }
+        else
+        {
+            insertIndex = index;
+        }
+
+        table[insertIndex] = input;
+        count++;
+        return true;
     }
 };
 
