@@ -2,6 +2,11 @@
 
 #include "../../include/models/stadium.h"
 
+std::ostream& operator<<(std::ostream& os, const Stadium& s) 
+{
+    os << "Stadium[name=" << s.stadiumName;
+    return os;
+}
 
 Stadium::Stadium()
 {

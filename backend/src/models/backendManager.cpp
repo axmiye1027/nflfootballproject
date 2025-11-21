@@ -59,7 +59,7 @@ void BackendManager::populateStadiums()
         stadium.setConference(stadiumsVect[i].conference);
         stadium.setDivision(stadiumsVect[i].division);
 
-        //stadiums.insert(keyInput(stadium, i));
+        stadiums.insert(keyInput(stadium, i));
     }
 
 

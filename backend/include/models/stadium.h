@@ -39,6 +39,8 @@ public:
 
     void addSouvenir(Souvenir souvenir);
 
+    friend std::ostream& operator<<(std::ostream& os, const Stadium& s);
+
 private:
     int      stadiumId;
     string   teamName;

@@ -12,7 +12,8 @@ struct keyInput
     int  key;
     bool isDelete;
 
-    //keyInput(T value, int key) : value(value), key(key), isDelete(false) {}
+    keyInput()                 : key(-1), isDelete(false) {}
+    keyInput(T value, int key) : value(value), key(key), isDelete(false) {}
 };
 
 template<typename T>

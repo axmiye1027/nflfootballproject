@@ -18,8 +18,6 @@ int main()
 
     crow::SimpleApp app;
 
-    cout << "Kurwa!" << endl;
-
     // Test
     CROW_ROUTE(app, "/")([]() {
         return "Hello World";
