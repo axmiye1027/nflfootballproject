@@ -51,6 +51,13 @@ public:
         }
     }
 
+    
+    keyInput& operator[](const T& value) const
+    {
+        return table[value];
+    }
+
+
     DoubleHashTable& operator=(const DoubleHashTable& other)
     {
         if (this != &other) {
@@ -73,6 +80,12 @@ public:
         delete [] table;
     }
     
+    // For convenience
+    bool insert(T input, int key)
+    {
+        insert(keyValue(input, key));
+    }
+
     // Insert a value into the hash table
     bool insert(keyInput<T> input) 
     {
@@ -182,6 +195,11 @@ public:
 
             cout << endl;
         }
+    }
+
+    int getSize() const
+    {
+        return count;
     }
 
 private:

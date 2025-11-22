@@ -2,7 +2,7 @@
 
 AdjacencyMatrix::AdjacencyMatrix()
 {
-    InitializeMatrix();
+
 }
 
 
@@ -12,9 +12,9 @@ AdjacencyMatrix::~AdjacencyMatrix()
 }
 
 
-void AdjacencyMatrix::PrintMatrix()
+void AdjacencyMatrix::printMatrix()
 {
-    cout << "[AdjacencyMatrix::PrintMatrix()]" << endl;
+    cout << "[AdjacencyMatrix::printMatrix()]" << endl;
 
     string output;
 
@@ -41,15 +41,28 @@ void AdjacencyMatrix::PrintMatrix()
 }
 
 
-void AdjacencyMatrix::AddEdge(City originVertex, City destinationVertex, int distance)
+void AdjacencyMatrix::addEdge(City originVertex, City destinationVertex, int distance)
 {
+    // Indirected Graph -- Symmetrical Matrix
     matrix[originVertex][destinationVertex] = distance;
+    matrix[destinationVertex][originVertex] = distance;
 }
 
 
-void AdjacencyMatrix::RemoveEdge(City originVertex, City destinationVertex)
+void AdjacencyMatrix::removeEdge(City originVertex, City destinationVertex)
 {
+    // Indirected Graph -- Symmetrical Matrix
     matrix[originVertex][destinationVertex] = 0;
+    matrix[destinationVertex][originVertex] = 0;
+}
+
+
+void AdjacencyMatrix::recieveElements(vector<string> cities)
+{
+    for (int i = 0; i < cities.size(); ++i)
+    {
+        vertices.insert(cities[i], i);
+    }
 }
 
 
@@ -60,12 +73,11 @@ void AdjacencyMatrix::BFS(City origin)
     vector<bool> visited(NumberOfCities, false);
     vector<int> cityLevels(NumberOfCities, -1);
 
-    // Min-heap: (distance, city)
-    priority_queue<CityNode, vector<CityNode>, CityComparator> queue;
+    priority_queue<DistanceNode, vector<DistanceNode>, DistanceComparator> queue;
     int totalDistance = 0;
     int level = -1;
 
-    queue.push(CityNode(origin));
+    queue.push(DistanceNode(origin));
 
     while (!queue.empty())
     {
@@ -94,7 +106,7 @@ void AdjacencyMatrix::BFS(City origin)
                 cityLevels[neighbor] = level;
 
                 cout << "Discovery Edge: ";
-                PrintPath(currentCity, neighbor);
+                printPath(currentCity, neighbor);
                 totalDistance += weight;
             }
             else
@@ -116,7 +128,7 @@ void AdjacencyMatrix::BFS(City origin)
                 {
                     cout << "Unknown Edge Type: ";
                 }
-                PrintPath(currentCity, neighbor);
+                printPath(currentCity, neighbor);
             }
         }
     }
@@ -124,7 +136,7 @@ void AdjacencyMatrix::BFS(City origin)
     cout << "Total distance: " << totalDistance << endl;
 }
 
-void AdjacencyMatrix::PrintPath(int cityA, int cityB)
+void AdjacencyMatrix::printPath(int cityA, int cityB)
 {
     string output = "";
 
@@ -190,51 +202,32 @@ void AdjacencyMatrix::PrintPath(int cityA, int cityB)
 }
 
 
-void AdjacencyMatrix::InitializeMatrix()
+void AdjacencyMatrix::initializeMatrix(int vertexCount)
 {
-    cout << "[AdjacencyMatrix::InitializeMatrix()]" << endl;
+    cout << "[AdjacencyMatrix::initializeMatrix()]" << endl;
 
     // Initialize matrix to 0
-    matrix.resize(NumberOfCities);
-    for (int i = 0; i < NumberOfCities; ++i)
+    matrix.resize(vertexCount);
+    for (int i = 0; i < vertexCount; ++i)
     {
-        for (int j = 0; j < NumberOfCities; ++j)
+        for (int j = 0; j < vertexCount; ++j)
         {
             matrix[i].push_back(0);
         }
     }
+}
 
-    AddEdge(Seattle, SanFrancisco, 807);
-    AddEdge(Seattle, Denver, 1331);
+void AdjacencyMatrix::verticesToMatrix()
+{
+    int vertexCount = vertices.getSize();
 
-    AddEdge(SanFrancisco, LosAngeles, 381);
+    initializeMatrix(vertexCount);
 
-    AddEdge(LosAngeles, Denver, 1015);
+    for (int i = 0; i < distances.size(); ++i)
+    {
+        int locationA = vertices[distances[i].locationA];
+        int locationB = vertices[distances[i].locationB];
 
-    AddEdge(Denver, Chicago, 1003);
-    AddEdge(Denver, SanFrancisco, 1267);
-
-    AddEdge(KansasCity, Chicago,    533);
-    AddEdge(KansasCity, NewYork,    1260);
-    AddEdge(KansasCity, Atlanta,    864);
-    AddEdge(KansasCity, Denver,     599);
-    AddEdge(KansasCity, LosAngeles, 1663);
-
-    AddEdge(Dallas, Atlanta,    781);
-    AddEdge(Dallas, KansasCity, 496);
-
-    AddEdge(Houston, Atlanta, 810);
-    AddEdge(Houston, Dallas,  239);
-
-    AddEdge(Atlanta, Miami, 661);
-
-    AddEdge(NewYork, Atlanta, 888);
-    AddEdge(NewYork, Chicago, 787);
-
-    AddEdge(Chicago, Boston,  983);
-    AddEdge(Chicago, Seattle, 2097);
-
-    AddEdge(Boston, NewYork, 214);
-
-    AddEdge(Miami, Houston, 1187);
+        addEdge(locationA, locationB, distances[i].distanceKm);
+    }
 }

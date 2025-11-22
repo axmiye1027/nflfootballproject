@@ -1,4 +1,6 @@
 #include "../includes.h"
+#include "../database/databaseManager.h"
+#include "hash.h"
 
 /************************************************
  * bfs.h
@@ -10,29 +12,27 @@
 #ifndef BFS_H
 #define BFS_H
 
-enum City { Seattle = 0, SanFrancisco, LosAngeles, Denver, Chicago, KansasCity, Dallas, Houston, Boston, NewYork, Atlanta, Miami, NumberOfCities };
-
-struct CityNode
+struct DistanceNode
 {
-    City city;
+    Distance data;
     int  level;
     int  distanceFromLast;
 
-    CityNode(City city) : city(city), level(0), distanceFromLast(0) {}
-    CityNode(City city, int level, int distanceFromLast) : city(city), level(level), distanceFromLast(distanceFromLast) {}
+    DistanceNode(Distance data) : data(data), level(0), distanceFromLast(0) {}
+    DistanceNode(Distance data, int level, int distanceFromLast) : data(data), level(level), distanceFromLast(distanceFromLast) {}
 
 };
 
-struct CityComparator
+struct DistanceComparator
 {
-    bool operator()(const CityNode& cityOne, const CityNode& cityTwo) const
+    bool operator()(const DistanceNode& distanceOne, const DistanceNode& distanceTwo) const
     {
-        if (cityOne.level == cityTwo.level)
+        if (distanceOne.level == distanceTwo.level)
         {
-            return cityOne.distanceFromLast > cityTwo.distanceFromLast;
+            return distanceOne.distanceFromLast > distanceTwo.distanceFromLast;
         }
 
-        return cityOne.level > cityTwo.level;
+        return distanceOne.level > distanceTwo.level;
     }
 };
 
@@ -42,19 +42,24 @@ public:
     AdjacencyMatrix();
     ~AdjacencyMatrix();
 
-    void PrintMatrix();
+    void printMatrix();
 
-    void AddEdge(City originVertex, City destinationVertex, int distance);
-    void RemoveEdge(City originVertex, City destinationVertex);
+    void addEdge(City originVertex, City destinationVertex, int distance);
+    void removeEdge(City originVertex, City destinationVertex);
+
+    void recieveElements(vector<string> cities);
 
     void BFS(City originCity);
     
 private:
 
-    void PrintPath(int cityAIndex, int cityBIndex);
-    void InitializeMatrix();
+    void printPath(int cityAIndex, int cityBIndex);
+    void initializeMatrix(int vertexCount);
+    void verticesToMatrix();
 
-    vector<vector<int>> matrix; // Using int bc of 13 Graphs Part 1 - Slide 40
+    vector<Distance>        distances;
+    DoubleHashTable<string> vertices;
+    vector<vector<int>>     matrix;
 };
 
 #endif

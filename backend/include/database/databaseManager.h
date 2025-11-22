@@ -10,7 +10,7 @@ struct Distance
     int    id;
     string locationA;
     string locationB;
-    double distanceKm;
+    int    distanceKm;
 };
 
 struct StadiumStruct
