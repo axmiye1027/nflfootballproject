@@ -52,11 +52,18 @@ public:
     }
 
     
-    keyInput& operator[](const T& value) const
+    const operator[](const T& value) const
     {
-        return table[value];
-    }
+        for(int i = 0; i < size; ++i)
+        {
+            if(value == table[i].value)
+            {
+                return table[i].key;
+            }
+        }
 
+        throw runtime_error("Value not found in table");
+    }
 
     DoubleHashTable& operator=(const DoubleHashTable& other)
     {
@@ -172,7 +179,7 @@ public:
         }
         return false;
     }
-    
+
     // Print the hash table
     void printTable() 
     {

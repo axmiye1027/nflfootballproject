@@ -35,6 +35,11 @@ public:
 
     friend std::ostream& operator<<(std::ostream& os, const Stadium& s);
 
+    bool operator==(const string& other) const 
+    {
+        return stadiumName == other;
+    }
+
 private:
     int      stadiumId;
     string   teamName;
