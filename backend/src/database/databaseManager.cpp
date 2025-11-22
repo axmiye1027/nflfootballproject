@@ -55,9 +55,22 @@ void DatabaseManager::initializeDatabase()
             division TEXT
         )
     )";
+
+    string creatSouvenirs = R"(
+            CREATE TABLE souvenirs (
+            idSouvenir    INTEGER PRIMARY KEY AUTOINCREMENT,
+            souvenirName  TEXT    NOT NULL,
+            souvenirPrice DOUBLE  NOT NULL DEFAULT 0.0,
+            idStadium     INTEGER NOT NULL, -- Link to its stadium
+
+            FOREIGN KEY (idStadium) REFERENCES stadiums(idStadium)
+                ON DELETE CASCADE
+        )
+    )";
     
     executeSQL(createDistances);
     executeSQL(createStadiums);
+    executeSQL(creatSouvenirs);
 }
 
 // ==================== DISTANCES IMPLEMENTATION ====================
@@ -383,6 +396,122 @@ bool DatabaseManager::deleteStadium(int stadiumId)
     
     return changes > 0;
 }
+
+//==================== SOUVENIR IMPLEMENTATION ====================
+
+int DatabaseManager::addSouvenir(int stadiumId, int souvenirId, const string& souvenirName, double souvenirPrice)
+{
+    string sql = "INSERT INTO souvenir (souvenirId, souvenirName, souvenirPrice, stadiumId) "
+                     "VALUES (?, ?, ?, ?)";
+    sqlite3_stmt* stmt = prepareStatement(sql);
+    
+    sqlite3_bind_int(stmt, 1, souvenirId);
+    sqlite3_bind_text(stmt, 2, souvenirName.c_str(), -1, SQLITE_TRANSIENT);
+    sqlite3_bind_double(stmt, 3, souvenirPrice);
+    sqlite3_bind_int(stmt, 4, stadiumId);
+    
+    int rc = sqlite3_step(stmt);
+    sqlite3_finalize(stmt);
+    
+    if (rc != SQLITE_DONE) 
+    {
+        throw runtime_error("Failed to insert souvenir");
+    }
+    
+    return static_cast<int>(sqlite3_last_insert_rowid(db));
+}
+
+bool DatabaseManager::updateSouvenirName(int souvenirId, const string& souvenirName)
+{
+    string sql = "UPDATE souvenir SET souvenirName = ? WHERE souvenirId = ?";
+    sqlite3_stmt* stmt = prepareStatement(sql);
+    
+    sqlite3_bind_text(stmt, 1, souvenirName.c_str(), -1, SQLITE_TRANSIENT);
+    sqlite3_bind_int(stmt, 2, souvenirId);
+    
+    sqlite3_step(stmt);
+    int changes = sqlite3_changes(db);
+    sqlite3_finalize(stmt);
+    
+    return changes > 0;
+}
+
+bool DatabaseManager::updateSouvenirPrice(int souvenirId, double souvenirPrice)
+{
+    string sql = "UPDATE souvenir SET souvenirPrice = ? WHERE souvenirId = ?";
+    sqlite3_stmt* stmt = prepareStatement(sql);
+    
+    sqlite3_bind_double(stmt, 1, souvenirPrice);
+    sqlite3_bind_int(stmt, 2, souvenirId);
+    
+    sqlite3_step(stmt);
+    int changes = sqlite3_changes(db);
+    sqlite3_finalize(stmt);
+    
+    return changes > 0;
+}
+
+bool DatabaseManager::deleteSouvenir(int souvenirId)
+{
+    string sql = "DELETE FROM souvenir WHERE souvenirId = ?";
+    sqlite3_stmt* stmt = prepareStatement(sql);
+    
+    sqlite3_bind_int(stmt, 1, souvenirId);
+    
+    sqlite3_step(stmt);
+    int changes = sqlite3_changes(db);
+    sqlite3_finalize(stmt);
+    
+    return changes > 0;
+}
+
+Souvenir* DatabaseManager::getSouvenirById(int souvenirId)
+{
+    string sql = "SELECT * FROM souvenir WHERE souvenirId = ?";
+    sqlite3_stmt* stmt = prepareStatement(sql);
+    
+    sqlite3_bind_int(stmt, 1, souvenirId);
+    
+    Souvenir* result = nullptr;
+    if (sqlite3_step(stmt) == SQLITE_ROW) 
+    {
+        result = new Souvenir();
+
+        result->souvenirId    = getColumnInt(stmt, 0);
+        result->souvenirName  = getColumnText(stmt, 1);
+        result->souvenirPrice = sqlite3_column_double(stmt, 2);
+        result->stadiumId     = getColumnInt(stmt, 3);
+    }
+    
+    sqlite3_finalize(stmt);
+    return result;
+}
+
+vector<Souvenir> DatabaseManager::getStadiumSouvenirs(int stadiumId)
+{
+    string sql = "SELECT * FROM souvenir WHERE stadiumId = ?";
+    sqlite3_stmt* stmt = prepareStatement(sql);
+    
+    sqlite3_bind_int(stmt, 1, stadiumId);
+    
+    vector<Souvenir> souvenirs;
+    while (sqlite3_step(stmt) == SQLITE_ROW) 
+    {
+        Souvenir s;
+
+        s.souvenirId    = getColumnInt(stmt, 0);
+        s.souvenirName  = getColumnText(stmt, 1);
+        s.souvenirPrice = sqlite3_column_double(stmt, 2);
+        s.stadiumId     = getColumnInt(stmt, 3);
+
+        souvenirs.push_back(s);
+    }
+    
+    sqlite3_finalize(stmt);
+    return souvenirs;
+}
+
+//==================== HELPER FUNCTIONS ====================
 
 void DatabaseManager::executeSQL(const string& sql) 
 {

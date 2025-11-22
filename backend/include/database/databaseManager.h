@@ -27,6 +27,14 @@ struct StadiumStruct
     string division;
 };
 
+struct Souvenir
+{
+    int    stadiumId;
+    int    souvenirId;
+    string souvenirName;
+    double souvenirPrice;
+}
+
 class DatabaseManager
 {
 public:
@@ -56,6 +64,11 @@ public:
     bool updateStadium(int stadiumId, const string& field, const string& value);
     bool updateStadiumInt(int stadiumId, const string& field, int value);
     bool deleteStadium(int stadiumId); 
+
+    int  addSouvenir(int stadiumId,int souvenirId,const string& souvenirName, double souvenirPrice);
+    bool updateSouvenirName(int souvenirId,const string& souvenirName);
+    bool updateSouvenirPrice(int souvenirId,double souvenirPrice);
+    bool deleteSouvenir(int souvenirId);
     /***************************************************/
 
     /***************** GET FROM DATABASE ***************/
@@ -68,6 +81,9 @@ public:
 
     vector<StadiumStruct> getStadiumsByConference(const string& conference);
     vector<StadiumStruct> getStadiumsByDivision(const string& division);
+
+    Souvenir*        getSouvenirById(int souvenirId);
+    vector<Souvenir> getStadiumSouvenirs(int stadiumId);
     /***************************************************/
 
 private:
