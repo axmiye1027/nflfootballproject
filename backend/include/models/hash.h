@@ -1,5 +1,7 @@
 #include "../includes.h"
 
+#include <iterator>
+
 #ifndef HASH_H
 #define HASH_H
 

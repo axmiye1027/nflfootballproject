@@ -8,6 +8,12 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # -------------------------
+# Use vcpkg toolchain
+# -------------------------
+set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/dev/vcpkg/scripts/buildsystems/vcpkg.cmake" CACHE STRING "")
+
+
+# -------------------------
 # Include headers
 # -------------------------
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)

@@ -4,7 +4,8 @@
 
 BackendManager::BackendManager() : isAdmin{false}
 {
-
+    populateStadiums();
+    printStadiums();
 }
 
 BackendManager::~BackendManager()
@@ -28,6 +29,8 @@ bool BackendManager::login(string username, string password)
 
 void BackendManager::populateStadiums() 
 {
+    cout << "[BackendManager::populateStadiums()]" << endl;
+
     vector<StadiumStruct> stadiumsVect = databaseManager.getAllStadiums();
 
     for (int i = 0; i < stadiumsVect.size(); ++i)
@@ -59,10 +62,16 @@ void BackendManager::populateStadiums()
         stadium.setConference(stadiumsVect[i].conference);
         stadium.setDivision(stadiumsVect[i].division);
 
-        stadiums.insert(keyInput(stadium, i));
+        //stadiums.insert(keyInput(stadium, stadiumsVect[i].stadiumId));
     }
 
 
+}
+
+
+void BackendManager::printStadiums()
+{
+    stadiums.printTable();
 }
 
 

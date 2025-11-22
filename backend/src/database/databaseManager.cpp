@@ -15,7 +15,9 @@ DatabaseManager::DatabaseManager(const string& PATH) : db_path(PATH)
         throw runtime_error(error);
     }
 
-    initializeDatabase();
+    cout << "Database opened successfully: " << db_path << endl;
+
+    // initializeDatabase();
 }
 
 

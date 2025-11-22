@@ -20,6 +20,7 @@ public:
     ~BackendManager();
 
     bool login(string username, string password);
+    void printStadiums();
 
     // NEEDS TO BE UPDATED WITH SOUVENIRS
     void populateStadiums(); // Grabs Stadiums info from database and stores in stadiums

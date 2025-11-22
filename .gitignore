@@ -13,3 +13,6 @@ dev/vcpkg/
 # OS junk
 .DS_Store
 Thumbs.db
+
+#.vscode
+.vscode/
