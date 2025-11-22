@@ -34,9 +34,10 @@ void BackendManager::populateStadiums()
     vector<StadiumStruct> stadiumsVect = databaseManager.getAllStadiums();
 
     for (int i = 0; i < stadiumsVect.size(); ++i)
-    {
-        Stadium stadium;
+    { 
         RoofType roof;
+
+        roof = OPEN;
 
         if (stadiumsVect[i].roofType == "Open")
         {
@@ -51,21 +52,22 @@ void BackendManager::populateStadiums()
             roof = FIXED_ROOF;
         }
 
+        Stadium stadium(
+            stadiumsVect[i].teamName,
+            stadiumsVect[i].stadiumName,
+            stadiumsVect[i].capacity,
+            stadiumsVect[i].location,
+            roof,
+            stadiumsVect[i].surface,
+            stadiumsVect[i].yearOpened,
+            stadiumsVect[i].conference,
+            stadiumsVect[i].division,
+            DoubleHashTable<Souvenir>()
+        );
         stadium.setStadiumId(stadiumsVect[i].stadiumId);
-        stadium.setTeamName(stadiumsVect[i].teamName);
-        stadium.setStadiumName(stadiumsVect[i].stadiumName);
-        stadium.setCapacity(stadiumsVect[i].capacity);
-        stadium.setLocation(stadiumsVect[i].location);
-        stadium.setRoofType(roof);
-        stadium.setSurfaceType(stadiumsVect[i].surface);
-        stadium.setDateOpened(stadiumsVect[i].yearOpened);
-        stadium.setConference(stadiumsVect[i].conference);
-        stadium.setDivision(stadiumsVect[i].division);
 
-        //stadiums.insert(keyInput(stadium, stadiumsVect[i].stadiumId));
+        stadiums.insert(keyInput(stadium, stadiumsVect[i].stadiumId));
     }
-
-
 }
 
 
