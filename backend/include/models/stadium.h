@@ -1,17 +1,11 @@
 #include "../includes.h"
 #include "hash.h"
+#include "../database/databaseManager.h"
 
 #ifndef STADIUM_H
 #define STADIUM_H
 
 enum RoofType {OPEN, FIXED_ROOF, RETRACTABLE, NONE};
-
-struct Souvenir
-{
-    int    stadiumId;
-    string name;
-    double price;
-};
 
 class Stadium
 {

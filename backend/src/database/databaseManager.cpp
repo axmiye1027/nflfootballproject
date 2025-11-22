@@ -401,7 +401,7 @@ bool DatabaseManager::deleteStadium(int stadiumId)
 
 int DatabaseManager::addSouvenir(int stadiumId, int souvenirId, const string& souvenirName, double souvenirPrice)
 {
-    string sql = "INSERT INTO souvenir (souvenirId, souvenirName, souvenirPrice, stadiumId) "
+    string sql = "INSERT INTO souvenirs (idSouvenir, souvenirName, souvenirPrice, idStadium) "
                      "VALUES (?, ?, ?, ?)";
     sqlite3_stmt* stmt = prepareStatement(sql);
     
@@ -423,7 +423,7 @@ int DatabaseManager::addSouvenir(int stadiumId, int souvenirId, const string& so
 
 bool DatabaseManager::updateSouvenirName(int souvenirId, const string& souvenirName)
 {
-    string sql = "UPDATE souvenir SET souvenirName = ? WHERE souvenirId = ?";
+    string sql = "UPDATE souvenirs SET souvenirName = ? WHERE idSouvenir = ?";
     sqlite3_stmt* stmt = prepareStatement(sql);
     
     sqlite3_bind_text(stmt, 1, souvenirName.c_str(), -1, SQLITE_TRANSIENT);
@@ -438,7 +438,7 @@ bool DatabaseManager::updateSouvenirName(int souvenirId, const string& souvenirN
 
 bool DatabaseManager::updateSouvenirPrice(int souvenirId, double souvenirPrice)
 {
-    string sql = "UPDATE souvenir SET souvenirPrice = ? WHERE souvenirId = ?";
+    string sql = "UPDATE souvenirs SET souvenirPrice = ? WHERE idSouvenir = ?";
     sqlite3_stmt* stmt = prepareStatement(sql);
     
     sqlite3_bind_double(stmt, 1, souvenirPrice);
@@ -453,7 +453,7 @@ bool DatabaseManager::updateSouvenirPrice(int souvenirId, double souvenirPrice)
 
 bool DatabaseManager::deleteSouvenir(int souvenirId)
 {
-    string sql = "DELETE FROM souvenir WHERE souvenirId = ?";
+    string sql = "DELETE FROM souvenirs WHERE idSouvenir = ?";
     sqlite3_stmt* stmt = prepareStatement(sql);
     
     sqlite3_bind_int(stmt, 1, souvenirId);
@@ -467,7 +467,7 @@ bool DatabaseManager::deleteSouvenir(int souvenirId)
 
 Souvenir* DatabaseManager::getSouvenirById(int souvenirId)
 {
-    string sql = "SELECT * FROM souvenir WHERE souvenirId = ?";
+    string sql = "SELECT * FROM souvenirs WHERE idSouvenir = ?";
     sqlite3_stmt* stmt = prepareStatement(sql);
     
     sqlite3_bind_int(stmt, 1, souvenirId);
@@ -489,7 +489,7 @@ Souvenir* DatabaseManager::getSouvenirById(int souvenirId)
 
 vector<Souvenir> DatabaseManager::getStadiumSouvenirs(int stadiumId)
 {
-    string sql = "SELECT * FROM souvenir WHERE stadiumId = ?";
+    string sql = "SELECT * FROM souvenirs WHERE idStadium = ?";
     sqlite3_stmt* stmt = prepareStatement(sql);
     
     sqlite3_bind_int(stmt, 1, stadiumId);

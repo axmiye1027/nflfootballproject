@@ -33,7 +33,14 @@ struct Souvenir
     int    souvenirId;
     string souvenirName;
     double souvenirPrice;
-}
+
+    friend ostream& operator<<(ostream& os, const Souvenir& souvenir) 
+    {
+        os << souvenir.souvenirName << " : " << souvenir.souvenirPrice;
+        return os;
+    }
+};
+
 
 class DatabaseManager
 {

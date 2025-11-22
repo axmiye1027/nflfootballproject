@@ -35,10 +35,10 @@ void BackendManager::populateStadiums()
 
     for (int i = 0; i < stadiumsVect.size(); ++i)
     { 
+        vector<Souvenir> souvenirsList = databaseManager.getStadiumSouvenirs(stadiumsVect[i].stadiumId);
+        DoubleHashTable<Souvenir> souvenirs;
+
         RoofType roof;
-
-        roof = OPEN;
-
         if (stadiumsVect[i].roofType == "Open")
         {
             roof = OPEN;
@@ -52,6 +52,11 @@ void BackendManager::populateStadiums()
             roof = FIXED_ROOF;
         }
 
+        for (int j = 0; j < souvenirsList.size(); ++j)
+        {
+            souvenirs.insert(keyInput(souvenirsList[j], souvenirsList[j].souvenirId));
+        }
+
         Stadium stadium(
             stadiumsVect[i].teamName,
             stadiumsVect[i].stadiumName,
@@ -62,7 +67,7 @@ void BackendManager::populateStadiums()
             stadiumsVect[i].yearOpened,
             stadiumsVect[i].conference,
             stadiumsVect[i].division,
-            DoubleHashTable<Souvenir>()
+            souvenirs
         );
         stadium.setStadiumId(stadiumsVect[i].stadiumId);
 
