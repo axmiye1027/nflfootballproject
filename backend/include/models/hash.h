@@ -42,6 +42,32 @@ public:
         }
     }
 
+    DoubleHashTable(const DoubleHashTable& other) : size{other.size}, count{other.count}
+    {
+        table = new keyInput<T>[size];
+        for (int i = 0; i < size; ++i) 
+        {
+            table[i] = other.table[i];
+        }
+    }
+
+    DoubleHashTable& operator=(const DoubleHashTable& other)
+    {
+        if (this != &other) {
+            delete[] table;
+            
+            size = other.size;
+            count = other.count;
+            table = new keyInput<T>[size];
+            
+            for (int i = 0; i < size; ++i) 
+            {
+                table[i] = other.table[i];
+            }
+        }
+        return *this;
+    }
+
     ~DoubleHashTable()
     {
         delete [] table;
