@@ -17,10 +17,15 @@ import os
 import sys
 from pathlib import Path
 
-BASE = Path(__file__).resolve().parent.parent
-DB_PATH = BASE / 'database' / 'database.db'
-DIST_CSV = BASE / 'database' / 'NFL Distances.csv'
-INFO_CSV = BASE / 'database' / 'NFL Information.csv'
+SCRIPT_DIR = Path(__file__).resolve().parent  # dev/scripts
+BASE = SCRIPT_DIR.parent.parent / 'backend'   # nflfootballproj/backend
+
+DB_PATH = BASE / 'assets' / 'database.db'
+DIST_CSV = BASE / 'assets' / 'csv' / 'NFL Distances.csv'
+INFO_CSV = BASE / 'assets' / 'csv' / 'NFL Information.csv'
+SOUVENIRS_CSV = BASE / 'assets' / 'csv' / 'NFL Souvenirs.csv'
+
+
 
 
 def clean_int(s: str | None) -> int | None:
@@ -121,6 +126,46 @@ def import_stadiums(conn: sqlite3.Connection, csv_path: Path) -> int:
     return inserted
 
 
+def import_souvenirs(conn: sqlite3.Connection, csv_path: Path) -> int:
+    cur = conn.cursor()
+    rows = []
+
+    # Get all stadium IDs
+    cur.execute('SELECT idStadium FROM stadiums;')
+    stadium_ids = [row[0] for row in cur.fetchall()]
+    if not stadium_ids:
+        print("No stadiums found in database. Cannot import souvenirs.")
+        return 0
+
+    # Read souvenirs CSV
+    with csv_path.open(newline='', encoding='utf-8') as fh:
+        reader = csv.DictReader(fh)
+        for r in reader:
+            name = clean_text(r.get('Name') or r.get('Souvenir Name'))
+            price = clean_float(r.get('Price'))
+
+            if not name or price is None:
+                continue  # skip invalid rows
+
+            # Add a row for every stadium
+            for sid in stadium_ids:
+                rows.append((name, price, sid))
+
+    inserted = 0
+    if rows:
+        cur.executemany(
+            '''INSERT OR IGNORE INTO souvenirs
+               (souvenirName, souvenirPrice, idStadium)
+               VALUES (?,?,?)''',
+            rows,
+        )
+        inserted = cur.rowcount if cur.rowcount is not None else len(rows)
+        conn.commit()
+
+    return inserted
+
+
+
 def main() -> None:
     if not DB_PATH.exists():
         print('ERROR: database file not found at', DB_PATH)
@@ -129,16 +174,23 @@ def main() -> None:
     conn = sqlite3.connect(str(DB_PATH))
     conn.execute('PRAGMA foreign_keys = ON;')
 
+    # Import distances
     print('Importing distances from', DIST_CSV)
     d_count = import_distances(conn, DIST_CSV)
     print(f'Inserted (attempted) {d_count} distance rows')
 
+    # Import stadiums
     print('Importing stadiums from', INFO_CSV)
     s_count = import_stadiums(conn, INFO_CSV)
     print(f'Inserted (attempted) {s_count} stadium rows')
 
+    # Import souvenirs
+    print('Importing souvenirs from', SOUVENIRS_CSV)
+    su_count = import_souvenirs(conn, SOUVENIRS_CSV)
+    print(f'Inserted (attempted) {su_count} souvenir rows')
+
     cur = conn.cursor()
-    for t in ('distances', 'stadiums'):
+    for t in ('distances', 'stadiums', 'souvenirs'):
         cur.execute(f'SELECT COUNT(*) FROM {t};')
         print(f'{t}:', cur.fetchone()[0])
 
