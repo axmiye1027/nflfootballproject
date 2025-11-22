@@ -4,7 +4,7 @@
 #ifndef STADIUM_H
 #define STADIUM_H
 
-enum RoofType {OPEN, FIXED_ROOF, RETRACTABLE};
+enum RoofType {OPEN, FIXED_ROOF, RETRACTABLE, NONE};
 
 struct Souvenir
 {

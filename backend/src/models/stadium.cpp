@@ -8,10 +8,9 @@ std::ostream& operator<<(std::ostream& os, const Stadium& s)
     return os;
 }
 
-Stadium::Stadium()
+Stadium::Stadium() : teamName(""), stadiumName(""), capacity(0), location(""), roofType(NONE), surfaceType(""), dateOpened(0), conference(""), division(""), souvenirList()
 {
 }
-
 
 Stadium::Stadium(string teamName, string stadiumName, int capacity, string location, RoofType roofType, string surface, 
     int dateOpened, string conference, string division, DoubleHashTable<Souvenir> souvenirList)
