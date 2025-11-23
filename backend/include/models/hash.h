@@ -221,6 +221,10 @@ public:
     }
 
     int getSize() const
+    {
+        return size;
+    }
+
     T get(int key)
     {
         int i = 0;

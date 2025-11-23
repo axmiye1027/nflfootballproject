@@ -14,6 +14,11 @@ public:
     Stadium(string teamName, string stadiumName, int capacity, string location, RoofType roofType, string surface, // Overloade Const
             int dateOpened, string conference, string division, DoubleHashTable<Souvenir> souvenirList);
 
+    Stadium(const Stadium& other);
+    
+    Stadium& operator=(const Stadium& other);
+
+
     ~Stadium(); // Destructor
 
     /* ------ Setters ------ */

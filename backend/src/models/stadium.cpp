@@ -19,6 +19,40 @@ Stadium::Stadium(string teamName, string stadiumName, int capacity, string locat
 {
 }
 
+Stadium::Stadium(const Stadium& other)
+    : stadiumId(other.stadiumId),
+      teamName(other.teamName),
+      stadiumName(other.stadiumName),
+      capacity(other.capacity),
+      location(other.location),
+      roofType(other.roofType),
+      surfaceType(other.surfaceType),
+      yearOpened(other.yearOpened),
+      conference(other.conference),
+      division(other.division),
+      souvenirList(other.souvenirList) {}
+
+Stadium& Stadium::operator=(const Stadium& other)
+{
+    if (this == &other)
+    {
+        return *this;
+    }
+
+    stadiumId = other.stadiumId;
+    teamName = other.teamName;
+    stadiumName = other.stadiumName;
+    capacity = other.capacity;
+    location = other.location;
+    roofType = other.roofType;
+    surfaceType = other.surfaceType;
+    yearOpened = other.yearOpened;
+    conference = other.conference;
+    division = other.division;
+    souvenirList = other.souvenirList;
+
+    return *this;
+}
 
 Stadium::~Stadium()
 {
