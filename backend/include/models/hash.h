@@ -62,6 +62,7 @@ public:
             }
         }
 
+        cout << "Value: " << value << " not found in table" << endl;
         throw runtime_error("Value not found in table");
     }
 
