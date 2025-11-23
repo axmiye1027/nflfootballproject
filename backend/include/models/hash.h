@@ -205,6 +205,22 @@ public:
         }
     }
 
+    vector<T> getValues() const
+    {
+        vector<T> values;
+
+        for(int i = 0; i < size; ++i)
+        {
+            if(table[i].key != -1 && table[i].key != -2)
+            {
+                values.push_back(table[i].value);
+            }
+        }
+
+        return values;
+    }
+
+    int getSize() const
     T get(int key)
     {
         int i = 0;
