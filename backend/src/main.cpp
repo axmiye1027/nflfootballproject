@@ -7,6 +7,8 @@
 // #include <nlohmann/json.hpp>
 
 #include "crow.h"
+#include "../include/routes/routes.h"
+
 #include <filesystem>
 
 int main()
@@ -18,10 +20,7 @@ int main()
 
     crow::SimpleApp app;
 
-    // Test
-    CROW_ROUTE(app, "/")([]() {
-        return "Hello World";
-    });
+    registerRoutes(app);
 
     /***********************************************************************
      * ADMIN LOGIN - backendManager.cpp
