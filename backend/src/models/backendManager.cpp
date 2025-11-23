@@ -9,6 +9,7 @@ BackendManager::BackendManager() : isAdmin{false}
     printStadiums();
 
     adjacencyMatrix.printMatrix();
+    adjacencyMatrix.BFS("State Farm Stadium");
 }
 
 BackendManager::~BackendManager()
