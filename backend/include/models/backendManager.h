@@ -34,8 +34,6 @@ public:
     // Need functions for DB to stadiums data structure
 
 private:
-    // add stadium manager class here
-
     DoubleHashTable<Stadium> stadiums;
 
     AdjacencyList   dfsList;   // list used for dfs
