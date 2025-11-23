@@ -204,3 +204,211 @@ void AdjacencyMatrix::verticesToMatrix()
         addEdge(distances[i]);
     }
 }
+
+void AdjacencyMatrix::Dijkstra(City originVertex)
+{
+    cout << "[AdjacencyMatrix::Dijkstra]" << endl;
+    
+    int distances[NumberOfCities];
+    int previous[NumberOfCities]; 
+
+    bool cityVisited[NumberOfCities] = {false};
+    
+    const int INF = 999999;
+
+    for(int i = 0; i < NumberOfCities; ++i)
+    {
+        distances[i] = INF;
+        previous[i] = -1; 
+    }
+    
+    distances[originVertex] = 0; // Distance to origin is 0
+    
+    for(int count = 0; count < NumberOfCities; ++count)
+    {
+        // Find unvisited city with minimum distance
+        int minDistance = INF;
+        int currentCity = -1;
+        
+        for(int j = 0; j < NumberOfCities; ++j)
+        {
+            if(!cityVisited[j] && distances[j] < minDistance)
+            {
+                minDistance = distances[j];
+                currentCity = j;
+            }
+        }
+        
+        // If no reachable city found
+        if(currentCity == -1)
+        {
+            break;
+        }
+        
+        // Mark current city as visited
+        cityVisited[currentCity] = true;
+        
+        // Update distances to neighbors
+        for(int n = 0; n < NumberOfCities; ++n)
+        {
+            // Check if there's an edge and city is unvisited
+            if(!cityVisited[n] && matrix[currentCity][n] != 0 && matrix[currentCity][n] != INF)
+            {
+                int newDistance = distances[currentCity] + matrix[currentCity][n];
+                
+                // If we found a shorter path
+                if(newDistance < distances[n])
+                {
+                    distances[n] = newDistance;
+                    previous[n]  = currentCity;
+                }
+            }
+        }
+    }
+    
+    string output; // Makes the output more pretty)))
+
+    cout << endl << "Shortest distances from city " << originVertex << ": " << endl;
+    for(int i = 0; i < NumberOfCities; ++i)
+    {
+        output = "To city " + to_string(i);
+        cout << left << setw(10) << output << ": ";
+
+        if(distances[i] == INF)
+        {
+            cout << "No path" << endl;
+        }
+        else
+        {
+            cout << left << setw(5) << distances[i] << " | Path: ";
+            PrintPathExt(previous,originVertex, i);
+            cout << endl;
+        }
+    }
+}
+
+// MST using Prim-Jarnik's method
+void AdjacencyMatrix::mst(City originVertex)
+{
+    cout << "\n\n[AdjacencyMatrix::MST]" << endl;
+
+    const int INF = 999999;
+
+    int key[NumberOfCities];         
+    int parent[NumberOfCities];      
+    bool visited[NumberOfCities];    
+
+    // Initialize all arrays
+    for (int i = 0; i < NumberOfCities; i++)
+    {
+        key[i]     = INF;
+        parent[i]  = -1;
+        visited[i] = false;
+    }
+
+    // Start MST from the chosen origin city
+    key[originVertex] = 0;
+
+    // Build MST (NumberOfCities - 1 edges)
+    for (int count = 0; count < NumberOfCities - 1; count++)
+    {
+        // Pick unvisited city with minimum key value
+        int minKey = INF;
+        int u      = -1;
+
+        for (int v = 0; v < NumberOfCities; v++)
+        {
+            if (!visited[v] && key[v] < minKey)
+            {
+                minKey = key[v];
+                u      = v;
+            }
+        }
+
+        // Add chosen city to MST
+        visited[u] = true;
+
+        // Update neighbors
+        for (int v = 0; v < NumberOfCities; v++)
+        {
+            int weight = matrix[u][v];
+
+            if (weight != 0 && !visited[v] && weight < key[v])
+            {
+                key[v]    = weight;
+                parent[v] = u;
+            }
+        }
+    }
+
+    // Print MST
+    cout << "\nMinimum Spanning Tree starting at ";
+    printCityName(originVertex);
+    cout << ":\n\n";
+
+    int totalWeight = 0;
+
+    for (int i = 0; i < NumberOfCities; i++)
+    {
+        if (parent[i] != -1)
+        {
+            printCityName(parent[i]);
+            cout << "  ->  ";
+            printCityName(i);
+            cout << "   (";
+            cout << matrix[i][parent[i]] << " miles)\n";
+
+            totalWeight += matrix[i][parent[i]];
+        }
+    }
+
+    cout << "\nTotal MST Mileage: " << totalWeight << " miles\n";
+
+}
+
+void AdjacencyMatrix::PrintPathExt(int previous[], int cityA, int cityB)
+{
+    printCityName(cityA);
+    
+    if(cityA != cityB)
+    {
+        PrintPathExtRecursion(previous, cityB, cityA);
+    }
+}
+
+void AdjacencyMatrix::PrintPathExtRecursion(int previous[], int currentCity, int originCity)
+{
+    if(currentCity == originCity)
+    {
+        return;
+    }
+
+    if(previous[currentCity] == -1)
+    {
+        return;
+    }
+    
+    PrintPathExtRecursion(previous, previous[currentCity], originCity);
+    
+    cout << " -> ";
+    printCityName(currentCity);
+}
+
+void AdjacencyMatrix::printCityName(int cityIndex)
+{
+    switch(cityIndex)
+    {
+        case Seattle:       cout << "Seattle"; break;
+        case SanFrancisco:  cout << "San Francisco"; break;
+        case LosAngeles:    cout << "Los Angeles"; break;
+        case Denver:        cout << "Denver"; break;
+        case Chicago:       cout << "Chicago"; break;
+        case KansasCity:    cout << "Kansas City"; break;
+        case Dallas:        cout << "Dallas"; break;
+        case Houston:       cout << "Houston"; break;
+        case Boston:        cout << "Boston"; break;
+        case NewYork:       cout << "New York"; break;
+        case Atlanta:       cout << "Atlanta"; break;
+        case Miami:         cout << "Miami"; break;
+    }
+}

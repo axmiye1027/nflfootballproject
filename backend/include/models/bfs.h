@@ -54,10 +54,15 @@ public:
     void populateVertices(DoubleHashTable<Stadium> stadiums);
 
     void BFS(string originCity);
+    void Dijkstra(City originCity);
+    void mst(City originCity);
     
 private:
 
     void printPath(int cityAIndex, int cityBIndex);
+    void PrintPathExt(int previous[],int cityAIndex, int cityBIndex);
+    void PrintPathExtRecursion(int previous[],int cityAIndex, int cityBIndex);
+
     void initializeMatrix(int vertexCount);
     void verticesToMatrix();
 
