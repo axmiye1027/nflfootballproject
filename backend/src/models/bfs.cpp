@@ -210,15 +210,17 @@ void AdjacencyMatrix::verticesToMatrix()
 void AdjacencyMatrix::Dijkstra(City originVertex)
 {
     cout << "[AdjacencyMatrix::Dijkstra]" << endl;
-    
-    int distances[NumberOfCities];
-    int previous[NumberOfCities]; 
 
-    bool cityVisited[NumberOfCities] = {false};
+    const int NUMBER_OF_CITIES = vertices.getCount();
+
+    int distances[NUMBER_OF_CITIES];
+    int previous[NUMBER_OF_CITIES]; 
+
+    bool cityVisited[NUMBER_OF_CITIES] = {false};
     
     const int INF = 999999;
 
-    for(int i = 0; i < NumberOfCities; ++i)
+    for(int i = 0; i < NUMBER_OF_CITIES; ++i)
     {
         distances[i] = INF;
         previous[i] = -1; 
@@ -226,13 +228,13 @@ void AdjacencyMatrix::Dijkstra(City originVertex)
     
     distances[originVertex] = 0; // Distance to origin is 0
     
-    for(int count = 0; count < NumberOfCities; ++count)
+    for(int count = 0; count < NUMBER_OF_CITIES; ++count)
     {
         // Find unvisited city with minimum distance
         int minDistance = INF;
         int currentCity = -1;
         
-        for(int j = 0; j < NumberOfCities; ++j)
+        for(int j = 0; j < NUMBER_OF_CITIES; ++j)
         {
             if(!cityVisited[j] && distances[j] < minDistance)
             {
@@ -251,7 +253,7 @@ void AdjacencyMatrix::Dijkstra(City originVertex)
         cityVisited[currentCity] = true;
         
         // Update distances to neighbors
-        for(int n = 0; n < NumberOfCities; ++n)
+        for(int n = 0; n < NUMBER_OF_CITIES; ++n)
         {
             // Check if there's an edge and city is unvisited
             if(!cityVisited[n] && matrix[currentCity][n] != 0 && matrix[currentCity][n] != INF)
@@ -271,7 +273,7 @@ void AdjacencyMatrix::Dijkstra(City originVertex)
     string output; // Makes the output more pretty)))
 
     cout << endl << "Shortest distances from city " << originVertex << ": " << endl;
-    for(int i = 0; i < NumberOfCities; ++i)
+    for(int i = 0; i < NUMBER_OF_CITIES; ++i)
     {
         output = "To city " + to_string(i);
         cout << left << setw(10) << output << ": ";
@@ -294,14 +296,15 @@ void AdjacencyMatrix::mst(City originVertex)
 {
     cout << "\n\n[AdjacencyMatrix::MST]" << endl;
 
+    const int NUMBER_OF_CITIES = vertices.getCount();
     const int INF = 999999;
 
-    int key[NumberOfCities];         
-    int parent[NumberOfCities];      
-    bool visited[NumberOfCities];    
+    int  key[NUMBER_OF_CITIES];         
+    int  parent[NUMBER_OF_CITIES];      
+    bool visited[NUMBER_OF_CITIES];    
 
     // Initialize all arrays
-    for (int i = 0; i < NumberOfCities; i++)
+    for (int i = 0; i < NUMBER_OF_CITIES; i++)
     {
         key[i]     = INF;
         parent[i]  = -1;
@@ -311,14 +314,14 @@ void AdjacencyMatrix::mst(City originVertex)
     // Start MST from the chosen origin city
     key[originVertex] = 0;
 
-    // Build MST (NumberOfCities - 1 edges)
-    for (int count = 0; count < NumberOfCities - 1; count++)
+    // Build MST (NUMBER_OF_CITIES - 1 edges)
+    for (int count = 0; count < NUMBER_OF_CITIES - 1; count++)
     {
         // Pick unvisited city with minimum key value
         int minKey = INF;
         int u      = -1;
 
-        for (int v = 0; v < NumberOfCities; v++)
+        for (int v = 0; v < NUMBER_OF_CITIES; v++)
         {
             if (!visited[v] && key[v] < minKey)
             {
@@ -331,7 +334,7 @@ void AdjacencyMatrix::mst(City originVertex)
         visited[u] = true;
 
         // Update neighbors
-        for (int v = 0; v < NumberOfCities; v++)
+        for (int v = 0; v < NUMBER_OF_CITIES; v++)
         {
             int weight = matrix[u][v];
 
@@ -350,7 +353,7 @@ void AdjacencyMatrix::mst(City originVertex)
 
     int totalWeight = 0;
 
-    for (int i = 0; i < NumberOfCities; i++)
+    for (int i = 0; i < NUMBER_OF_CITIES; i++)
     {
         if (parent[i] != -1)
         {
