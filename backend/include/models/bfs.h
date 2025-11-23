@@ -1,6 +1,7 @@
 #include "../includes.h"
 #include "../database/databaseManager.h"
 #include "hash.h"
+#include "stadium.h"
 
 /************************************************
  * bfs.h
@@ -14,12 +15,12 @@
 
 struct DistanceNode
 {
-    Distance data;
+    string city;
     int  level;
     int  distanceFromLast;
 
-    DistanceNode(Distance data) : data(data), level(0), distanceFromLast(0) {}
-    DistanceNode(Distance data, int level, int distanceFromLast) : data(data), level(level), distanceFromLast(distanceFromLast) {}
+    DistanceNode(string city) : city(city), level(0), distanceFromLast(0) {}
+    DistanceNode(string city, int level, int distanceFromLast) : city(city), level(level), distanceFromLast(distanceFromLast) {}
 
 };
 
@@ -44,12 +45,15 @@ public:
 
     void printMatrix();
 
-    void addEdge(City originVertex, City destinationVertex, int distance);
-    void removeEdge(City originVertex, City destinationVertex);
+    // void addEdge(int locationA, int locationB, int distance); // maybe useful?
+    void addEdge(Distance distance); 
+    void addEdge(string locationA, string locationB, int distance);
+    void removeEdge(string locationA, string locationB);
 
-    void recieveElements(vector<string> cities);
+    void setDistances(vector<Distance> distances);
+    void populateVertices(DoubleHashTable<Stadium> stadiums);
 
-    void BFS(City originCity);
+    void BFS(string originCity);
     
 private:
 

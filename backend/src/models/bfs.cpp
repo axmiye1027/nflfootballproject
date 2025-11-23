@@ -19,17 +19,17 @@ void AdjacencyMatrix::printMatrix()
     string output;
 
     cout << setw(7) << " ";
-    for (int i = 0; i < NumberOfCities; ++i)
+    for (int i = 0; i < matrix.size(); ++i)
     {
         cout << setw(7) << left << i << " ";
     }
 
     cout << endl;
 
-    for (int i = 0; i < NumberOfCities; ++i)
+    for (int i = 0; i < matrix.size(); ++i)
     {
         cout << setw(7) << left << i;
-        for (int j = 0; j < NumberOfCities; ++j)
+        for (int j = 0; j < matrix.size(); ++j)
         {
             output = "[" + to_string(matrix[i][j]) + "]";
 
@@ -41,37 +41,66 @@ void AdjacencyMatrix::printMatrix()
 }
 
 
-void AdjacencyMatrix::addEdge(City originVertex, City destinationVertex, int distance)
+// void AdjacencyMatrix::addEdge(int locationA, int locationB, int distance)
+// {
+//     // Indirected Graph -- Symmetrical Matrix
+//     matrix[locationA][locationB] = distance;
+//     matrix[locationB][locationA] = distance;
+// }
+
+void AdjacencyMatrix::addEdge(Distance distance)
 {
+    addEdge(distance.locationA, distance.locationB, distance.distanceKm);
+}
+
+void AdjacencyMatrix::addEdge(string locationA, string locationB, int distance)
+{
+    int originVertex      = vertices[locationA];
+    int destinationVertex = vertices[locationB];
+
     // Indirected Graph -- Symmetrical Matrix
     matrix[originVertex][destinationVertex] = distance;
     matrix[destinationVertex][originVertex] = distance;
 }
 
 
-void AdjacencyMatrix::removeEdge(City originVertex, City destinationVertex)
+void AdjacencyMatrix::removeEdge(string locationA, string locationB)
 {
+    int originVertex      = vertices[locationA];
+    int destinationVertex = vertices[locationB];
+
     // Indirected Graph -- Symmetrical Matrix
     matrix[originVertex][destinationVertex] = 0;
     matrix[destinationVertex][originVertex] = 0;
 }
 
 
-void AdjacencyMatrix::recieveElements(vector<string> cities)
+void AdjacencyMatrix::setDistances(vector<Distance> distances)
 {
-    for (int i = 0; i < cities.size(); ++i)
-    {
-        vertices.insert(cities[i], i);
-    }
+    this->distances = distances;
 }
 
 
-void AdjacencyMatrix::BFS(City origin)
+void AdjacencyMatrix::populateVertices(DoubleHashTable<Stadium> stadiums)
+{
+    for (int i = 0; i < stadiums.getCount(); ++i)
+    {
+        vertices.insert(stadiums.get(i).getStadiumName(), stadiums.get(i).getStadiumId());
+    }
+
+    initializeMatrix(vertices.getCount());
+    verticesToMatrix();
+}
+
+
+void AdjacencyMatrix::BFS(string origin)
 {
     cout << "[AdjacencyMatrix::BFS]" << endl;
 
-    vector<bool> visited(NumberOfCities, false);
-    vector<int> cityLevels(NumberOfCities, -1);
+    size_t matrixSize = matrix.size();
+
+    vector<bool> visited(matrixSize, false);
+    vector<int> cityLevels(matrixSize, -1);
 
     priority_queue<DistanceNode, vector<DistanceNode>, DistanceComparator> queue;
     int totalDistance = 0;
@@ -83,7 +112,7 @@ void AdjacencyMatrix::BFS(City origin)
     {
         ++level;
 
-        int currentCity = queue.top().city;
+        int currentCity = vertices[queue.top().city];
         queue.pop();
 
         if (visited[currentCity])
@@ -92,7 +121,7 @@ void AdjacencyMatrix::BFS(City origin)
         }
         visited[currentCity] = true;
 
-        for (int neighbor = 0; neighbor < NumberOfCities; ++neighbor)
+        for (int neighbor = 0; neighbor < matrixSize; ++neighbor)
         {
             int weight = matrix[currentCity][neighbor];
             if (weight == 0) 
@@ -102,7 +131,7 @@ void AdjacencyMatrix::BFS(City origin)
 
             if (!visited[neighbor])
             {
-                queue.push(CityNode(City(neighbor), level, weight));
+                queue.push(DistanceNode(vertices.get(neighbor), level, weight));
                 cityLevels[neighbor] = level;
 
                 cout << "Discovery Edge: ";
@@ -140,63 +169,11 @@ void AdjacencyMatrix::printPath(int cityA, int cityB)
 {
     string output = "";
 
-    switch(cityA)
-    {
-        case Seattle:       output += "Seattle";
-            break;
-        case SanFrancisco:  output += "San Francisco";
-            break;
-        case LosAngeles:    output += "Los Angeles";
-            break;
-        case Denver:        output += "Denver";
-            break;
-        case Chicago:       output += "Chicago";
-            break;
-        case KansasCity:    output += "Kansas City";
-            break;
-        case Dallas:        output += "Dallas";
-            break;
-        case Houston:       output += "Houston";
-            break;
-        case Boston:        output += "Boston";
-            break;
-        case NewYork:       output += "New York";
-            break;
-        case Atlanta:       output += "Atlanta";
-            break;
-        case Miami:         output += "Miami";
-            break;
-    }
+    output += vertices.get(cityA);
 
     output += " -> ";
 
-    switch(cityB)
-    {
-        case Seattle:       output += "Seattle";
-            break;
-        case SanFrancisco:  output += "San Francisco";
-            break;
-        case LosAngeles:    output += "Los Angeles";
-            break;
-        case Denver:        output += "Denver";
-            break;
-        case Chicago:       output += "Chicago";
-            break;
-        case KansasCity:    output += "Kansas City";
-            break;
-        case Dallas:        output += "Dallas";
-            break;
-        case Houston:       output += "Houston";
-            break;
-        case Boston:        output += "Boston";
-            break;
-        case NewYork:       output += "New York";
-            break;
-        case Atlanta:       output += "Atlanta";
-            break;
-        case Miami:         output += "Miami";
-            break;
-    }
+    output += vertices.get(cityB);
 
     cout << output << endl;
 }
@@ -219,15 +196,10 @@ void AdjacencyMatrix::initializeMatrix(int vertexCount)
 
 void AdjacencyMatrix::verticesToMatrix()
 {
-    int vertexCount = vertices.getSize();
-
-    initializeMatrix(vertexCount);
+    int vertexCount = vertices.getCount();
 
     for (int i = 0; i < distances.size(); ++i)
     {
-        int locationA = vertices[distances[i].locationA];
-        int locationB = vertices[distances[i].locationB];
-
-        addEdge(locationA, locationB, distances[i].distanceKm);
+        addEdge(distances[i]);
     }
 }

@@ -5,7 +5,10 @@
 BackendManager::BackendManager() : isAdmin{false}
 {
     populateStadiums();
+    populateDistances();
     printStadiums();
+
+    adjacencyMatrix.printMatrix();
 }
 
 BackendManager::~BackendManager()
@@ -73,6 +76,15 @@ void BackendManager::populateStadiums()
 
         stadiums.insert(keyInput(stadium, stadiumsVect[i].stadiumId));
     }
+}
+
+
+void BackendManager::populateDistances()
+{
+    // AdjacencyMatrix
+
+    adjacencyMatrix.setDistances(databaseManager.getAllDistances());
+    adjacencyMatrix.populateVertices(stadiums);
 }
 
 
