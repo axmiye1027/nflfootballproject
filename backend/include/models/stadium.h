@@ -25,10 +25,24 @@ public:
     void setLocation(string location);
     void setRoofType(RoofType roofType);
     void setSurfaceType(string surfaceType);
-    void setDateOpened(int dateOpened);
+    void setYearOpened(int yearOpened);
     void setConference(string conference);
     void setDivision(string division);
     void setSouvenirList(DoubleHashTable<Souvenir> souvenirList);
+    /* --------------------- */
+
+    /* ------ Getters ------ */
+    int      getStadiumId();
+    string   getTeamName();
+    string   getStadiumName();
+    int      getCapacity();
+    string   getLocation();
+    RoofType getRoofType();
+    string   getSurfaceType();
+    int      getYearOpened();
+    string   getConference();
+    string   getDivision();
+    DoubleHashTable<Souvenir> getSouvenirList();
     /* --------------------- */
 
     void addSouvenir(Souvenir souvenir);
@@ -48,7 +62,7 @@ private:
     string   location; // city, state
     RoofType roofType;
     string   surfaceType;
-    int      dateOpened;
+    int      yearOpened;
     string   conference;
     string   division;
 

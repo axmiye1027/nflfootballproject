@@ -52,11 +52,11 @@ public:
     }
 
     
-    const operator[](const T& value) const
+    const int operator[](const T& value) const // Index by value
     {
-        for(int i = 0; i < size; ++i)
+        for (int i = 0; i < size; ++i)
         {
-            if(value == table[i].value)
+            if (value == table[i].value)
             {
                 return table[i].key;
             }
@@ -90,7 +90,7 @@ public:
     // For convenience
     bool insert(T input, int key)
     {
-        insert(keyValue(input, key));
+        return insert(keyInput(input, key));
     }
 
     // Insert a value into the hash table
@@ -204,7 +204,27 @@ public:
         }
     }
 
-    int getSize() const
+    T get(int key)
+    {
+        int i = 0;
+        int index = hash1(key);
+
+        while (i < size && table[index].key != -1)
+        {
+            if (table[index].key == key)
+            {
+                return table[index].value;
+            }
+
+            
+            ++i;
+            index = doubleHash(key, i);
+        }
+
+        throw runtime_error("Key not found in hash table");
+    }
+
+    int getCount() const
     {
         return count;
     }
