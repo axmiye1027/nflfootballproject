@@ -207,7 +207,7 @@ void AdjacencyMatrix::verticesToMatrix()
     }
 }
 
-void AdjacencyMatrix::Dijkstra(City originVertex)
+void AdjacencyMatrix::Dijkstra(const string& startVertex)
 {
     cout << "[AdjacencyMatrix::Dijkstra]" << endl;
 
@@ -219,6 +219,14 @@ void AdjacencyMatrix::Dijkstra(City originVertex)
     bool cityVisited[NUMBER_OF_CITIES] = {false};
     
     const int INF = 999999;
+
+    int originVertex = vertices[startVertex];
+
+    if(originVertex == -1 || originVertex >= NUMBER_OF_CITIES)
+    {
+        cout << "Error: Starting vertex '" << startVertex << "' not found!" << endl;
+        return;
+    }
 
     for(int i = 0; i < NUMBER_OF_CITIES; ++i)
     {
@@ -292,7 +300,7 @@ void AdjacencyMatrix::Dijkstra(City originVertex)
 }
 
 // MST using Prim-Jarnik's method
-void AdjacencyMatrix::mst(City originVertex)
+void AdjacencyMatrix::mst(const string& startVertex)
 {
     cout << "\n\n[AdjacencyMatrix::MST]" << endl;
 
@@ -302,6 +310,14 @@ void AdjacencyMatrix::mst(City originVertex)
     int  key[NUMBER_OF_CITIES];         
     int  parent[NUMBER_OF_CITIES];      
     bool visited[NUMBER_OF_CITIES];    
+
+    int originVertex = vertices[startVertex];
+
+    if(originVertex == -1 || originVertex >= NUMBER_OF_CITIES)
+    {
+        cout << "Error: Starting vertex '" << startVertex << "' not found!" << endl;
+        return;
+    }
 
     // Initialize all arrays
     for (int i = 0; i < NUMBER_OF_CITIES; i++)
@@ -328,6 +344,13 @@ void AdjacencyMatrix::mst(City originVertex)
                 minKey = key[v];
                 u      = v;
             }
+        }
+
+        // Check if graph is disconnected
+        if (u == -1)
+        {
+            cout << "\nWarning: Graph is disconnected. MST is incomplete.\n";
+            break;
         }
 
         // Add chosen city to MST
@@ -401,19 +424,21 @@ void AdjacencyMatrix::PrintPathExtRecursion(int previous[], int currentCity, int
 
 void AdjacencyMatrix::printCityName(int cityIndex)
 {
-    switch(cityIndex)
-    {
-        case Seattle:       cout << "Seattle"; break;
-        case SanFrancisco:  cout << "San Francisco"; break;
-        case LosAngeles:    cout << "Los Angeles"; break;
-        case Denver:        cout << "Denver"; break;
-        case Chicago:       cout << "Chicago"; break;
-        case KansasCity:    cout << "Kansas City"; break;
-        case Dallas:        cout << "Dallas"; break;
-        case Houston:       cout << "Houston"; break;
-        case Boston:        cout << "Boston"; break;
-        case NewYork:       cout << "New York"; break;
-        case Atlanta:       cout << "Atlanta"; break;
-        case Miami:         cout << "Miami"; break;
-    }
+    cout << vertices.get(cityIndex);
+
+    // switch(cityIndex)
+    // {
+    //     case Seattle:       cout << "Seattle"; break;
+    //     case SanFrancisco:  cout << "San Francisco"; break;
+    //     case LosAngeles:    cout << "Los Angeles"; break;
+    //     case Denver:        cout << "Denver"; break;
+    //     case Chicago:       cout << "Chicago"; break;
+    //     case KansasCity:    cout << "Kansas City"; break;
+    //     case Dallas:        cout << "Dallas"; break;
+    //     case Houston:       cout << "Houston"; break;
+    //     case Boston:        cout << "Boston"; break;
+    //     case NewYork:       cout << "New York"; break;
+    //     case Atlanta:       cout << "Atlanta"; break;
+    //     case Miami:         cout << "Miami"; break;
+    // }
 }

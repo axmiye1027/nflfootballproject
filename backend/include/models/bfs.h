@@ -54,7 +54,7 @@ public:
     void populateVertices(DoubleHashTable<Stadium> stadiums);
 
     void BFS(string originCity);
-    void Dijkstra(City originCity);
+    void Dijkstra(const string& startVertex)
     void mst(City originCity);
     
 private:
