@@ -1,6 +1,6 @@
 // homepage / home button - first page to appear when opened
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 //import { BrowserRouter, Link, Route, Routes } from 'react-router-dom'
 import './styles/App.css'
 
@@ -13,7 +13,8 @@ import TeamInfo from './components/TeamInfo.jsx'
 //import LoginPage from "./pages/login.jsx"
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
+  const [message, setMessage] = useState("");
 
   // return (
   //   <BrowserRouter>
@@ -24,6 +25,12 @@ function App() {
   //     </Routes> 
   //   </BrowserRouter>
   // )
+
+  useEffect(() => {
+    fetch("http://localhost:18080/hello")
+    .then(res => res.text())
+    .then(text => setMessage(text))
+  }, []);
 
   return (
     <>
@@ -54,6 +61,10 @@ function App() {
       </div>
       {/* END SEARCH - ICON - FILTERS */}
 
+      <div> 
+        <h1>Backend says:</h1>
+        <p>{message}</p>
+      </div>
 
       {/* TEAM LIST */}
       <TeamInfo />

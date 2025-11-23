@@ -16,24 +16,26 @@ void AdjacencyMatrix::printMatrix()
 {
     cout << "[AdjacencyMatrix::printMatrix()]" << endl;
 
+    const int SPACING_SIZE = 6;
+
     string output;
 
-    cout << setw(7) << " ";
-    for (int i = 0; i < matrix.size(); ++i)
+    cout << setw(SPACING_SIZE) << " ";
+    for (int i = 1; i < matrix.size(); ++i)
     {
-        cout << setw(7) << left << i << " ";
+        cout << setw(SPACING_SIZE) << left << i << " ";
     }
 
     cout << endl;
 
-    for (int i = 0; i < matrix.size(); ++i)
+    for (int i = 1; i < matrix.size(); ++i)
     {
-        cout << setw(7) << left << i;
-        for (int j = 0; j < matrix.size(); ++j)
+        cout << setw(SPACING_SIZE) << left << i;
+        for (int j = 1; j < matrix.size(); ++j)
         {
             output = "[" + to_string(matrix[i][j]) + "]";
 
-            cout << setw(7) << left << output << " ";
+            cout << setw(SPACING_SIZE) << left << output << " ";
         }
 
         cout << endl << endl;
@@ -141,24 +143,24 @@ void AdjacencyMatrix::BFS(string origin)
             }
             else
             {
-                // Already visited — classify the edge type
-                if (cityLevels[neighbor] > cityLevels[currentCity])
-                {
-                    cout << "Forward Edge: ";
-                }
-                else if (cityLevels[neighbor] < cityLevels[currentCity])
-                {
-                    cout << "Back Edge: ";
-                }
-                else if (cityLevels[neighbor] == cityLevels[currentCity])
-                {
-                   cout << "Cross Edge: ";
-                }
-                else
-                {
-                    cout << "Unknown Edge Type: ";
-                }
-                printPath(currentCity, neighbor);
+                // // Already visited — classify the edge type
+                // if (cityLevels[neighbor] > cityLevels[currentCity])
+                // {
+                //     cout << "Forward Edge: ";
+                // }
+                // else if (cityLevels[neighbor] < cityLevels[currentCity])
+                // {
+                //     cout << "Back Edge: ";
+                // }
+                // else if (cityLevels[neighbor] == cityLevels[currentCity])
+                // {
+                //    cout << "Cross Edge: ";
+                // }
+                // else
+                // {
+                //     cout << "Unknown Edge Type: ";
+                // }
+                // printPath(currentCity, neighbor);
             }
         }
     }
