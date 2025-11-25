@@ -15,6 +15,13 @@ public:
     void clearPath();
     void clearPurchases();
 
+    /* ----- GETTERS ----- */
+    vector<StadiumNode> getPath();
+    vector<Souvenir>    getPurchases();
+    int getTotalDistance();
+    int getTotalSpent();
+    /* ------------------- */
+
     void setPath(vector<StadiumNode> path);
     void setPurchases(vector<Souvenir> purchases);
 
