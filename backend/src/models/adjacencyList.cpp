@@ -162,7 +162,7 @@ void AdjacencyList::dfs(string originVertex)
     cout << "Total distance traveled: " << totalDistance << endl;
 }
 
-void AdjacencyList::dfsRecusion(int vertexIndex, int lastIndex, vector<bool>& visited,set<pair<int, int>>& printedEdges, int& totalDistance) const
+void AdjacencyList::dfsRecusion(int vertexIndex, int lastIndex, vector<bool>& visited,set<pair<int, int>>& printedEdges, int& totalDistance)
 {
     edge* iterator;
 
