@@ -13,6 +13,8 @@ BackendManager::BackendManager() : isAdmin{false}
 
     //adjacencyMatrix.Dijkstra("State Farm Stadium");
     //adjacencyMatrix.mst("State Farm Stadium");
+
+    adjacencyList.dfs("State Farm Stadium");
 }
 
 BackendManager::~BackendManager()
@@ -85,12 +87,22 @@ void BackendManager::populateStadiums()
 
 void BackendManager::populateDistances()
 {
+    vector<Distance> distances = databaseManager.getAllDistances();
+
     // AdjacencyMatrix
-    adjacencyMatrix.setDistances(databaseManager.getAllDistances());
+    adjacencyMatrix.setDistances(distances);
     adjacencyMatrix.populateVertices(stadiums);
 
     // AdjacencyList
-    
+    vector<edge> edges;
+    for (int i = 0; i < distances.size(); ++i)
+    {
+        edge edge(distances[i].locationA, distances[i].locationB, distances[i].distanceKm);
+
+        edges.push_back(edge);
+    }
+
+    adjacencyList.populateList(edges);
 }
 
 
@@ -121,14 +133,16 @@ void BackendManager::addStadium(string teamName, string stadiumName, int capacit
 
 }
 
-void BackendManager::addSouvenir(int stadiumId,const string& souvenirName, double souvenirPrice);
+void BackendManager::addTeam() {}
+
+void BackendManager::addSouvenir(int stadiumId, const string& souvenirName, double souvenirPrice);
 {
     databaseManager.addSouvenir(stadiumId,souvenirName, souvenirPrice);
 }
 
 void BackendManager::removeSouvenir(int stadiumId,const string&  name)
 {
-    databaseManager.removeSouvenir(stadiums.get(stadiumId).getSouvenirId(name));
+    databaseManager.deleteSouvenir(stadiums.get(stadiumId).getSouvenirId(name));
 }
 
 void BackendManager::modifySouvenirName(int stadiumId,const string&  oldName,const string& newName)
@@ -136,7 +150,7 @@ void BackendManager::modifySouvenirName(int stadiumId,const string&  oldName,con
     databaseManager.updateSouvenirName(stadiums.get(stadiumId).getSouvenirId(oldName),newName);
 }
 
-void BackendManager::modifySouvenirPrice(int stadiumId,const string&  name,double souvenirPrice);
+void BackendManager::modifySouvenirPrice(int stadiumId, const string& name, double souvenirPrice);
 {
     databaseManager.updateSouvenirPrice(stadiums.get(stadiumId).getSouvenirId(name),souvenirPrice);
 }
