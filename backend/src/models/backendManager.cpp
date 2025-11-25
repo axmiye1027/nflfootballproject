@@ -105,17 +105,22 @@ void BackendManager::addTeam()
 
 }
 
-void BackendManager::addSouvenir()
+void BackendManager::addSouvenir(int stadiumId,const string& souvenirName, double souvenirPrice);
 {
-
+    databaseManager.addSouvenir(stadiumId,souvenirName, souvenirPrice);
 }
 
-void BackendManager::removeSouvinir()
+void BackendManager::removeSouvinir(int stadiumId,const string&  name)
 {
-
+    databaseManager.removeSouvenir(stadiums.get(stadiumId).getSouvenirId(name));
 }
 
-void BackendManager::modifySouvenirPrice()
+void BackendManager::modifySouvenirName(int stadiumId,const string&  oldName,const string& newName)
 {
+    databaseManager.updateSouvenirName(stadiums.get(stadiumId).getSouvenirId(oldName),souvenirName);
+}
 
+void BackendManager::modifySouvenirPrice(int stadiumId,const string&  name,double souvenirPrice);
+{
+    databaseManager.updateSouvenirPrice(stadiums.get(stadiumId).getSouvenirId(name),souvenirPrice);
 }
