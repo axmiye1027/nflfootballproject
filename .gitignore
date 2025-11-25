@@ -1,18 +1,23 @@
 # Files that will NOT be tracked by Git
 
+**/build*/
+
 # Node
 frontend/node_modules/
 frontend/build/
 
 # CMake
 backend/build/
+backend/vendor/
 
 # vcpkg
-dev/vcpkg/
+**/vcpkg/
+dev/vcpkg
+dev/vcpkg/buildtrees/
+dev/vcpkg/downloads/
+dev/vcpkg/packages/
+dev/vcpkg/installed/
 
 # OS junk
 .DS_Store
 Thumbs.db
-
-#.vscode
-.vscode/
