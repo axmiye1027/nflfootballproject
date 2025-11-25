@@ -11,7 +11,7 @@ CREATE TABLE distances (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     location_a TEXT NOT NULL,
     location_b TEXT NOT NULL,
-    distance_km REAL NOT NULL,
+    distance_km INTEGER NOT NULL,
     UNIQUE(location_a, location_b)
 );
 
