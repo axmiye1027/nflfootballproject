@@ -154,3 +154,15 @@ void BackendManager::modifySouvenirPrice(int stadiumId, const string& name, doub
 {
     databaseManager.updateSouvenirPrice(stadiums.get(stadiumId).getSouvenirId(name),souvenirPrice);
 }
+
+vector<Stadium> BackendManager::getStadiumsAsVector()
+{
+    vector<Stadium> stadiumsVect;
+
+    for (int i = 0; i < stadiums.getCount(); ++i)
+    {
+        stadiumsVect.push_back(stadiums.get(i + 1));
+    }
+
+    return stadiumsVect;
+}

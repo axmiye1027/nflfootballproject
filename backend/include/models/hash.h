@@ -82,8 +82,6 @@ public:
 
         cout << "Souvenir '" << name << "' not found in table" << endl;
         throw runtime_error("Value not found in table");
-
-        return 1;
     }
 
     DoubleHashTable& operator=(const DoubleHashTable& other)

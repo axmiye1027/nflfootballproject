@@ -14,7 +14,8 @@ import TeamInfo from './components/TeamInfo.jsx'
 
 function App() {
   const [count, setCount] = useState(0);
-  const [message, setMessage] = useState("");
+  const [stadiums, setStadiums] = useState([]);
+  const [loading,  setLoading]  = useState(true);
 
   // return (
   //   <BrowserRouter>
@@ -27,10 +28,19 @@ function App() {
   // )
 
   useEffect(() => {
-    fetch("http://localhost:18080/hello")
-    .then(res => res.text())
-    .then(text => setMessage(text))
+    fetch("http://localhost:18080/stadiums")
+    .then((res)  => res.json())
+    .then((data) => {
+      setStadiums(data.stadiums);
+      setLoading(false);
+    })
+    .catch((err) => {
+      console.error("Error fetching stadiums:", err);
+      setLoading(false);
+    });
   }, []);
+
+  if (loading) return <p>Loading stadiums...</p>;
 
   return (
     <>
@@ -62,8 +72,27 @@ function App() {
       {/* END SEARCH - ICON - FILTERS */}
 
       <div> 
-        <h1>Backend says:</h1>
-        <p>{message}</p>
+        <h1>Stadiums</h1>
+        <ul style={{ listStyle: "none", padding: 0}}>
+          {stadiums.map((s) => (
+            <li
+              key={s.stadiumId}
+              style={{
+                padding: "12px",
+                maginBottom: "10px",
+                border: "1px solid #ccc",
+                borderRadius: "8px"
+              }}
+            >
+              <h3>{s.stadiumName}</h3>
+              <p><b>Team:    </b> {s.teamName}</p>
+              <p><b>Stadium: </b> {s.stadiumName}</p>
+              <p><b>Location:</b> {s.location}</p>
+              <p><b>Capacity:</b> {s.capacity.toLocaleString()}</p>
+
+            </li>
+          ))}
+        </ul>
       </div>
 
       {/* TEAM LIST */}

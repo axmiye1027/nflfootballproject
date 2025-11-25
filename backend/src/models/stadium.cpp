@@ -71,23 +71,23 @@ void Stadium::setSurfaceType(string surfaceType)     { this->surfaceType    = su
 void Stadium::setYearOpened(int yearOpened)          { this->yearOpened     = yearOpened;  }
 void Stadium::setConference(string conference)       { this->conference     = conference;  }
 void Stadium::setDivision(string division)           { this->division       = division;    }
-
-int  Stadium::getSouvenirId(string name)             { return souvenirList.getIdFromString(name);}
 void Stadium::setSouvenirList(DoubleHashTable<Souvenir> souvenirList) { this->souvenirList = souvenirList; }
 /* --------------------- */
 
 
-int      Stadium::getStadiumId()   { return stadiumId;   }
-string   Stadium::getTeamName()    { return teamName;    }
-string   Stadium::getStadiumName() { return stadiumName; }
-int      Stadium::getCapacity()    { return capacity;    }
-string   Stadium::getLocation()    { return location;    }
-RoofType Stadium::getRoofType()    { return roofType;    }
-string   Stadium::getSurfaceType() { return surfaceType; }
-int      Stadium::getYearOpened()  { return yearOpened;  }
-string   Stadium::getConference()  { return conference;  }
-string   Stadium::getDivision()    { return division;    }
-DoubleHashTable<Souvenir> getSouvenirList();
+int      Stadium::getStadiumId()   const { return stadiumId;   }
+string   Stadium::getTeamName()    const { return teamName;    }
+string   Stadium::getStadiumName() const { return stadiumName; }
+int      Stadium::getCapacity()    const { return capacity;    }
+string   Stadium::getLocation()    const { return location;    }
+RoofType Stadium::getRoofType()    const { return roofType;    }
+string   Stadium::getSurfaceType() const { return surfaceType; }
+int      Stadium::getYearOpened()  const { return yearOpened;  }
+string   Stadium::getConference()  const { return conference;  }
+string   Stadium::getDivision()    const { return division;    }
+
+DoubleHashTable<Souvenir> Stadium::getSouvenirList() const { return souvenirList; }
+int Stadium::getSouvenirId(string name) const { return souvenirList.getIdFromString(name); }
 
 void Stadium::addSouvenir(Souvenir souvenir) { //souvenirList.insert(souvenir); 
     } // needs a key

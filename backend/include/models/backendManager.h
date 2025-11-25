@@ -36,6 +36,8 @@ public:
     // Need functions for DB to stadiums data structure
 
 
+    vector<Stadium> getStadiumsAsVector();
+
     /* ----- PRINT TO TERMINAL -----*/
     void printStadiums();
 

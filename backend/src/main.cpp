@@ -20,7 +20,7 @@ int main()
 
     crow::SimpleApp app;
 
-    registerRoutes(app);
+    registerRoutes(app, backend);
 
     /***********************************************************************
      * ADMIN LOGIN - backendManager.cpp

@@ -37,18 +37,18 @@ public:
     /* --------------------- */
 
     /* ------ Getters ------ */
-    int      getStadiumId();
-    string   getTeamName();
-    string   getStadiumName();
-    int      getCapacity();
-    string   getLocation();
-    RoofType getRoofType();
-    string   getSurfaceType();
-    int      getYearOpened();
-    string   getConference();
-    string   getDivision();
-    int      getSouvenirId(string name);
-    DoubleHashTable<Souvenir> getSouvenirList();
+    int      getStadiumId() const;
+    string   getTeamName() const;
+    string   getStadiumName() const;
+    int      getCapacity() const;
+    string   getLocation() const;
+    RoofType getRoofType() const;
+    string   getSurfaceType() const;
+    int      getYearOpened() const;
+    string   getConference() const;
+    string   getDivision() const;
+    int      getSouvenirId(string name) const;
+    DoubleHashTable<Souvenir> getSouvenirList() const;
     /* --------------------- */
 
     void addSouvenir(Souvenir souvenir);
