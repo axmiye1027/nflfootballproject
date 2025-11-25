@@ -36,7 +36,7 @@ void DatabaseManager::initializeDatabase()
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             locationA TEXT NOT NULL,
             locationB TEXT NOT NULL,
-            distanceKm REAL NOT NULL,
+            distanceKm INTEGER NOT NULL,
             UNIQUE(locationA, locationB)
         )
     )";
@@ -115,7 +115,7 @@ Distance* DatabaseManager::getDistance(const string& locationA, const string& lo
         result->id         = getColumnInt(stmt, 0);
         result->locationA  = getColumnText(stmt, 1);
         result->locationB  = getColumnText(stmt, 2);
-        result->distanceKm = sqlite3_column_double(stmt, 3);
+        result->distanceKm = getColumnInt(stmt, 3);
     }
     
     sqlite3_finalize(stmt);
@@ -134,7 +134,7 @@ vector<Distance> DatabaseManager::getAllDistances()
         d.id = getColumnInt(stmt, 0);
         d.locationA = getColumnText(stmt, 1);
         d.locationB = getColumnText(stmt, 2);
-        d.distanceKm = sqlite3_column_double(stmt, 3);
+        d.distanceKm = getColumnInt(stmt, 3);
         distances.push_back(d);
     }
     
