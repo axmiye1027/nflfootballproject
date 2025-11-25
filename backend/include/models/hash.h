@@ -66,7 +66,7 @@ public:
         throw runtime_error("Value not found in table");
     }
 
-    const int operator[](const string& name) const
+    getIdFromString(const string& name) const
     {
         for (int i = 0; i < size; ++i)
         {

@@ -72,7 +72,7 @@ void Stadium::setYearOpened(int yearOpened)          { this->yearOpened     = ye
 void Stadium::setConference(string conference)       { this->conference     = conference;  }
 void Stadium::setDivision(string division)           { this->division       = division;    }
 
-int  Stadium::getSouvenirId(string name)             { return souvenirList[name];}
+int  Stadium::getSouvenirId(string name)             { return souvenirList.getIdFromString(name);}
 void Stadium::setSouvenirList(DoubleHashTable<Souvenir> souvenirList) { this->souvenirList = souvenirList; }
 /* --------------------- */
 
