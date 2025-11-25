@@ -48,7 +48,11 @@ struct Souvenir
     }
 };
 /* ------------------------- */
-
+struct AdjacencyNode
+{
+    string cityName;
+    int    cityDist;
+}
 
 /* ----- CART ----- */
 struct StadiumNode

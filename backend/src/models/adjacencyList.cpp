@@ -1,8 +1,8 @@
 #include "models/adjacencyList.h"
 
-AdjacencyList::AdjacencyList()
+AdjacencyList::AdjacencyList() : totalDist{0}
 {
-    InitializeList();
+
 }
 
 AdjacencyList::~AdjacencyList()
@@ -26,7 +26,15 @@ AdjacencyList::~AdjacencyList()
     }
 }
 
-void AdjacencyList::AddEdge(edge& vertexEdge)
+void AdjacencyList::populateList(const vector<edge>& edges) // edging
+{
+    for (int i = 0; i < edges.size(); ++i)
+    {
+        addEdge(edges[i]);
+    }
+}
+
+void AdjacencyList::addEdge(edge& vertexEdge)
 {
     edge* newEdge;
     edge* iterator;
@@ -68,7 +76,7 @@ void AdjacencyList::AddEdge(edge& vertexEdge)
     list.push_back(newEdge);
 }
 
-void AdjacencyList::RemoveEdge(string originVertex, string destinationVertex)
+void AdjacencyList::removeEdge(string originVertex, string destinationVertex)
 {
     edge* iterator;
     edge* temp;
@@ -119,7 +127,7 @@ void AdjacencyList::RemoveEdge(string originVertex, string destinationVertex)
     }
 }
 
-int  AdjacencyList::FindIndex(string vertex) const
+int  AdjacencyList::findIndex(string vertex) const
 {
     for(int s = 0; s < list.size(); ++s)
     {
@@ -132,7 +140,7 @@ int  AdjacencyList::FindIndex(string vertex) const
     return -1;
 }
 
-void AdjacencyList::DFS(string originVertex) const
+void AdjacencyList::dfs(string originVertex) const
 {
     cout << "[AdjacencyList::DFS]" << endl;
 
@@ -145,14 +153,16 @@ void AdjacencyList::DFS(string originVertex) const
     totalDistance = 0;
     startIndex    = 0;
 
-    startIndex = FindIndex(originVertex);
+    startIndex = findIndex(originVertex);
 
-    DFSRecusion(startIndex, startIndex, visited,printedEdges, totalDistance);
+    dfsRecusion(startIndex, startIndex, visited,printedEdges, totalDistance);
+
+    totalDist = totalDistance;
 
     cout << "Total distance traveled: " << totalDistance << endl;
 }
 
-void AdjacencyList::DFSRecusion(int vertexIndex, int lastIndex, vector<bool>& visited,set<pair<int, int>>& printedEdges, int& totalDistance) const
+void AdjacencyList::dfsRecusion(int vertexIndex, int lastIndex, vector<bool>& visited,set<pair<int, int>>& printedEdges, int& totalDistance) const
 {
     edge* iterator;
 
@@ -162,7 +172,7 @@ void AdjacencyList::DFSRecusion(int vertexIndex, int lastIndex, vector<bool>& vi
     // goes through each edge connected to the vertex
     while(iterator != nullptr)
     {
-        int destIndex = FindIndex(iterator->destinationVertex);
+        int destIndex = findIndex(iterator->destinationVertex);
 
         // used to mark if a specific edge has been printed both ways
         pair<int, int> edgeKey = {vertexIndex, destIndex};
@@ -176,7 +186,9 @@ void AdjacencyList::DFSRecusion(int vertexIndex, int lastIndex, vector<bool>& vi
             printedEdges.insert(edgeKey);
             printedEdges.insert(reverseEdgeKey);
 
-            DFSRecusion(destIndex,vertexIndex ,visited,printedEdges, totalDistance);
+            path.push_back(StadiumNode());
+
+            dfsRecusion(destIndex,vertexIndex ,visited,printedEdges, totalDistance);
         }
         else if(destIndex != lastIndex && printedEdges.count(edgeKey) == 0)
         {
@@ -189,123 +201,12 @@ void AdjacencyList::DFSRecusion(int vertexIndex, int lastIndex, vector<bool>& vi
     }
 }
 
-void AdjacencyList::InitializeList()
+vector<StadiumNode> AdjacencyList::returnPath() const
 {
-    cout << "[AdjacencyList::InitializeList()]" << endl;
+    return path;
+}
 
-    edge seattleToChicago       ("Seattle", "Chicago",        2097);
-    edge seattleToDenver        ("Seattle", "Denver",         1331);
-    edge seattleToSanFrancisco  ("Seattle", "San Francisco",  807);
-
-    edge sanFranciscoToSeattle   ("San Francisco", "Seattle",      807);
-    edge sanFranciscoToDenver    ("San Francisco", "Denver",       1267);
-    edge sanFranciscoToLosAngeles("San Francisco", "Los Angeles",  381);
-
-    edge losAngelesToSanFrancisco("Los Angeles", "San Francisco",  381);
-    edge losAngelesToDenver      ("Los Angeles", "Denver",         1015);
-    edge losAngelesToKansasCity  ("Los Angeles", "Kansas City",    1663);
-    edge losAngelesToDallas      ("Los Angeles", "Dallas",         1435);
-
-    edge denverToSeattle     ("Denver", "Seattle",       1331);
-    edge denverToSanFrancisco("Denver", "San Francisco", 1267);
-    edge denverToLosAngeles  ("Denver", "Los Angeles",   1015);
-    edge denverToKansasCity  ("Denver", "Kansas City",   599);
-    edge denverToChicago     ("Denver", "Chicago",       1003);
-
-    edge kansasCityToLosAngeles("Kansas City", "Los Angeles", 1663);
-    edge kansasCityToDenver    ("Kansas City", "Denver",      599);
-    edge kansasCityToChicago   ("Kansas City", "Chicago",     533);
-    edge kansasCityToNewYork   ("Kansas City", "New York",    1260);
-    edge kansasCityToAtlanta   ("Kansas City", "Atlanta",     864);
-    edge kansasCityToDallas    ("Kansas City", "Dallas",      496);
-
-    edge dallasToLosAngeles("Dallas", "Los Angeles", 1435);
-    edge dallasToKansasCity("Dallas", "Kansas City", 496);
-    edge dallasToAtlanta   ("Dallas", "Atlanta",     781);
-    edge dallasToHouston   ("Dallas", "Houston",     239);
-
-    edge houstonToDallas ("Houston", "Dallas", 239);
-    edge houstonToAtlanta("Houston", "Atlanta", 810);
-    edge houstonToMiami  ("Houston", "Miami",   1187);
-
-    edge atlantaToKansasCity("Atlanta", "Kansas City", 864);
-    edge atlantaToDallas    ("Atlanta", "Dallas",      781);
-    edge atlantaToHouston   ("Atlanta", "Houston",     810);
-    edge atlantaToMiami     ("Atlanta", "Miami",       661);
-    edge atlantaToNewYork   ("Atlanta", "New York",    888);
- 
-    edge miamiToHouston("Miami", "Houston", 1187);
-    edge miamiToAtlanta("Miami", "Atlanta", 661);
-
-    edge newYorkToBoston    ("New York", "Boston",      214);
-    edge newYorkToChicago   ("New York", "Chicago",     787);
-    edge newYorkToKansasCity("New York", "Kansas City", 1260);
-    edge newYorkToAtlanta   ("New York", "Atlanta",     888);
-
-    edge bostonToNewYork("Boston", "New York", 214);
-    edge bostonToChicago("Boston", "Chicago",  983);
-
-    edge chicagoToSeattle   ("Chicago", "Seattle",     2097);
-    edge chicagoToDenver    ("Chicago", "Denver",      1003);
-    edge chicagoToKansasCity("Chicago", "Kansas City", 533);
-    edge chicagoToNewYork   ("Chicago", "New York",    787);
-    edge chicagoToBoston    ("Chicago", "Boston",      983);
-
-    AddEdge(seattleToChicago);
-    AddEdge(seattleToDenver);
-    AddEdge(seattleToSanFrancisco);
-
-    AddEdge(sanFranciscoToSeattle);
-    AddEdge(sanFranciscoToDenver);
-    AddEdge(sanFranciscoToLosAngeles);
-
-    AddEdge(losAngelesToSanFrancisco);
-    AddEdge(losAngelesToDenver);
-    AddEdge(losAngelesToKansasCity);
-    AddEdge(losAngelesToDallas);
-
-    AddEdge(denverToSeattle);
-    AddEdge(denverToSanFrancisco);
-    AddEdge(denverToLosAngeles);
-    AddEdge(denverToKansasCity);
-    AddEdge(denverToChicago);
-
-    AddEdge(kansasCityToLosAngeles);
-    AddEdge(kansasCityToDenver);
-    AddEdge(kansasCityToChicago);
-    AddEdge(kansasCityToNewYork);
-    AddEdge(kansasCityToAtlanta);
-    AddEdge(kansasCityToDallas);
-
-    AddEdge(dallasToLosAngeles);
-    AddEdge(dallasToKansasCity);
-    AddEdge(dallasToAtlanta);
-    AddEdge(dallasToHouston);
-
-    AddEdge(houstonToDallas);
-    AddEdge(houstonToAtlanta);
-    AddEdge(houstonToMiami);
-
-    AddEdge(atlantaToKansasCity);
-    AddEdge(atlantaToDallas);
-    AddEdge(atlantaToHouston);
-    AddEdge(atlantaToMiami);
-    AddEdge(atlantaToNewYork);
-
-    AddEdge(miamiToHouston);
-    AddEdge(miamiToAtlanta);
-
-    AddEdge(newYorkToBoston);
-    AddEdge(newYorkToChicago);
-    AddEdge(newYorkToKansasCity);
-    AddEdge(newYorkToAtlanta);
-
-    AddEdge(bostonToNewYork);
-    AddEdge(bostonToChicago);
-
-    AddEdge(chicagoToSeattle);
-    AddEdge(chicagoToKansasCity);
-    AddEdge(chicagoToNewYork);
-    AddEdge(chicagoToBoston);
-    AddEdge(chicagoToDenver);
+int AdjacencyList::returnDist() const
+{
+    return totalDist;
 }

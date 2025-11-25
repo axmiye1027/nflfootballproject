@@ -21,17 +21,24 @@ public:
     AdjacencyList();
     ~AdjacencyList();
 
-    void AddEdge(edge& vertexEdge);
-    void RemoveEdge(string originVertex, string destinationVertex);
+    void populateList(const vector<edge>& edges);
 
-    int  FindIndex(string vertex) const;
-    void DFS(string originVertex) const;
+    void addEdge(edge& vertexEdge);
+    void removeEdge(string originVertex, string destinationVertex);
+
+    int  findIndex(string vertex) const;
+    void dfs(string originVertex) const;
+
+    vector<StadiumNode> returnPath() const;
+    int                 returnDist() const;
 
 private:
-    void InitializeList();
-    void DFSRecusion(int vertexIndex, int lastIndex, vector<bool>& visited,set<pair<int, int>>& printedEdges, int& totalDistance) const;
+    void dfsRecusion(int vertexIndex, int lastIndex, vector<bool>& visited,set<pair<int, int>>& printedEdges, int& totalDistance) const;
 
     vector<edge*> list;
+
+    vector<StadiumNode> path;
+    int                 totalDist;
 };
 
 #endif
