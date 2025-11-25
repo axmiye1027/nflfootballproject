@@ -4,7 +4,7 @@
 """Import CSV files into the existing SQLite database.
 
 Usage: run from project root (WSL):
-    python3 backend/scripts/import_csv.py
+    python3 dev/scripts/import_csv.py
 
 This script is intentionally defensive: it cleans numbers, trims whitespace,
 ignores bad rows, uses transactions, and uses INSERT OR IGNORE to avoid
@@ -21,13 +21,49 @@ SCRIPT_DIR = Path(__file__).resolve().parent  # dev/scripts
 BASE = SCRIPT_DIR.parent.parent / 'backend'   # nflfootballproj/backend
 
 DB_PATH = BASE / 'assets' / 'database.db'
+SCHEMA_PATH = BASE / 'assets' / 'schema.sql'
+
 DIST_CSV = BASE / 'assets' / 'csv' / 'NFL Distances.csv'
 INFO_CSV = BASE / 'assets' / 'csv' / 'NFL Information.csv'
 SOUVENIRS_CSV = BASE / 'assets' / 'csv' / 'NFL Souvenirs.csv'
 
 
+# -----------------------------
+# Database Creation if Missing
+# -----------------------------
+def ensure_database():
+    """Create database.db and run schema.sql if it does not exist."""
+    if DB_PATH.exists():
+        print("database.db found. Skipping creation.")
+        return
+
+    print("database.db not found — creating a new database at:", DB_PATH)
+
+    # Ensure directory exists
+    DB_PATH.parent.mkdir(parents=True, exist_ok=True)
+
+    conn = sqlite3.connect(str(DB_PATH))
+    cursor = conn.cursor()
+
+    if not SCHEMA_PATH.exists():
+        print("ERROR: schema.sql not found at", SCHEMA_PATH)
+        sys.exit(3)
+
+    print("Running schema.sql...")
+    with SCHEMA_PATH.open("r", encoding="utf-8") as schema_file:
+        schema_sql = schema_file.read()
+        cursor.executescript(schema_sql)
+
+    conn.commit()
+    conn.close()
+    print("Database created and schema loaded successfully.\n")
 
 
+
+
+# -----------------------------
+# Helper Functions
+# -----------------------------
 def clean_int(s: str | None) -> int | None:
     if s is None:
         return None
@@ -57,7 +93,7 @@ def clean_text(s: str | None) -> str | None:
         return None
     # collapse whitespace and remove non-breaking spaces
     return ' '.join(str(s).replace('\u00A0', ' ').split()).strip() or None
-
+# -------------------------------
 
 def import_distances(conn: sqlite3.Connection, csv_path: Path) -> int:
     cur = conn.cursor()
@@ -167,9 +203,12 @@ def import_souvenirs(conn: sqlite3.Connection, csv_path: Path) -> int:
 
 
 def main() -> None:
-    if not DB_PATH.exists():
-        print('ERROR: database file not found at', DB_PATH)
-        sys.exit(2)
+
+    ensure_database()
+
+    # if not DB_PATH.exists():
+        # print('ERROR: database file not found at', DB_PATH)
+        # sys.exit(2)
 
     conn = sqlite3.connect(str(DB_PATH))
     conn.execute('PRAGMA foreign_keys = ON;')

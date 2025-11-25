@@ -5,6 +5,12 @@
 #include "../includes.h"
 #include "stadium.h"
 
+struct StadiumNode
+{
+    Stadium stadium;
+    int     distanceFromLast;
+};
+
 class Cart
 {
 public:

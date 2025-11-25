@@ -1,6 +1,6 @@
 // cart.cpp
 
-#include "cart.h"
+#include "models/cart.h"
 
 Cart::Cart() : totalDistance(0), totalSpent(0) {}
 Cart::~Cart() {}
