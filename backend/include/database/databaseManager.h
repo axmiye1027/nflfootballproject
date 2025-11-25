@@ -41,6 +41,26 @@ struct Souvenir
         return os;
     }
 
+    bool operator==(const string& name) const
+    {
+        return souvenirName == name;
+    }
+
+    bool operator==(const Souvenir& other) const
+    {
+        return souvenirId == other.souvenirId;
+    }
+
+    bool operator!=(const string& name) const
+    {
+        return souvenirName != name;
+    }
+
+    bool operator!=(const Souvenir& other) const
+    {
+        return souvenirId != other.souvenirId;
+    }
+
     Souvenir() : stadiumId(-1), souvenirId(-1), souvenirName(""), souvenirPrice(0.0) {}
     Souvenir(int stadiumId, string souvenirName, int souvenirPrice) : stadiumId(stadiumId), souvenirName(souvenirName), souvenirPrice(souvenirPrice) {}
 };

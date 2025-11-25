@@ -135,7 +135,7 @@ void BackendManager::addStadium(string teamName, string stadiumName, int capacit
 
 void BackendManager::addTeam() {}
 
-void BackendManager::addSouvenir(int stadiumId, const string& souvenirName, double souvenirPrice);
+void BackendManager::addSouvenir(int stadiumId, const string& souvenirName, double souvenirPrice)
 {
     databaseManager.addSouvenir(stadiumId,souvenirName, souvenirPrice);
 }
