@@ -66,21 +66,22 @@ public:
         throw runtime_error("Value not found in table");
     }
 
+    // Kurwa
     int getIdFromString(const string& name) const
     {
-        // for (int i = 0; i < size; ++i)
-        // {
-        //     if (table[i].key != -1 && table[i].key != -2) 
-        //     {
-        //         if (table[i].value == name)
-        //         {
-        //             return table[i].key;
-        //         }
-        //     }
-        // }
+        for (int i = 0; i < size; ++i)
+        {
+            if (table[i].key != -1 && table[i].key != -2) 
+            {
+                if (table[i].value == name)
+                {
+                    return table[i].key;
+                }
+            }
+        }
 
-        // cout << "Souvenir '" << name << "' not found in table" << endl;
-        // throw runtime_error("Value not found in table");
+        cout << "Souvenir '" << name << "' not found in table" << endl;
+        throw runtime_error("Value not found in table");
 
         return 1;
     }
