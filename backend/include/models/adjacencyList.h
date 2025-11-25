@@ -29,15 +29,15 @@ public:
     int  findIndex(string vertex) const;
     void dfs(string originVertex) const;
 
-    vector<StadiumNode> returnPath() const;
-    int                 returnDist() const;
+    vector<AdjacencyNode> returnPath() const;
+    int                   returnDist() const;
 
 private:
     void dfsRecusion(int vertexIndex, int lastIndex, vector<bool>& visited,set<pair<int, int>>& printedEdges, int& totalDistance) const;
 
     vector<edge*> list;
 
-    vector<StadiumNode> path;
+    vector<AdjacencyNode> path;
     int                 totalDist;
 };
 

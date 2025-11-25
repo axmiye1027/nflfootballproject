@@ -186,7 +186,7 @@ void AdjacencyList::dfsRecusion(int vertexIndex, int lastIndex, vector<bool>& vi
             printedEdges.insert(edgeKey);
             printedEdges.insert(reverseEdgeKey);
 
-            path.push_back(StadiumNode());
+            path.push_back(AdjacencyNode(iterator->destinationVertex,iterator->distance));
 
             dfsRecusion(destIndex,vertexIndex ,visited,printedEdges, totalDistance);
         }
@@ -201,7 +201,7 @@ void AdjacencyList::dfsRecusion(int vertexIndex, int lastIndex, vector<bool>& vi
     }
 }
 
-vector<StadiumNode> AdjacencyList::returnPath() const
+vector<AdjacencyNode> AdjacencyList::returnPath() const
 {
     return path;
 }

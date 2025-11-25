@@ -51,8 +51,11 @@ struct Souvenir
 struct AdjacencyNode
 {
     string cityName;
-    int    cityDist;
-}
+    int    distanceFromLast;
+
+    AdjacencyNode() : cityName{""}, distanceFromLast{0} {}
+    AdjacencyNode(const string& name, int dist) : cityName{name}, distanceFromLast{dist} {}
+};
 
 /* ----- CART ----- */
 struct StadiumNode
