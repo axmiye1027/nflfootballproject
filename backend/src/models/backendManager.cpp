@@ -9,10 +9,10 @@ BackendManager::BackendManager() : isAdmin{false}
     printStadiums();
 
     adjacencyMatrix.printMatrix();
-    // adjacencyMatrix.BFS("State Farm Stadium");
+    adjacencyMatrix.BFS("State Farm Stadium");
 
-    adjacencyMatrix.Dijkstra("State Farm Stadium");
-    adjacencyMatrix.mst("State Farm Stadium");
+    //adjacencyMatrix.Dijkstra("State Farm Stadium");
+    //adjacencyMatrix.mst("State Farm Stadium");
 }
 
 BackendManager::~BackendManager()
@@ -100,8 +100,24 @@ void BackendManager::printStadiums()
 }
 
 
-void BackendManager::addTeam()
+void BackendManager::addStadium(string teamName, string stadiumName, int capacity, string location, RoofType roofType, string surface,
+            int dateOpened, string conference, string division, vector<Souvenir> souvenirList)
 {
+    string roof;
+
+    switch (roofType)
+    {
+        case OPEN:        roof = "Open";
+        break;
+
+        case RETRACTABLE: roof = "Retractable";
+        break;
+
+        case FIXED_ROOF:  roof = "Fixed";
+        break;
+    }
+
+    databaseManager.addStadium(teamName, stadiumName, capacity, location, roof, surface, dateOpened, conference, division, souvenirList);
 
 }
 

@@ -3,13 +3,6 @@
 #include "hash.h"
 #include "stadium.h"
 
-/************************************************
- * bfs.h
- * ----------------------------------------------
- * Part B header file for breath first search.
- * Will go to all neighboring cities first
- * starting from closest to farthest
- ***********************************************/
 #ifndef BFS_H
 #define BFS_H
 

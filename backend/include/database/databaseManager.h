@@ -3,6 +3,7 @@
 #pragma once
 
 #include <sqlite3.h>
+#include "../models/hash.h"
 #include "../includes.h"
 
 struct Distance 
@@ -39,6 +40,9 @@ struct Souvenir
         os << souvenir.souvenirName << " : " << souvenir.souvenirPrice;
         return os;
     }
+
+    Souvenir() : stadiumId(-1), souvenirId(-1), souvenirName(""), souvenirPrice(0.0) {}
+    Souvenir(int stadiumId, string souvenirName, int souvenirPrice) : stadiumId(stadiumId), souvenirName(souvenirName), souvenirPrice(souvenirPrice) {}
 };
 
 class DatabaseManager
@@ -66,14 +70,15 @@ public:
                     const string& surface,
                     int           yearOpened, 
                     const string& conference,
-                    const string& division);
+                    const string& division,
+                    vector<Souvenir> souvenirs);
     bool updateStadium(int stadiumId, const string& field, const string& value);
     bool updateStadiumInt(int stadiumId, const string& field, int value);
     bool deleteStadium(int stadiumId); 
 
-    int  addSouvenir(int stadiumId,int souvenirId,const string& souvenirName, double souvenirPrice);
-    bool updateSouvenirName(int souvenirId,const string& souvenirName);
-    bool updateSouvenirPrice(int souvenirId,double souvenirPrice);
+    int  addSouvenir(int stadiumId, const string& souvenirName, double souvenirPrice);
+    bool updateSouvenirName(int souvenirId, const string& souvenirName);
+    bool updateSouvenirPrice(int souvenirId, double souvenirPrice);
     bool deleteSouvenir(int souvenirId);
     /***************************************************/
 
