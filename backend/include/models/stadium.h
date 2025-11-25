@@ -47,6 +47,7 @@ public:
     int      getYearOpened();
     string   getConference();
     string   getDivision();
+    int      getSouvenirId(string name);
     DoubleHashTable<Souvenir> getSouvenirList();
     /* --------------------- */
 
