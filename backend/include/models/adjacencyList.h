@@ -21,13 +21,13 @@ public:
     AdjacencyList();
     ~AdjacencyList();
 
-    void populateList(const vector<edge>& edges);
+    void populateList(vector<edge>& edges);
 
     void addEdge(edge& vertexEdge);
     void removeEdge(string originVertex, string destinationVertex);
 
     int  findIndex(string vertex) const;
-    void dfs(string originVertex) const;
+    void dfs(string originVertex);
 
     vector<AdjacencyNode> returnPath() const;
     int                   returnDist() const;
@@ -38,7 +38,7 @@ private:
     vector<edge*> list;
 
     vector<AdjacencyNode> path;
-    int                 totalDist;
+    int                   totalDist;
 };
 
 #endif

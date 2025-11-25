@@ -26,7 +26,7 @@ AdjacencyList::~AdjacencyList()
     }
 }
 
-void AdjacencyList::populateList(const vector<edge>& edges) // edging
+void AdjacencyList::populateList(vector<edge>& edges) // edging
 {
     for (int i = 0; i < edges.size(); ++i)
     {
@@ -140,7 +140,7 @@ int  AdjacencyList::findIndex(string vertex) const
     return -1;
 }
 
-void AdjacencyList::dfs(string originVertex) const
+void AdjacencyList::dfs(string originVertex)
 {
     cout << "[AdjacencyList::DFS]" << endl;
 
