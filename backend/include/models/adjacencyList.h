@@ -33,7 +33,7 @@ public:
     int                   returnDist() const;
 
 private:
-    void dfsRecusion(int vertexIndex, int lastIndex, vector<bool>& visited,set<pair<int, int>>& printedEdges, int& totalDistance) const;
+    void dfsRecusion(int vertexIndex, int lastIndex, vector<bool>& visited,set<pair<int, int>>& printedEdges, int& totalDistance);
 
     vector<edge*> list;
 

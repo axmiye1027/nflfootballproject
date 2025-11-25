@@ -24,7 +24,8 @@ public:
     void populateStadiums(); // Grabs Stadiums info from database and stores in stadiums
     void populateDistances(); // Grabs Distance info from database and stores in adjacencyMatrix and adjacencyList
 
-    void addTeam();
+    void addStadium(string teamName, string stadiumName, int capacity, string location, RoofType roofType, string surface,
+            int dateOpened, string conference, string division, vector<Souvenir> souvenirList);
     void addSouvenir();
     void removeSouvinir();
     void modifySouvenirPrice();

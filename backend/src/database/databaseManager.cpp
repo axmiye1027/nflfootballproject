@@ -181,7 +181,8 @@ int DatabaseManager::addStadium(const string& team,
                                 const string& surface,
                                 int           yearOpened, 
                                 const string& conference,
-                                const string& division) 
+                                const string& division,
+                                vector<Souvenir> souvenirs) 
 {
     string sql = "INSERT INTO stadiums (team, stadiumName, capacity, location, "
                      "roofType, surface, yearOpened, conference, division) "
@@ -205,6 +206,17 @@ int DatabaseManager::addStadium(const string& team,
     {
         throw runtime_error("Failed to insert stadium");
     }
+
+    if (!souvenirs.empty())
+    {
+        int stadiumId = getStadiumByTeam(team)->stadiumId;
+
+        for (int i = 0; i < souvenirs.size(); ++i)
+        {
+            addSouvenir(stadiumId, souvenirs[i].souvenirName, souvenirs[i].souvenirPrice);
+        }
+    }
+
     
     return static_cast<int>(sqlite3_last_insert_rowid(db));
 }
@@ -399,16 +411,15 @@ bool DatabaseManager::deleteStadium(int stadiumId)
 
 //==================== SOUVENIR IMPLEMENTATION ====================
 
-int DatabaseManager::addSouvenir(int stadiumId, int souvenirId, const string& souvenirName, double souvenirPrice)
+int DatabaseManager::addSouvenir(int stadiumId, const string& souvenirName, double souvenirPrice)
 {
-    string sql = "INSERT INTO souvenirs (idSouvenir, souvenirName, souvenirPrice, idStadium) "
-                     "VALUES (?, ?, ?, ?)";
+    string sql = "INSERT INTO souvenirs (souvenirName, souvenirPrice, idStadium) "
+                     "VALUES (?, ?, ?)";
     sqlite3_stmt* stmt = prepareStatement(sql);
     
-    sqlite3_bind_int(stmt, 1, souvenirId);
-    sqlite3_bind_text(stmt, 2, souvenirName.c_str(), -1, SQLITE_TRANSIENT);
-    sqlite3_bind_double(stmt, 3, souvenirPrice);
-    sqlite3_bind_int(stmt, 4, stadiumId);
+    sqlite3_bind_text(stmt, 1, souvenirName.c_str(), -1, SQLITE_TRANSIENT);
+    sqlite3_bind_double(stmt, 2, souvenirPrice);
+    sqlite3_bind_int(stmt, 3, stadiumId);
     
     int rc = sqlite3_step(stmt);
     sqlite3_finalize(stmt);
