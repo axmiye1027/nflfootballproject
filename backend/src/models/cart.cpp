@@ -10,21 +10,20 @@ void Cart::clearCart()
 { 
     clearPath();
     clearPurchases();
-
-    totalDistance = 0;
-    totalSpent    = 0;
 }
 
 
 void Cart::clearPath()
 {
     outgoingPath.clear();
+    totalDistance = 0;
 }
 
 
 void Cart::clearPurchases()
 {
     purchases.clear();
+    totalSpent = 0;
 }
 
 
