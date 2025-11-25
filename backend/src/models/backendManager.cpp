@@ -86,9 +86,11 @@ void BackendManager::populateStadiums()
 void BackendManager::populateDistances()
 {
     // AdjacencyMatrix
-
     adjacencyMatrix.setDistances(databaseManager.getAllDistances());
     adjacencyMatrix.populateVertices(stadiums);
+
+    // AdjacencyList
+    
 }
 
 
