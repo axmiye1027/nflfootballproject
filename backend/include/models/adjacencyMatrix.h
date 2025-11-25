@@ -60,8 +60,8 @@ public:
 private:
 
     void printPath(int cityAIndex, int cityBIndex);
-    void PrintPathExt(int previous[],int cityAIndex, int cityBIndex);
-    void PrintPathExtRecursion(int previous[],int cityAIndex, int cityBIndex);
+    void printPathExt(vector<int> previous, int cityAIndex, int cityBIndex);
+    void printPathExtRecursion(vector<int> previous, int cityAIndex, int cityBIndex);
 
     void printCityName(int cityIndex);
 

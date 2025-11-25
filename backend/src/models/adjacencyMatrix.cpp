@@ -1,4 +1,4 @@
-#include "models/bfs.h"
+#include "models/adjacencyMatrix.h"
 
 AdjacencyMatrix::AdjacencyMatrix()
 {
@@ -212,14 +212,12 @@ void AdjacencyMatrix::Dijkstra(const string& startVertex)
     cout << "[AdjacencyMatrix::Dijkstra]" << endl;
 
     const int NUMBER_OF_CITIES = vertices.getCount();
-
-    int distances[NUMBER_OF_CITIES];
-    int previous[NUMBER_OF_CITIES]; 
-
-    bool cityVisited[NUMBER_OF_CITIES] = {false};
-    
     const int INF = 999999;
 
+    vector<int>  distances(NUMBER_OF_CITIES, INF);
+    vector<int>  previous(NUMBER_OF_CITIES, -1); 
+    vector<bool> cityVisited(NUMBER_OF_CITIES, false);
+    
     int originVertex = vertices[startVertex];
 
     if(originVertex == -1 || originVertex >= NUMBER_OF_CITIES)
@@ -228,11 +226,11 @@ void AdjacencyMatrix::Dijkstra(const string& startVertex)
         return;
     }
 
-    for(int i = 0; i < NUMBER_OF_CITIES; ++i)
-    {
-        distances[i] = INF;
-        previous[i] = -1; 
-    }
+    // for(int i = 0; i < NUMBER_OF_CITIES; ++i)
+    // {
+    //     distances[i] = INF;
+    //     previous[i] = -1; 
+    // }
     
     distances[originVertex] = 0; // Distance to origin is 0
     
@@ -293,7 +291,7 @@ void AdjacencyMatrix::Dijkstra(const string& startVertex)
         else
         {
             cout << left << setw(5) << distances[i] << " | Path: ";
-            PrintPathExt(previous,originVertex, i);
+            printPathExt(previous, originVertex, i);
             cout << endl;
         }
     }
@@ -307,9 +305,9 @@ void AdjacencyMatrix::mst(const string& startVertex)
     const int NUMBER_OF_CITIES = vertices.getCount();
     const int INF = 999999;
 
-    int  key[NUMBER_OF_CITIES];         
-    int  parent[NUMBER_OF_CITIES];      
-    bool visited[NUMBER_OF_CITIES];    
+    vector<int>  key(NUMBER_OF_CITIES, INF);         
+    vector<int>  parent(NUMBER_OF_CITIES, -1);      
+    vector<bool> visited(NUMBER_OF_CITIES, false);    
 
     int originVertex = vertices[startVertex];
 
@@ -320,12 +318,12 @@ void AdjacencyMatrix::mst(const string& startVertex)
     }
 
     // Initialize all arrays
-    for (int i = 0; i < NUMBER_OF_CITIES; i++)
-    {
-        key[i]     = INF;
-        parent[i]  = -1;
-        visited[i] = false;
-    }
+    // for (int i = 0; i < NUMBER_OF_CITIES; i++)
+    // {
+    //     key[i]     = INF;
+    //     parent[i]  = -1;
+    //     visited[i] = false;
+    // }
 
     // Start MST from the chosen origin city
     key[originVertex] = 0;
@@ -394,17 +392,17 @@ void AdjacencyMatrix::mst(const string& startVertex)
 
 }
 
-void AdjacencyMatrix::PrintPathExt(int previous[], int cityA, int cityB)
+void AdjacencyMatrix::printPathExt(vector<int> previous, int cityA, int cityB)
 {
     printCityName(cityA);
     
     if(cityA != cityB)
     {
-        PrintPathExtRecursion(previous, cityB, cityA);
+        printPathExtRecursion(previous, cityB, cityA);
     }
 }
 
-void AdjacencyMatrix::PrintPathExtRecursion(int previous[], int currentCity, int originCity)
+void AdjacencyMatrix::printPathExtRecursion(vector<int> previous, int currentCity, int originCity)
 {
     if(currentCity == originCity)
     {
@@ -416,7 +414,7 @@ void AdjacencyMatrix::PrintPathExtRecursion(int previous[], int currentCity, int
         return;
     }
     
-    PrintPathExtRecursion(previous, previous[currentCity], originCity);
+    printPathExtRecursion(previous, previous[currentCity], originCity);
     
     cout << " -> ";
     printCityName(currentCity);

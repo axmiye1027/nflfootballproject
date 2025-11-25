@@ -5,8 +5,8 @@
 #include "stadium.h"
 
 #include "hash.h"
-#include "dfs.h"
-#include "bfs.h"
+#include "adjacencyList.h"
+#include "adjacencyMatrix.h"
 #include "database/databaseManager.h"
 
 
@@ -20,10 +20,9 @@ public:
     ~BackendManager();
 
     bool login(string username, string password);
-    void printStadiums();
 
     void populateStadiums(); // Grabs Stadiums info from database and stores in stadiums
-    void populateDistances();
+    void populateDistances(); // Grabs Distance info from database and stores in adjacencyMatrix and adjacencyList
 
     void addTeam();
     void addSouvenir();
@@ -33,11 +32,15 @@ public:
 
     // Need functions for DB to stadiums data structure
 
+
+    /* ----- PRINT TO TERMINAL -----*/
+    void printStadiums();
+
 private:
     DoubleHashTable<Stadium> stadiums;
 
     AdjacencyList   adjacencyList;   // list used for dfs
-    AdjacencyMatrix adjacencyMatrix; // matrix used for bfs
+    AdjacencyMatrix adjacencyMatrix; // matrix used for bfs, djikstra, mst
 
     DatabaseManager databaseManager;
 
