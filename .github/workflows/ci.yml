@@ -1,0 +1,19 @@
+name: ci
+
+on:
+  push:
+    - '**'        # matches every branch
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Build project images
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-tags: true
+
+      - name: Build
+        run: |
+          docker compose build
