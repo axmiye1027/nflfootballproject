@@ -1,10 +1,10 @@
 services:
-  nflfootballproject-backend:
+  backend:
     build:
       context: backend
     restart: unless-stopped
     ports:
-      - "8000:8000"
+      - "18080:18080"
     environment:
-      - PORT=8000
+      - PORT=18080
       - BUILD_TYPE=Debug
