@@ -6,3 +6,6 @@ build/
 # Compiled object files
 main
 *.o
+
+*.log
+*.pid
