@@ -8,13 +8,6 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # -------------------------
-# Use vcpkg toolchain
-# -------------------------
-# FIXME: NO #This should be SOMEWHERE ELSE
-# set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/dev/vcpkg/scripts/buildsystems/vcpkg.cmake" CACHE STRING "")
-
-
-# -------------------------
 # Include headers
 # -------------------------
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
@@ -34,7 +27,7 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 # -------------------------
 find_package(asio REQUIRED)                # standalone Asio
 find_package(Crow REQUIRED)                # Crow (optional if you use it)
-find_package(unofficial-sqlite3 REQUIRED)             # SQLite3 via vcpkg
+find_package(unofficial-sqlite3 REQUIRED)  # SQLite3 via vcpkg
 
 target_link_libraries(
     ${PROJECT_NAME}
