@@ -10,16 +10,16 @@ RUN vcpkg install
 
 COPY . .
 
-RUN cmake -S . -B build -G "Ninja" \
+RUN cmake -S . -B docker-build -G "Ninja" \
     -DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
     -DCMAKE_TOOLCHAIN_FILE=${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake
 
-RUN cmake --build build --parallel $(nproc)
+RUN cmake --build docker-build --parallel $(nproc)
 
 FROM alpine:latest
 
 WORKDIR /app
-COPY --from=builder /app/build .
+COPY --from=builder /app/docker-build .
 COPY --from=builder /app/assets ./assets
 COPY --from=builder /usr/lib/* /usr/lib/
 
