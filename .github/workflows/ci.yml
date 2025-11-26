@@ -1,0 +1,17 @@
+name: ci
+
+on:
+  push:
+    banches:
+      - '**'        # matches every branch
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Build project images
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build
+        run: docker compose build
