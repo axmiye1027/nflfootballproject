@@ -20,6 +20,7 @@ FROM alpine:latest
 
 WORKDIR /app
 COPY --from=builder /app/build .
+COPY --from=builder /app/assets ./assets
 COPY --from=builder /usr/lib/* /usr/lib/
 
 EXPOSE ${PORT}
