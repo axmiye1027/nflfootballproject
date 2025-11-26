@@ -2,7 +2,8 @@ name: ci
 
 on:
   push:
-    - '**'        # matches every branch
+    banches:
+      - '**'        # matches every branch
   workflow_dispatch:
 
 jobs:
