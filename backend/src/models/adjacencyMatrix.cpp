@@ -208,24 +208,24 @@ void AdjacencyMatrix::verticesToMatrix()
     }
 }
 
-int AdjacencyMatrix::dijkstra(const string& startVertex)
+vector<PathNode> AdjacencyMatrix::dijkstra(const string& startVertex)
 {
     cout << "[AdjacencyMatrix::Dijkstra]" << endl;
-    vector<PathNode> paths; // records all the paths found and the distance
 
     const int NUMBER_OF_CITIES = vertices.getCount();
     const int INF = 999999;
 
-    vector<int>  distances(NUMBER_OF_CITIES, INF);
-    vector<int>  previous(NUMBER_OF_CITIES, -1); 
-    vector<bool> cityVisited(NUMBER_OF_CITIES, false);
+    vector<PathNode> paths(NUMBER_OF_CITIES); // records all the paths found and the distance
+    vector<int>      distances(NUMBER_OF_CITIES, INF);
+    vector<int>      previous(NUMBER_OF_CITIES, -1); 
+    vector<bool>     cityVisited(NUMBER_OF_CITIES, false);
     
     int originVertex = vertices[startVertex];
 
     if(originVertex == -1 || originVertex >= NUMBER_OF_CITIES)
     {
         cout << "Error: Starting vertex '" << startVertex << "' not found!" << endl;
-        return;
+        return paths;
     }
 
     // for(int i = 0; i < NUMBER_OF_CITIES; ++i)
@@ -292,9 +292,24 @@ int AdjacencyMatrix::dijkstra(const string& startVertex)
         }
         else
         {
+            paths[i].totalDist = distances[i]; // add the path distance
+
             cout << left << setw(5) << distances[i] << " | Path: ";
             printPathExt(previous, originVertex, i);
             cout << endl;
+
+            int iterator = i;
+
+            paths[i].path.push_back(vertices.get(iterator));
+
+            while(previous[iterator] != -1)
+            {
+                paths[i].path.push_back(vertices.get(previous[iterator]));
+
+                iterator = previous[iterator];
+            }
+
+            reverse(paths[i].path.begin(), paths[i].path.end());
         }
     }
   
