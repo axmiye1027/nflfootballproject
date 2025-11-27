@@ -17,6 +17,14 @@ struct DistanceNode
 
 };
 
+struct PathNode
+{
+    vector<string> path;
+    int            totalDist;
+
+    PathNode() : totalDist{0} {}
+}
+
 struct DistanceComparator
 {
     bool operator()(const DistanceNode& distanceOne, const DistanceNode& distanceTwo) const
@@ -46,9 +54,9 @@ public:
     void setDistances(vector<Distance> distances);
     void populateVertices(DoubleHashTable<Stadium> stadiums);
 
-    void BFS(string originCity);
-    void Dijkstra(const string& startVertex);
-    void mst(const string& startVertex);
+    int bfs(string originCity);
+    vector<PathNode> dijkstra(const string& startVertex);
+    int mst(const string& startVertex);
     
 private:
 

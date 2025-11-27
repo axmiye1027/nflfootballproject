@@ -96,7 +96,7 @@ void AdjacencyMatrix::populateVertices(DoubleHashTable<Stadium> stadiums)
 }
 
 
-void AdjacencyMatrix::BFS(string origin)
+int AdjacencyMatrix::bfs(string origin)
 {
     cout << "[AdjacencyMatrix::BFS]" << endl;
 
@@ -166,6 +166,7 @@ void AdjacencyMatrix::BFS(string origin)
     }
 
     cout << "Total distance: " << totalDistance << endl;
+    return totalDistance;
 }
 
 void AdjacencyMatrix::printPath(int cityA, int cityB)
@@ -207,9 +208,10 @@ void AdjacencyMatrix::verticesToMatrix()
     }
 }
 
-void AdjacencyMatrix::Dijkstra(const string& startVertex)
+int AdjacencyMatrix::dijkstra(const string& startVertex)
 {
     cout << "[AdjacencyMatrix::Dijkstra]" << endl;
+    vector<PathNode> paths; // records all the paths found and the distance
 
     const int NUMBER_OF_CITIES = vertices.getCount();
     const int INF = 999999;
@@ -295,10 +297,12 @@ void AdjacencyMatrix::Dijkstra(const string& startVertex)
             cout << endl;
         }
     }
+  
+    return paths;
 }
 
 // MST using Prim-Jarnik's method
-void AdjacencyMatrix::mst(const string& startVertex)
+int AdjacencyMatrix::mst(const string& startVertex)
 {
     cout << "\n\n[AdjacencyMatrix::MST]" << endl;
 
@@ -389,6 +393,7 @@ void AdjacencyMatrix::mst(const string& startVertex)
     }
 
     cout << "\nTotal MST Mileage: " << totalWeight << " miles\n";
+    return totalWeight;
 
 }
 
