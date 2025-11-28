@@ -8,13 +8,13 @@ BackendManager::BackendManager() : isAdmin{false}
     populateDistances();
     printStadiums();
 
-    adjacencyMatrix.printMatrix();
-    adjacencyMatrix.bfs("State Farm Stadium");
+    //adjacencyMatrix.printMatrix();
+    //adjacencyMatrix.bfs("State Farm Stadium");
 
     //adjacencyMatrix.Dijkstra("State Farm Stadium");
     //adjacencyMatrix.mst("State Farm Stadium");
 
-    adjacencyList.dfs("State Farm Stadium");
+    //adjacencyList.dfs("State Farm Stadium");
 }
 
 BackendManager::~BackendManager()

@@ -279,6 +279,8 @@ StadiumStruct* DatabaseManager::getStadiumByTeam(const string& team)
 
 vector<StadiumStruct> DatabaseManager::getAllStadiums() 
 {
+    cout << "[DatabaseManager::getAllStadiums()]";
+
     string sql = "SELECT * FROM stadiums";
     sqlite3_stmt* stmt = prepareStatement(sql);
     
@@ -297,6 +299,8 @@ vector<StadiumStruct> DatabaseManager::getAllStadiums()
         s.yearOpened  = getColumnInt(stmt, 7);
         s.conference  = getColumnText(stmt, 8);
         s.division    = getColumnText(stmt, 9);
+
+        cout << "s.division: " << s.division << endl;
 
         stadiums.push_back(s);
     }
