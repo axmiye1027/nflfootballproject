@@ -23,7 +23,7 @@ struct PathNode
     int            totalDist;
 
     PathNode() : totalDist{0} {}
-}
+};
 
 struct DistanceComparator
 {

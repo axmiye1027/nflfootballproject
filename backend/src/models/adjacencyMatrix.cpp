@@ -333,7 +333,7 @@ int AdjacencyMatrix::mst(const string& startVertex)
     if(originVertex == -1 || originVertex >= NUMBER_OF_CITIES)
     {
         cout << "Error: Starting vertex '" << startVertex << "' not found!" << endl;
-        return;
+        return 1;
     }
 
     // Initialize all arrays

@@ -71,32 +71,20 @@ function App() {
       </div>
       {/* END SEARCH - ICON - FILTERS */}
 
-      <div> 
-        <h1>Stadiums</h1>
-        <ul style={{ listStyle: "none", padding: 0}}>
-          {stadiums.map((s) => (
-            <li
-              key={s.stadiumId}
-              style={{
-                padding: "12px",
-                maginBottom: "10px",
-                border: "1px solid #ccc",
-                borderRadius: "8px"
-              }}
-            >
-              <h3>{s.stadiumName}</h3>
-              <p><b>Team:    </b> {s.teamName}</p>
-              <p><b>Stadium: </b> {s.stadiumName}</p>
-              <p><b>Location:</b> {s.location}</p>
-              <p><b>Capacity:</b> {s.capacity.toLocaleString()}</p>
-
-            </li>
-          ))}
-        </ul>
-      </div>
-
       {/* TEAM LIST */}
-      <TeamInfo />
+      <div 
+        style={{ 
+          display: "flex", 
+          flexWrap: "wrap", 
+          gap: "20px", 
+          justifyContent: "center",
+          marginTop: "40px",
+        }}
+      >
+        {stadiums.map((stadium) => (
+          <TeamInfo key={stadium.stadiumId} stadium={stadium} />
+        ))}
+      </div>
       {/* END TEAM LIST */}
 {/* 
       <Routes>

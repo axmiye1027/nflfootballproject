@@ -9,7 +9,7 @@ BackendManager::BackendManager() : isAdmin{false}
     printStadiums();
 
     adjacencyMatrix.printMatrix();
-    adjacencyMatrix.BFS("State Farm Stadium");
+    adjacencyMatrix.bfs("State Farm Stadium");
 
     //adjacencyMatrix.Dijkstra("State Farm Stadium");
     //adjacencyMatrix.mst("State Farm Stadium");

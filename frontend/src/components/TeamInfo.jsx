@@ -3,7 +3,8 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHorseHead } from '@fortawesome/free-solid-svg-icons'
     
-function TeamInfo() {
+function TeamInfo({ stadium }) {
+    if (!stadium) return null;
 
     // STYLE
     const cardContainerStyle = {
@@ -50,36 +51,37 @@ function TeamInfo() {
 
     // DISPLAY
     return (
-        <div style={cardContainerStyle}>
+        <div style={cardWidth}>
 
-            { /* CARD */}
-            <div style={cardWidth}>
-                { /* TOP */}
-                <div className="row" style={{ gap: '0em' }}>
-                    <FontAwesomeIcon icon={faHorseHead} className="bt-0 bl-0" style={iconStyle} />
-                    <div style={dividerStyle}></div>
-                    <FontAwesomeIcon icon={faHorseHead} className="bt-0 br-0" style={iconStyle} />
-                </div>
-
-                { /* MIDDLE - INFO CARD */}
-                <div style={infoCardStyle}>
-                    <h2>LOEM</h2>
-                    <p>Location: LOREM</p>
-                    <p>Conference: LOREM</p>
-                    <p>Division: LOREM</p>
-
-                </div>
-
-                { /* BOTTOM */}
-                <div className="row" style={{ gap: '0em' }}>
-                    <FontAwesomeIcon icon={faHorseHead} className="bb-0 bl-0" style={iconStyle} />
-                    <div style={dividerStyle}></div>
-                    <FontAwesomeIcon icon={faHorseHead} className="bb-0 br-0" style={iconStyle} />
-                </div>
+            { /* TOP */}
+            <div className="row" style={{ gap: '0em' }}>
+                <FontAwesomeIcon icon={faHorseHead} className="bt-0 bl-0" style={iconStyle} />
+                <div style={dividerStyle}></div>
+                <FontAwesomeIcon icon={faHorseHead} className="bt-0 br-0" style={iconStyle} />
             </div>
-            { /* END CARD */}
 
-        </div> // END row
+            { /* MIDDLE - INFO CARD */}
+            <div style={infoCardStyle}>
+                <h2>{stadium.teamName}</h2>
+                <p><b>Stadium:</b> {stadium.stadiumName}</p>
+                <p><b>Capacity:</b> {stadium.capacity}</p>
+                <p><b>Location:</b> {stadium.location}</p>
+                <p><b>Roof Type:</b> {stadium.roofType}</p>
+                <p><b>Surface:</b> {stadium.surfaceType}</p>
+                <p><b>Year Opened:</b> {stadium.yearOpened}</p>
+                <p><b>Conference:</b> {stadium.conference}</p>
+                <p><b>Division:</b> {stadium.division}</p>
+                <p><b>Souvenirs:</b> </p>
+
+            </div>
+
+            { /* BOTTOM */}
+            <div className="row" style={{ gap: '0em' }}>
+                <FontAwesomeIcon icon={faHorseHead} className="bb-0 bl-0" style={iconStyle} />
+                <div style={dividerStyle}></div>
+                <FontAwesomeIcon icon={faHorseHead} className="bb-0 br-0" style={iconStyle} />
+            </div>
+        </div>
     ); // END RETURN
 }
 

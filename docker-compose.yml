@@ -8,11 +8,37 @@ services:
     environment:
       - PORT=18080
       - BUILD_TYPE=Debug
+    develop:
+      watch:
+      - action: sync
+        path: ./backend/src
+        target: /app/src
+        initial_sync: true
+        ignore:
+          - "**/node_modules/"
+      - action: rebuild
+        path: ./backend/Dockerfile
+      - action: rebuild
+        path: ./backend/CMakeLists.txt
   frontend:
     build:
       context: frontend
     restart: unless-stopped
     ports:
       - "8181:8181"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
     environment:
       - PORT=8181
+      - CHOKIDAR_USEPOLLING=true
+    develop:
+      watch:
+      - action: sync
+        path: ./frontend/src
+        target: /app/src
+        initial_sync: true
+        ignore:
+          - node_modules/
+      - action: rebuild
+        path: ./frontend/package.json
