@@ -13,7 +13,6 @@ services:
       - action: sync
         path: ./backend/src
         target: /app/src
-        initial_sync: true
         ignore:
           - "**/node_modules/"
       - action: rebuild
@@ -37,7 +36,6 @@ services:
       - action: sync
         path: ./frontend/src
         target: /app/src
-        initial_sync: true
         ignore:
           - node_modules/
       - action: rebuild
