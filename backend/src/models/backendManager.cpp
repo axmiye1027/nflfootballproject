@@ -174,7 +174,7 @@ vector<Stadium> BackendManager::getStadiumsByDivision(string division)
 
     for(int i = 0; i < stadiums.size(); ++i)
     {
-        if(stadiums[i].getDivision() == division)
+        if(stadiums[i].getDivision().substr(0, 3) == division)
         {
             divisions.push_back(stadiums[i]);
         }
