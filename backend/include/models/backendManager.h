@@ -35,8 +35,8 @@ public:
 
     // Need functions for DB to stadiums data structure
 
-
     vector<Stadium> getStadiumsAsVector();
+    vector<Stadium> getStadiumsByDivision(string division);
 
     /* ----- PRINT TO TERMINAL -----*/
     void printStadiums();

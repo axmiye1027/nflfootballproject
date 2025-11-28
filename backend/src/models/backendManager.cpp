@@ -166,3 +166,19 @@ vector<Stadium> BackendManager::getStadiumsAsVector()
 
     return stadiumsVect;
 }
+
+vector<Stadium> BackendManager::getStadiumsByDivision(string division)
+{
+    vector<Stadium> stadiums = getStadiumsAsVector();
+    vector<Stadium> divisions;
+
+    for(int i = 0; i < stadiums.size(); ++i)
+    {
+        if(stadiums[i].getDivision() == division)
+        {
+            divisions.push_back(stadiums[i]);
+        }
+    }
+
+    return divisions;
+}
