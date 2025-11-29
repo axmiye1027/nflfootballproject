@@ -60,6 +60,16 @@ public:
         return stadiumName == other;
     }
 
+    void printSouvenirs() const
+    {
+        vector<Souvenir> souvenirVec = souvenirList.getValues();
+
+        for(int i = 0; i < souvenirVec.size(); ++i)
+        {
+            cout << "Name: " << souvenirVec[i].souvenirName << " Price: $" << souvenirVec[i].souvenirPrice << endl;
+        }
+    }
+
 private:
     int      stadiumId;
     string   teamName;
