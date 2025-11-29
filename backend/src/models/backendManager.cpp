@@ -4,9 +4,42 @@
 
 BackendManager::BackendManager() : isAdmin{false}
 {
+    // Create souvenir list
+    std::vector<Souvenir> souvenirs = {
+        Souvenir(1,"Team Jersey", 79.99),
+        Souvenir(1,"Baseball Cap", 24.99),
+        Souvenir(1,"Keychain", 5.99)
+    };
+
+    // Call addStadium
+    addStadium(
+        "Los Angeles Dodgers",       // teamName
+        "Dodger Stadium",            // stadiumName
+        56000,                       // capacity
+        "Los Angeles, CA",           // location
+        OPEN,                        // roofType
+        "Grass",                     // surface
+        1962,                        // dateOpened
+        "National League",           // conference
+        "West Division",             // division
+        souvenirs                    // souvenirList
+    );
+
     populateStadiums();
     populateDistances();
-    //printStadiums();
+    printStadiums();
+
+    int lastStadiumId = getStadiumsAsVector().back().getStadiumId();
+
+    modifySouvenirName(lastStadiumId, "Team Jersey","Changed Souvenir Name");
+    modifySouvenirPrice(lastStadiumId, "Baseball Cap", 67.67); // Shame
+    addSouvenir(lastStadiumId, "New souvenir", 1.25);
+
+    removeSouvenir(lastStadiumId,"Keychain");
+    
+    populateStadiums();
+
+    getStadiumsAsVector().back().printSouvenirs();
 
     //adjacencyMatrix.printMatrix();
     //adjacencyMatrix.bfs("State Farm Stadium");
@@ -38,6 +71,8 @@ bool BackendManager::login(string username, string password)
 
 void BackendManager::populateStadiums() 
 {
+    stadiums.clearTable();
+
     cout << "[BackendManager::populateStadiums()]" << endl;
 
     vector<StadiumStruct> stadiumsVect = databaseManager.getAllStadiums();

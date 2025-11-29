@@ -184,8 +184,8 @@ int DatabaseManager::addStadium(const string& team,
                                 const string& division,
                                 vector<Souvenir> souvenirs) 
 {
-    string sql = "INSERT INTO stadiums (team, stadiumName, capacity, location, "
-                     "roofType, surface, yearOpened, conference, division) "
+    string sql = "INSERT INTO stadiums (team, stadium_name, capacity, location, "
+                     "roof_type, surface, opened_year, conference, division) "
                      "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     sqlite3_stmt* stmt = prepareStatement(sql);
     

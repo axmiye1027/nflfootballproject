@@ -106,6 +106,21 @@ public:
         delete [] table;
     }
     
+    void clearTable()
+    {
+        delete [] table;
+
+        size  = TABLE_SIZE;
+        count = 0;
+
+        table = new keyInput<T>[size];
+
+        for (int i = 0; i < size; ++i) 
+        {
+            table[i].key = -1; // Mark all slots as empty
+        }
+    }
+
     // For convenience
     bool insert(T input, int key)
     {
