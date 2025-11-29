@@ -30,7 +30,10 @@ crow::json::wvalue stadiumToJson(const Stadium& stadium)
     json["conference"]  = stadium.getConference();
     json["division"]    = stadium.getDivision();
 
-    // need method for souvenirlist
+    for (int i = 0; i < stadium.getSouvenirList().getCount(); ++i)
+    {
+        
+    }
 
     return json;
 }
@@ -98,6 +101,47 @@ void registerRoutes(crow::SimpleApp& app, BackendManager& backend)
         r.add_header("Content-Type", "application/json");
         return r;
     });
+
+    // CROW_ROUTE(app, "/login").methods(crow::HTTPMethod::OPTIONS)
+    // ([]() 
+    // {
+    //     crow::response r;
+    //     r.add_header("Access-Control-Allow-Origin", "*");
+    //     r.add_header("Access-Control-Allow-Methods", "POST, OPTIONS");
+    //     r.add_header("Access-Control-Allow-Headers", "*");
+    //     r.code = 200;
+    //     return r;
+    // });
+
+    // CROW_ROUTE(app, "/login").methods(crow::HTTPMethod::POST)
+    // ([&backend](const crow::request& req) 
+    // {
+    //     auto body = crow::json::load(req.body);
+    //     if (!body) 
+    //     {
+    //         crow::response r(R"({ "success": false, "message": "Invalid JSON" })");
+    //         r.code = 400;
+    //         r.add_header("Access-Control-Allow-Origin", "*");
+    //         r.add_header("Content-Type", "application/json");
+    //         return r;
+    //     }
+
+    //     string username = body["username"].s();
+    //     string password = body["password"].s();
+
+    //     bool valid = backend.login(username, password);
+
+    //     crow::json::wvalue res;
+    //     res["success"] = valid;
+    //     if (!valid) {
+    //         res["message"] = "Invalid username or password";
+    //     }
+
+    //     crow::response r(res);
+    //     r.add_header("Access-Control-Allow-Origin", "*");
+    //     r.add_header("Content-Type", "application/json");
+    //     return r;
+    // });
 
 
 }

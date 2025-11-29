@@ -10,3 +10,10 @@
 .teams-container {
   min-height: 100vh;
 }
+
+.title {
+  margin-top: 1em;
+  background-size: cover;
+  background-position: center;
+  background-image: url('');
+}
