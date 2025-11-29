@@ -71,7 +71,14 @@ function TeamInfo({ stadium }) {
                 <p><b>Year Opened:</b> {stadium.yearOpened}</p>
                 <p><b>Conference:</b> {stadium.conference}</p>
                 <p><b>Division:</b> {stadium.division}</p>
-                <p><b>Souvenirs:</b> </p>
+                <p><b>Souvenirs:</b></p>
+                <ul>
+                    {stadium.souvenirs?.map((souvenir, index) => (
+                    <li key={index}>
+                        {souvenir.souvenirName} — ${souvenir.souvenirPrice}
+                    </li>
+                    ))}
+                </ul>
 
             </div>
 

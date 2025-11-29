@@ -87,7 +87,7 @@ function HomePage() {
                 }}
             >
                 {stadiums.map((stadium) => (
-                <TeamInfo key={stadium.stadiumId} stadium={stadium} />
+                <TeamInfo key={stadium.stadiumId} stadium={stadium}/>
                 ))}
             </div>
         </div>

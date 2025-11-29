@@ -30,11 +30,28 @@ crow::json::wvalue stadiumToJson(const Stadium& stadium)
     json["conference"]  = stadium.getConference();
     json["division"]    = stadium.getDivision();
 
-    for (int i = 0; i < stadium.getSouvenirList().getCount(); ++i)
+    // initialize as a JSON array
+    const vector<Souvenir>& souvenirs = stadium.getSouvenirList().getValues();
+
+    json["souvenirs"] = crow::json::wvalue(crow::json::type::List);
+    auto& jsonArr = json["souvenirs"];
+
+    for (int i = 0; i < souvenirs.size(); ++i)
     {
-        
+        jsonArr[i] = souvenirToJson(souvenirs[i]);
     }
 
+    return json;
+}
+
+
+crow::json::wvalue souvenirToJson(const Souvenir& s)
+{
+    crow::json::wvalue json;
+    json["souvenirId"]    = s.souvenirId;
+    json["stadiumId"]     = s.stadiumId;
+    json["souvenirName"]  = s.souvenirName;
+    json["souvenirPrice"] = s.souvenirPrice;
     return json;
 }
 
@@ -63,14 +80,15 @@ void registerRoutes(crow::SimpleApp& app, BackendManager& backend)
     {
         crow::response r;
         r.add_header("Access-Control-Allow-Origin", "*");
-        r.add_header("Access-Control-Allow-Methods", "GET, OPTIONS");
         r.add_header("Access-Control-Allow-Headers", "*");
+        r.add_header("Access-Control-Allow-Methods", "GET");
+        r.add_header("Content-Type", "application/json");
         r.code = 200;
         return r;
     });
 
     CROW_ROUTE(app, "/stadiums").methods(crow::HTTPMethod::GET)
-    ([&backend](const crow::request req)
+    ([&backend](const crow::request& req)
     {
         string division = req.url_params.get("division")
                             ? req.url_params.get("division")
@@ -95,9 +113,12 @@ void registerRoutes(crow::SimpleApp& app, BackendManager& backend)
         }
 
         auto json = stadiumListToJson(stadiums);
+        cout << json.dump() << std::endl;
 
         crow::response r(json.dump());
         r.add_header("Access-Control-Allow-Origin", "*");
+        r.add_header("Access-Control-Allow-Headers", "*");
+        r.add_header("Access-Control-Allow-Methods", "GET");
         r.add_header("Content-Type", "application/json");
         return r;
     });
