@@ -72,20 +72,8 @@ crow::json::wvalue stadiumListToJson(const vector<Stadium>& stadiums)
     return json;
 }
 
-void registerRoutes(crow::SimpleApp& app, BackendManager& backend)
+void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
 {
-    // respond to OPTIONS preflight
-    CROW_ROUTE(app, "/stadiums").methods(crow::HTTPMethod::OPTIONS)
-    ([]() 
-    {
-        crow::response r;
-        r.add_header("Access-Control-Allow-Origin", "*");
-        r.add_header("Access-Control-Allow-Headers", "*");
-        r.add_header("Access-Control-Allow-Methods", "GET");
-        r.add_header("Content-Type", "application/json");
-        r.code = 200;
-        return r;
-    });
 
     CROW_ROUTE(app, "/stadiums").methods(crow::HTTPMethod::GET)
     ([&backend](const crow::request& req)
@@ -112,57 +100,35 @@ void registerRoutes(crow::SimpleApp& app, BackendManager& backend)
             stadiums = backend.filterStadiums(stadiums, search);
         }
 
-        auto json = stadiumListToJson(stadiums);
-        cout << json.dump() << std::endl;
+        crow::json::wvalue json = stadiumListToJson(stadiums);
 
-        crow::response r(json.dump());
-        r.add_header("Access-Control-Allow-Origin", "*");
-        r.add_header("Access-Control-Allow-Headers", "*");
-        r.add_header("Access-Control-Allow-Methods", "GET");
-        r.add_header("Content-Type", "application/json");
-        return r;
+        return crow::response{ json.dump() };
     });
 
-    // CROW_ROUTE(app, "/login").methods(crow::HTTPMethod::OPTIONS)
-    // ([]() 
-    // {
-    //     crow::response r;
-    //     r.add_header("Access-Control-Allow-Origin", "*");
-    //     r.add_header("Access-Control-Allow-Methods", "POST, OPTIONS");
-    //     r.add_header("Access-Control-Allow-Headers", "*");
-    //     r.code = 200;
-    //     return r;
-    // });
+    CROW_ROUTE(app, "/login").methods(crow::HTTPMethod::POST)
+    ([&backend](const crow::request& req) 
+    {
+        auto body = crow::json::load(req.body);
+        if (!body)
+        {
+            crow::json::wvalue error;
+            error["success"] = false;
+            error["message"] = "Invalid JSON";
+            return crow::response(400, error.dump());
+        }
 
-    // CROW_ROUTE(app, "/login").methods(crow::HTTPMethod::POST)
-    // ([&backend](const crow::request& req) 
-    // {
-    //     auto body = crow::json::load(req.body);
-    //     if (!body) 
-    //     {
-    //         crow::response r(R"({ "success": false, "message": "Invalid JSON" })");
-    //         r.code = 400;
-    //         r.add_header("Access-Control-Allow-Origin", "*");
-    //         r.add_header("Content-Type", "application/json");
-    //         return r;
-    //     }
+        string username = body["username"].s();
+        string password = body["password"].s();
 
-    //     string username = body["username"].s();
-    //     string password = body["password"].s();
+        bool valid = backend.login(username, password);
 
-    //     bool valid = backend.login(username, password);
+        crow::json::wvalue res;
+        res["success"] = valid;
+        if (!valid)
+            res["message"] = "Invalid username or password";
 
-    //     crow::json::wvalue res;
-    //     res["success"] = valid;
-    //     if (!valid) {
-    //         res["message"] = "Invalid username or password";
-    //     }
-
-    //     crow::response r(res);
-    //     r.add_header("Access-Control-Allow-Origin", "*");
-    //     r.add_header("Content-Type", "application/json");
-    //     return r;
-    // });
+        return crow::response(res.dump());
+    });
 
 
 }

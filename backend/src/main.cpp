@@ -8,6 +8,7 @@
 
 #include "crow.h"
 #include "../include/routes/routes.h"
+#include "crow/middlewares/cors.h"
 
 #include <filesystem>
 
@@ -18,7 +19,14 @@ int main()
 
     BackendManager backend;
 
-    crow::SimpleApp app;
+    crow::App<crow::CORSHandler> app;
+
+    auto& cors_handler = app.get_middleware<crow::CORSHandler>();
+    cors_handler
+        .global()
+        .origin("http://localhost:8181") 
+        .methods(crow::HTTPMethod::POST, crow::HTTPMethod::GET, crow::HTTPMethod::OPTIONS)
+        .headers("Content-Type");
 
     registerRoutes(app, backend);
 
