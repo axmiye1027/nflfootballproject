@@ -67,10 +67,31 @@ void registerRoutes(crow::SimpleApp& app, BackendManager& backend)
     });
 
     CROW_ROUTE(app, "/stadiums").methods(crow::HTTPMethod::GET)
-    ([&backend] 
+    ([&backend](const crow::request req)
     {
-        auto stadiums = backend.getStadiumsAsVector();
-        auto json     = stadiumListToJson(stadiums);
+        string division = req.url_params.get("division")
+                            ? req.url_params.get("division")
+                            : "All Teams";
+
+        string search = req.url_params.get("search") ? req.url_params.get("search") : "";
+
+        vector<Stadium> stadiums;
+
+        if (division == "All Teams")
+        {
+            stadiums = backend.getStadiumsAsVector();
+        }
+        else
+        {
+            stadiums = backend.getStadiumsByDivision(division);
+        }
+
+        if (!search.empty())
+        {
+            stadiums = backend.filterStadiums(stadiums, search);
+        }
+
+        auto json = stadiumListToJson(stadiums);
 
         crow::response r(json.dump());
         r.add_header("Access-Control-Allow-Origin", "*");

@@ -1,4 +1,6 @@
-function SearchBar() {
+import { useState } from "react";
+
+function SearchBar({ searchInput, setSearchInput }) {
     // FUNCTIONALITY
 
     // STYLES
@@ -15,10 +17,14 @@ function SearchBar() {
     // DISPLAY
     return (
         <div>
-            <input type="text"
-             placeholder="Search teams..." 
-             className="search-bar"
-             style={searchBarStyle} />
+            <input 
+                type="text"
+                placeholder="Search teams..." 
+                className="search-bar"
+                style={searchBarStyle} 
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+            />
         </div>
     );
 }

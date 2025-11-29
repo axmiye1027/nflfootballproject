@@ -3,5 +3,10 @@
   margin: 0 auto;
   text-align: center;
   width: 100%;
+  padding: 0;
   background: var(--bg-color);
+}
+
+.teams-container {
+  min-height: 100vh;
 }

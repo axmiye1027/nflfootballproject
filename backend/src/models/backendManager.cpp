@@ -6,7 +6,7 @@ BackendManager::BackendManager() : isAdmin{false}
 {
     populateStadiums();
     populateDistances();
-    printStadiums();
+    //printStadiums();
 
     //adjacencyMatrix.printMatrix();
     //adjacencyMatrix.bfs("State Farm Stadium");
@@ -106,7 +106,7 @@ void BackendManager::populateDistances()
 }
 
 
-void BackendManager::printStadiums()
+void BackendManager::printStadiums() const
 {
     stadiums.printTable();
 }
@@ -169,16 +169,44 @@ vector<Stadium> BackendManager::getStadiumsAsVector()
 
 vector<Stadium> BackendManager::getStadiumsByDivision(string division)
 {
-    vector<Stadium> stadiums = getStadiumsAsVector();
+    transform(division.begin(), division.end(), division.begin(), ::toupper);
+
+    vector<Stadium> stadiumsVect = getStadiumsAsVector();
     vector<Stadium> divisions;
 
-    for(int i = 0; i < stadiums.size(); ++i)
+    for(int i = 0; i < stadiumsVect.size(); ++i)
     {
-        if(stadiums[i].getDivision().substr(0, 3) == division)
+        if(stadiumsVect[i].getDivision().substr(0, 3) == division)
         {
-            divisions.push_back(stadiums[i]);
+            divisions.push_back(stadiumsVect[i]);
         }
     }
 
     return divisions;
+}
+
+
+vector<Stadium> BackendManager::filterStadiums(vector<Stadium> stadiumsVect, string search)
+{
+    transform(search.begin(), search.end(), search.begin(), ::tolower); // tolower the search string
+
+    vector<Stadium> output;
+
+    for (int i = 0; i < stadiumsVect.size(); ++i)
+    {
+        string teamName    = stadiumsVect[i].getTeamName();
+        string stadiumName = stadiumsVect[i].getStadiumName();
+
+        // lowercase both for case-insensitive search
+        transform(teamName.begin(),    teamName.end(),    teamName.begin(),    ::tolower);
+        transform(stadiumName.begin(), stadiumName.end(), stadiumName.begin(), ::tolower);
+
+        if (teamName.find(search)    != string::npos || // True if search is not in string
+            stadiumName.find(search) != string::npos)
+            {
+                output.push_back(stadiumsVect[i]);
+            }
+    }
+
+    return output;
 }

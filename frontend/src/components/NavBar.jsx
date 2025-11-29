@@ -9,6 +9,7 @@ function NavBar() {
     const navStyle = {
         position: 'sticky',
         top: '0px',
+        zIndex: 1000,
         left: '0px',
         width: '100%',
         maxHeight: '5em',
@@ -22,7 +23,7 @@ function NavBar() {
 
     const navLogoStyle = {
         marginRight: 'auto',
-        height: '12em',
+        height: '8em',
         willChange: 'filter',
         transition: 'filter 300ms'
     };
@@ -52,12 +53,6 @@ function NavBar() {
     // DISPLAY
     return (
         <nav style={navStyle}>
-        <BrowserRouter>
-            
-            {/* ROUTES */}
-            <Routes>
-                <Route path="/login" element={<LoginPage />} />
-            </Routes> 
 
             <div className="row" style={{ width: '100%', justifyContent: 'space-between' }}>
 
@@ -98,8 +93,6 @@ function NavBar() {
                 {/* END BUTTONS */}
                 
             </div>
-
-        </BrowserRouter>
         </nav>
     );
 }

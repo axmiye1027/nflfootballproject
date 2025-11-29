@@ -300,8 +300,6 @@ vector<StadiumStruct> DatabaseManager::getAllStadiums()
         s.conference  = getColumnText(stmt, 8);
         s.division    = getColumnText(stmt, 9);
 
-        cout << "s.division: " << s.division << endl;
-
         stadiums.push_back(s);
     }
     

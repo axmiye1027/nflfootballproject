@@ -37,9 +37,10 @@ public:
 
     vector<Stadium> getStadiumsAsVector();
     vector<Stadium> getStadiumsByDivision(string division);
+    vector<Stadium> filterStadiums(vector<Stadium> stadiumsVect, string search);
 
     /* ----- PRINT TO TERMINAL -----*/
-    void printStadiums();
+    void printStadiums() const;
 
 private:
     DoubleHashTable<Stadium> stadiums;

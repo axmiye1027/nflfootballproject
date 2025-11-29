@@ -200,7 +200,7 @@ public:
     }
 
     // Print the hash table
-    void printTable() 
+    void printTable() const
     {
         for (int i = 0; i < size; i++) 
         {
