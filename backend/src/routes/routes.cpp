@@ -84,15 +84,11 @@ void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
 
         string search = req.url_params.get("search") ? req.url_params.get("search") : "";
 
-        vector<Stadium> stadiums;
+        vector<Stadium> stadiums = backend.getStadiumsAsVector();
 
-        if (division == "All Teams")
+        if (division != "All Teams")
         {
-            stadiums = backend.getStadiumsAsVector();
-        }
-        else
-        {
-            stadiums = backend.getStadiumsByDivision(division);
+            stadiums = backend.getStadiumsByDivision(stadiums, division);
         }
 
         if (!search.empty())

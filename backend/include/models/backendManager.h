@@ -13,6 +13,40 @@
 #ifndef BACKENDMANAGER_H
 #define BACKENDMANAGER_H
 
+// Define comparator structs
+struct CompareByCapacity 
+{
+    bool operator()(const Stadium& a, const Stadium& b) const 
+    {
+        return a.getCapacity() > b.getCapacity();
+    }
+};
+
+struct CompareByYearOpened 
+{
+    bool operator()(const Stadium& a, const Stadium& b) const 
+    {
+        return a.getYearOpened() > b.getYearOpened();
+    }
+};
+
+struct CompareByStadiumName 
+{
+    bool operator()(const Stadium& a, const Stadium& b) const 
+    {
+        return a.getStadiumName() > b.getStadiumName();
+    }
+};
+
+struct CompareByTeamName 
+{
+    bool operator()(const Stadium& a, const Stadium& b) const 
+    {
+        return a.getTeamName() > b.getTeamName();
+    }
+};
+
+
 class BackendManager
 {
 public:
@@ -41,11 +75,12 @@ public:
     vector<Stadium> getStadiumsAsVector();
 
     // Refer to the top of backendManager.cpp for what the Compare data type is used for
-    vector<Stadium> sortStadiums(const vector<Stadium>&             stadiumsVect, Compare compare);
-    vector<Stadium> sortStadiumsByStadium(const vector<Stadium>&    stadiumsVect);
-    vector<Stadium> sortStadiumsByTeam(const vector<Stadium>&       stadiumsVect, string teamName);
-    vector<Stadium> sortStadiumsByDateOpened(const vector<Stadium>& stadiumsVect);
-    vector<Stadium> sortStadiumsByCapacity(const vector<Stadium>&   stadiumsVect);
+    template<typename Compare>
+    vector<Stadium> sortStadiums(const vector<Stadium>&              stadiumsVect, Compare compare);
+    vector<Stadium> sortStadiumsByStadiumName(const vector<Stadium>& stadiumsVect);
+    vector<Stadium> sortStadiumsByTeam(const vector<Stadium>&        stadiumsVect, string teamName);
+    vector<Stadium> sortStadiumsByDateOpened(const vector<Stadium>&  stadiumsVect);
+    vector<Stadium> sortStadiumsByCapacity(const vector<Stadium>&    stadiumsVect);
 
     Stadium         getStadiumByName(const vector<Stadium>&        stadiumsVect,string stadiumName);
     vector<Stadium> getStadiumsByRoofType(const vector<Stadium>&   stadiumsVect,string roofType);
@@ -56,7 +91,7 @@ public:
 
     int totalStadiumCapacity(const vector<Stadium>& stadiumsVect);
 
-    vector<Stadium> filterStadiums(vector<Stadium> stadiumsVect, string search);
+    vector<Stadium> filterStadiums(const vector<Stadium>& stadiumsVect, string search);
 
     /* ----- PRINT TO TERMINAL -----*/
     void printStadiums() const;

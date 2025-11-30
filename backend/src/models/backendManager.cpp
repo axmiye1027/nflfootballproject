@@ -2,39 +2,6 @@
 
 #include "../../include/models/backendManager.h"
 
-// Define comparator structs
-struct CompareByCapacity 
-{
-    bool operator()(const Stadium& a, const Stadium& b) const 
-    {
-        return a.getCapacity() > b.getCapacity();
-    }
-};
-
-struct CompareByYearOpened 
-{
-    bool operator()(const Stadium& a, const Stadium& b) const 
-    {
-        return a.getYearOpened() > b.getYearOpened();
-    }
-};
-
-struct CompareByStadiumName 
-{
-    bool operator()(const Stadium& a, const Stadium& b) const 
-    {
-        return a.getStadiumName() > b.getStadiumName();
-    }
-};
-
-struct CompareByTeamName 
-{
-    bool operator()(const Stadium& a, const Stadium& b) const 
-    {
-        return a.getTeamName() > b.getTeamName();
-    }
-};
-
 BackendManager::BackendManager() : isAdmin{false}
 {
     populateStadiums();
@@ -229,7 +196,7 @@ vector<Stadium> BackendManager::getStadiumsAsVector()
 }
 
 template<typename Compare>
-vector<Stadium> sortStadiums(const vector<Stadium>& stadiumsVect, Compare compare)
+vector<Stadium> BackendManager::sortStadiums(const vector<Stadium>& stadiumsVect, Compare compare)
 {
     priority_queue<Stadium, vector<Stadium>, Compare> pq(compare);
 
@@ -286,7 +253,7 @@ vector<Stadium> BackendManager::getStadiumsByRoofType(const vector<Stadium>& sta
                 stadiumRoof = "OPEN";
             break;
 
-            case FIXED:
+            case FIXED_ROOF:
                 stadiumRoof = "FIXED ROOF";
             break;
 
@@ -311,7 +278,7 @@ Stadium BackendManager::getStadiumByName(const vector<Stadium>& stadiumsVect,str
 {
     for(int i = 0; i < stadiumsVect.size(); ++i)
     {
-        if(stadiumsVect[i].getStadiumName == stadiumName)
+        if(stadiumsVect[i].getStadiumName() == stadiumName)
         {
             return stadiumsVect[i];
         }
