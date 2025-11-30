@@ -2,6 +2,39 @@
 
 #include "../../include/models/backendManager.h"
 
+// Define comparator structs
+struct CompareByCapacity 
+{
+    bool operator()(const Stadium& a, const Stadium& b) const 
+    {
+        return a.getCapacity() > b.getCapacity();
+    }
+};
+
+struct CompareByYearOpened 
+{
+    bool operator()(const Stadium& a, const Stadium& b) const 
+    {
+        return a.getYearOpened() > b.getYearOpened();
+    }
+};
+
+struct CompareByStadiumName 
+{
+    bool operator()(const Stadium& a, const Stadium& b) const 
+    {
+        return a.getStadiumName() > b.getStadiumName();
+    }
+};
+
+struct CompareByTeamName 
+{
+    bool operator()(const Stadium& a, const Stadium& b) const 
+    {
+        return a.getTeamName() > b.getTeamName();
+    }
+};
+
 BackendManager::BackendManager() : isAdmin{false}
 {
     // Create souvenir list
@@ -202,11 +235,102 @@ vector<Stadium> BackendManager::getStadiumsAsVector()
     return stadiumsVect;
 }
 
-vector<Stadium> BackendManager::getStadiumsByDivision(string division)
+template<typename Compare>
+vector<Stadium> sortStadiums(const vector<Stadium>& stadiumsVect, Compare compare)
+{
+    priority_queue<Stadium, vector<Stadium>, Compare> pq(compare);
+
+    for(int i = 0; i < stadiumsVect.size(); ++i)
+    {
+        pq.push(stadiumsVect[i]);
+    }
+    
+    vector<Stadium> sorted;
+    sorted.reserve(stadiumsVect.size());
+    
+    while(!pq.empty())
+    {
+        sorted.push_back(pq.top());
+        pq.pop();
+    }
+    
+    return sorted;
+}
+
+vector<Stadium> BackendManager::sortStadiumsByCapacity(const vector<Stadium>& stadiums)
+{
+    return sortStadiums(stadiums, CompareByCapacity());
+}
+
+vector<Stadium> BackendManager::sortStadiumsByDateOpened(const vector<Stadium>& stadiums)
+{
+    return sortStadiums(stadiums, CompareByYearOpened());
+}
+
+vector<Stadium> BackendManager::sortStadiumsByStadiumName(const vector<Stadium>& stadiums)
+{
+    return sortStadiums(stadiums, CompareByStadiumName());
+}
+
+vector<Stadium> BackendManager::sortStadiumsByTeam(const vector<Stadium>& stadiums, string teamName)
+{
+    return sortStadiums(stadiums, CompareByStadiumName());
+}
+
+vector<Stadium> BackendManager::getStadiumsByRoofType(const vector<Stadium>& stadiumsVect, string roofType)
+{
+    transform(roofType.begin(), roofType.end(), roofType.begin(), ::toupper);
+
+    vector<Stadium> roofTypes;
+
+    for(int i = 0; i < stadiumsVect.size(); ++i)
+    {
+        string stadiumRoof;
+
+        switch(stadiumsVect[i].getRoofType())
+        {
+            case OPEN:
+                stadiumRoof = "OPEN";
+            break;
+
+            case FIXED:
+                stadiumRoof = "FIXED ROOF";
+            break;
+
+            case RETRACTABLE:
+                stadiumRoof = "RETRACTABLE";
+            break;
+
+            default:
+                throw runtime_error("Unrecognized roof type found");
+        }
+
+        if(stadiumRoof == roofType)
+        {
+            roofTypes.push_back(stadiumsVect[i]);
+        }
+    }
+
+    return roofTypes;
+}
+
+Stadium BackendManager::getStadiumByName(const vector<Stadium>& stadiumsVect,string stadiumName)
+{
+    for(int i = 0; i < stadiumsVect.size(); ++i)
+    {
+        if(stadiumsVect[i].getStadiumName == stadiumName)
+        {
+            return stadiumsVect[i];
+        }
+    }
+
+    cout << "Stadium Not Found." << endl;
+}
+
+vector<Stadium> BackendManager::getStadiumsByDivision(const vector<Stadium>& stadiumsVect,string division)
 {
     transform(division.begin(), division.end(), division.begin(), ::toupper);
 
-    vector<Stadium> stadiumsVect = getStadiumsAsVector();
     vector<Stadium> divisions;
 
     for(int i = 0; i < stadiumsVect.size(); ++i)
@@ -220,8 +344,58 @@ vector<Stadium> BackendManager::getStadiumsByDivision(string division)
     return divisions;
 }
 
+vector<Stadium> BackendManager::getStadiumsByConference(const vector<Stadium>& stadiumsVect,string conference)
+{
+    transform(conference.begin(), conference.end(), conference.begin(), ::toupper);
 
-vector<Stadium> BackendManager::filterStadiums(vector<Stadium> stadiumsVect, string search)
+    vector<Stadium> conferences;
+
+    for(int i = 0; i < stadiumsVect.size(); ++i)
+    {
+        if(stadiumsVect[i].getConference().substr(0, 8) == conference)
+        {
+            conferences.push_back(stadiumsVect[i]);
+        }
+    }
+
+    return conferences;
+}
+
+DoubleHashTable<Souvenir> BackendManager::getTeamSouvenirs(string teamName)
+{
+    vector<Stadium> stadiums = getStadiumsAsVector();
+
+    for(int i = 0; i < stadiums.size(); ++i)
+    {
+        if(stadiums[i].getTeamName() == teamName)
+        {
+            return stadiums[i].getSouvenirList();
+        }
+    }
+
+    throw runtime_error("Team '" + teamName + "' not found");
+}
+
+int BackendManager::totalStadiumCapacity(const vector<Stadium>& stadiumsVect)
+{
+    set<string> seenStadiums;
+    int totalCapacity = 0;
+
+    for(int i = 0; i < stadiumsVect.size(); ++i)
+    {
+        string name = stadiumsVect[i].getStadiumName();
+        
+        if(seenStadiums.find(name) == seenStadiums.end())
+        {
+            seenStadiums.insert(name);
+            totalCapacity += stadiumsVect[i].getCapacity();
+        }
+    }
+
+    return totalCapacity;
+}
+
+vector<Stadium> BackendManager::filterStadiums(const vector<Stadium>& stadiumsVect, string search)
 {
     transform(search.begin(), search.end(), search.begin(), ::tolower); // tolower the search string
 
