@@ -39,7 +39,23 @@ public:
     // Need functions for DB to stadiums data structure
 
     vector<Stadium> getStadiumsAsVector();
-    vector<Stadium> getStadiumsByDivision(string division);
+
+    // Refer to the top of backendManager.cpp for what the Compare data type is used for
+    vector<Stadium> sortStadiums(const vector<Stadium>&             stadiumsVect, Compare compare);
+    vector<Stadium> sortStadiumsByStadium(const vector<Stadium>&    stadiumsVect);
+    vector<Stadium> sortStadiumsByTeam(const vector<Stadium>&       stadiumsVect, string teamName);
+    vector<Stadium> sortStadiumsByDateOpened(const vector<Stadium>& stadiumsVect);
+    vector<Stadium> sortStadiumsByCapacity(const vector<Stadium>&   stadiumsVect);
+
+    Stadium         getStadiumByName(const vector<Stadium>&        stadiumsVect,string stadiumName);
+    vector<Stadium> getStadiumsByRoofType(const vector<Stadium>&   stadiumsVect,string roofType);
+    vector<Stadium> getStadiumsByDivision(const vector<Stadium>&   stadiumsVect,string division);
+    vector<Stadium> getStadiumsByConference(const vector<Stadium>& stadiumsVect,string conference);
+
+    DoubleHashTable<Souvenir> getTeamSouvenirs(string teamName);
+
+    int totalStadiumCapacity(const vector<Stadium>& stadiumsVect);
+
     vector<Stadium> filterStadiums(vector<Stadium> stadiumsVect, string search);
 
     /* ----- PRINT TO TERMINAL -----*/

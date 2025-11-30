@@ -5,7 +5,7 @@
 #ifndef STADIUM_H
 #define STADIUM_H
 
-enum RoofType {OPEN, FIXED_ROOF, RETRACTABLE, NONE};
+enum RoofType {OPEN, FIXED, RETRACTABLE, NONE};
 
 class Stadium
 {
