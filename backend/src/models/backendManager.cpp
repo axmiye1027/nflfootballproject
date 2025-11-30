@@ -4,42 +4,9 @@
 
 BackendManager::BackendManager() : isAdmin{false}
 {
-    // Create souvenir list
-    std::vector<Souvenir> souvenirs = {
-        Souvenir(1,"Team Jersey", 79.99),
-        Souvenir(1,"Baseball Cap", 24.99),
-        Souvenir(1,"Keychain", 5.99)
-    };
-
-    // Call addStadium
-    addStadium(
-        "Los Angeles Dodgers",       // teamName
-        "Dodger Stadium",            // stadiumName
-        56000,                       // capacity
-        "Los Angeles, CA",           // location
-        OPEN,                        // roofType
-        "Grass",                     // surface
-        1962,                        // dateOpened
-        "National League",           // conference
-        "West Division",             // division
-        souvenirs                    // souvenirList
-    );
-
     populateStadiums();
-    populateDistances();
-    printStadiums();
-
-    int lastStadiumId = getStadiumsAsVector().back().getStadiumId();
-
-    modifySouvenirName(lastStadiumId, "Team Jersey","Changed Souvenir Name");
-    modifySouvenirPrice(lastStadiumId, "Baseball Cap", 67.67); // Shame
-    addSouvenir(lastStadiumId, "New souvenir", 1.25);
-
-    removeSouvenir(lastStadiumId,"Keychain");
-    
-    populateStadiums();
-
-    getStadiumsAsVector().back().printSouvenirs();
+    // populateDistances();
+    // printStadiums();
 
     //adjacencyMatrix.printMatrix();
     //adjacencyMatrix.bfs("State Farm Stadium");
@@ -148,7 +115,7 @@ void BackendManager::printStadiums() const
 
 
 void BackendManager::addStadium(string teamName, string stadiumName, int capacity, string location, RoofType roofType, string surface,
-            int dateOpened, string conference, string division, vector<Souvenir> souvenirList)
+            int yearOpened, string conference, string division, vector<Souvenir> souvenirList)
 {
     string roof;
 
@@ -164,8 +131,31 @@ void BackendManager::addStadium(string teamName, string stadiumName, int capacit
         break;
     }
 
-    databaseManager.addStadium(teamName, stadiumName, capacity, location, roof, surface, dateOpened, conference, division, souvenirList);
+    databaseManager.addStadium(teamName, stadiumName, capacity, location, roof, surface, yearOpened, conference, division, souvenirList);
 
+}
+
+bool BackendManager::updateStadium(int stadiumId, string teamName, string stadiumName, int capacity, string location, string roofType, string surface,
+            int yearOpened, string conference, string division)
+{
+    try {
+        databaseManager.updateStadium(stadiumId,    "team",         teamName);
+        databaseManager.updateStadium(stadiumId,    "stadium_name", stadiumName);
+        databaseManager.updateStadiumInt(stadiumId, "capacity",     capacity);
+        databaseManager.updateStadium(stadiumId,    "location",     location);
+        databaseManager.updateStadium(stadiumId,    "roof_type",    roofType);
+        databaseManager.updateStadium(stadiumId,    "surface",      surface);
+        databaseManager.updateStadiumInt(stadiumId, "opened_year",  yearOpened);
+        databaseManager.updateStadium(stadiumId,    "conference",   conference);
+        databaseManager.updateStadium(stadiumId,    "division",     division);
+
+        return true;
+    }
+    catch (...) 
+    {
+        cerr << "[BackendManager::updateStadium] error." << endl;
+        return false;
+    }
 }
 
 void BackendManager::addTeam() {}
@@ -189,6 +179,9 @@ void BackendManager::modifySouvenirPrice(int stadiumId, const string& name, doub
 {
     databaseManager.updateSouvenirPrice(stadiums.get(stadiumId).getSouvenirId(name),souvenirPrice);
 }
+
+
+
 
 vector<Stadium> BackendManager::getStadiumsAsVector()
 {

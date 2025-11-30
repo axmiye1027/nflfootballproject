@@ -27,7 +27,7 @@ function LoginPage({ setLoggedIn }) {
 
             if (data.success) {
                 setMessage("Login successful!");
-                setLoggedIn(true);     
+                setLoggedIn(true);  
                 setTimeout(() => navigate('/'), 500); // redirect to home after 0.5s
             } else {
                 setMessage(data.message || "Login failed");

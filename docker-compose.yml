@@ -8,6 +8,8 @@ services:
     environment:
       - PORT=18080
       - BUILD_TYPE=Debug
+    volumes:
+      - ./backend/assets/database.db:/app/assets/database.db
     develop:
       watch:
       - action: sync

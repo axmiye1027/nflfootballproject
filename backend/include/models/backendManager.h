@@ -25,12 +25,15 @@ public:
     void populateDistances(); // Grabs Distance info from database and stores in adjacencyMatrix and adjacencyList
 
     void addTeam();
+    void addStadium(string teamName, string stadiumName, int capacity, string location, RoofType roofType, string surface,
+            int yearOpened, string conference, string division, vector<Souvenir> souvenirList);
+    bool updateStadium(int stadiumId, string teamName, string stadiumName, int capacity, string location, string roofType, string surface,
+            int yearOpened, string conference, string division);
     void addSouvenir(int stadiumId, const string& souvenirName, double souvenirPrice);
     void removeSouvenir(int stadiumId,const string&  name);
     void modifySouvenirName(int stadiumId,const string&  oldName,const string& newName);
     void modifySouvenirPrice(int stadiumId, const string& name, double souvenirPrice);
-    void addStadium(string teamName, string stadiumName, int capacity, string location, RoofType roofType, string surface,
-    int dateOpened, string conference, string division, vector<Souvenir> souvenirList);
+
     // Move team and souvenir functions to stadium class?
 
     // Need functions for DB to stadiums data structure

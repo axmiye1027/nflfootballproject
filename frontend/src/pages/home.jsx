@@ -6,8 +6,7 @@ import React, { useEffect, useState } from 'react'
 import SearchBar from '../components/SearchBar.jsx'
 import TeamInfo from '../components/TeamInfo.jsx'
 
-function HomePage() {
-  const [stadiums, setStadiums] = useState([]);
+function HomePage({ stadiums, setStadiums }) {
   const [division, setDivision] = useState("All Teams");
 
   const [search,      setSearch]      = useState("");

@@ -1,0 +1,58 @@
+
+.admin-container {
+    padding: 1rem 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+    height: calc(100vh - 80px);
+    padding-top: 12em;   
+}
+
+.admin-title {
+    margin-bottom: 1em;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.folder {
+    margin-bottom: 1rem;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+
+.folder-header {
+    width: 100%;
+    text-align: left;
+    padding: 0.75rem 1rem;
+    color: var(--white);
+    background: var(--purple);
+    font-weight: bold;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.folder-header:hover {
+    background-color: #2c3e9e;
+}
+
+
+.folder-content {
+    background-color: #f5f5f5; /* light panel background */
+    padding: 1rem;
+    display: flex; /* for left/right layout */
+    gap: 1rem;
+    border-top: 1px solid #ddd;
+}
+
+
+.folder-content.open {
+    animation: slideDown 0.2s ease-out forwards;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; max-height: 0; }
+    to { opacity: 1; max-height: 1000px; }
+}

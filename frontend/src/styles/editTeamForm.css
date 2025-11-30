@@ -1,0 +1,62 @@
+
+.edit-team-container {
+  width: 500px;
+  max-width: 600px;
+  padding: 1rem;
+}
+
+
+.edit-team-form {
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-row label {
+  font-weight: bold;
+  margin-bottom: 0.3rem;
+  text-align: left;
+  padding: 0.3rem
+}
+
+.form-row input {
+  padding: 0.4rem 0.6rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.form-row input:disabled {
+  background-color: #e9ecef;
+  color: #6c757d;
+}
+
+.form-buttons {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.save-button {
+    color: var(--white);
+    background: var(--purple);
+    border-radius: 4px;
+    padding: 0.25rem 0.5rem;
+    cursor: pointer;
+}
+
+.delete-button {
+    color: red;
+    border: 1px solid red;
+    background-color: transparent;
+    border-radius: 4px;
+    padding: 0.25rem 0.5rem;
+    cursor: pointer;
+}

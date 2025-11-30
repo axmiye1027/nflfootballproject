@@ -131,4 +131,38 @@ void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
     });
 
 
+    CROW_ROUTE(app, "/updateStadium").methods(crow::HTTPMethod::POST)
+    ([&backend](const crow::request& req) 
+    {
+        auto body = crow::json::load(req.body);
+        if (!body)
+        {
+            crow::json::wvalue error;
+            error["success"] = false;
+            error["message"] = "Invalid JSON";
+            return crow::response(400, error.dump());
+        }
+
+        int    stadiumId   = body["stadiumId"].i();
+        string teamName    = body["teamName"].s();
+        string stadiumName = body["stadiumName"].s();
+        int    capacity    = body["capacity"].i();
+        string location    = body["location"].s();
+        string roofType    = body["roofType"].s();
+        string surfaceType = body["surfaceType"].s();
+        int    yearOpened  = body["yearOpened"].i();
+        string conference  = body["conference"].s();
+        string division    = body["division"].s();
+
+        bool success = backend.updateStadium(stadiumId, teamName, stadiumName, capacity, location, roofType, surfaceType, yearOpened, conference, division);
+
+        crow::json::wvalue res;
+        res["success"] = success;
+        if (!success) res["message"] = "Failed to update stadium";
+
+        return crow::response(res);
+    });
+
+
+
 }
