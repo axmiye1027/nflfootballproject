@@ -1,5 +1,8 @@
 // Displaying basic team information card
 // Will modify later to accept props for dynamic data
+
+import React from 'react'
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHorseHead } from '@fortawesome/free-solid-svg-icons'
     
@@ -92,4 +95,4 @@ function TeamInfo({ stadium }) {
     ); // END RETURN
 }
 
-export default TeamInfo;
+export default React.memo(TeamInfo);

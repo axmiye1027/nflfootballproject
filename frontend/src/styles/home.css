@@ -1,0 +1,43 @@
+.sort-options {
+    display: flex;
+    flex-direction: column;
+    gap: .7rem;
+    width: 200px;
+}
+
+.sort-by {
+    display: flex;
+    flex-direction: row;
+}
+
+.sort-by label {
+    min-width: 90px;
+}
+
+.sort-direction {
+    display: flex;
+    flex-direction: row;
+}
+.sort-direction label {
+    min-width: 90px;
+}
+
+.filters {
+    display: flex;
+    flex-direction: row;
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--purple);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    gap: .7rem;
+    max-height: 400px;
+    overflow-y: auto;
+
+}
+
+.filters button {
+    background-color: var(--purple);
+    color: var(--white)
+}

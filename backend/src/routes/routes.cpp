@@ -78,17 +78,27 @@ void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
     CROW_ROUTE(app, "/stadiums").methods(crow::HTTPMethod::GET)
     ([&backend](const crow::request& req)
     {
-        string division = req.url_params.get("division")
-                            ? req.url_params.get("division")
-                            : "All Teams";
+        const string ALL_TEAMS = "All Teams";
 
-        string search = req.url_params.get("search") ? req.url_params.get("search") : "";
+        // SORT
+        string teamName    = req.url_params.get("teamName")    ? req.url_params.get("teamName")    : ALL_TEAMS;
+        string stadiumName = req.url_params.get("stadiumName") ? req.url_params.get("stadiumName") : ALL_TEAMS;
+        string yearOpened  = req.url_params.get("yearOpened")  ? req.url_params.get("yearOpened")  : ALL_TEAMS;
+        string capacity    = req.url_params.get("capacity")    ? req.url_params.get("capacity")    : ALL_TEAMS;
+
+        // FILTER
+        string roofType    = req.url_params.get("roofType")    ? req.url_params.get("roofType")    : ALL_TEAMS;
+        string conference  = req.url_params.get("conference")  ? req.url_params.get("conference")  : ALL_TEAMS;
+        string division    = req.url_params.get("division")    ? req.url_params.get("division")    : ALL_TEAMS;
+
+        // SEARCH
+        string search   = req.url_params.get("search") ? req.url_params.get("search") : "";
 
         vector<Stadium> stadiums = backend.getStadiumsAsVector();
 
-        if (division != "All Teams")
+        if (conference != ALL_TEAMS)
         {
-            stadiums = backend.getStadiumsByDivision(stadiums, division);
+            stadiums = backend.getStadiumsByDivision(stadiums, conference);
         }
 
         if (!search.empty())
