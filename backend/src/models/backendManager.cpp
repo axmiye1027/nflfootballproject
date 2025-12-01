@@ -36,6 +36,11 @@ bool BackendManager::login(string username, string password)
     return false;
 }
 
+bool BackendManager::isAdminStatus() const
+{
+    return isAdmin;
+}
+
 void BackendManager::populateStadiums() 
 {
     cout << "[BackendManager::populateStadiums()]" << endl;
@@ -165,4 +170,27 @@ vector<Stadium> BackendManager::getStadiumsAsVector()
     }
 
     return stadiumsVect;
+}
+
+int BackendManager::getDistanceBetween(int stadiumIdA, int stadiumIdB)
+{
+    try {
+        // Use the stadiums hash to get locations
+        Stadium a = stadiums.get(stadiumIdA);
+        Stadium b = stadiums.get(stadiumIdB);
+
+        string locA = a.getLocation();
+        string locB = b.getLocation();
+
+        Distance* d = databaseManager.getDistance(locA, locB);
+        if (d) {
+            int dist = d->distanceKm;
+            delete d;
+            return dist;
+        }
+        return -1;
+    } catch (const std::exception& ex) {
+        cerr << "getDistanceBetween error: " << ex.what() << endl;
+        return -1;
+    }
 }

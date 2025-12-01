@@ -38,6 +38,10 @@ public:
 
     vector<Stadium> getStadiumsAsVector();
 
+    int getDistanceBetween(int stadiumIdA, int stadiumIdB);
+
+    bool isAdminStatus() const;
+
     /* ----- PRINT TO TERMINAL -----*/
     void printStadiums();
 

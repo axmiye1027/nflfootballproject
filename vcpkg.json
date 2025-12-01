@@ -1,0 +1,9 @@
+{
+  "dependencies": [
+    "asio",
+    "crow",
+    "openssl",
+    "zlib",
+    "sqlite3"
+  ]
+}
