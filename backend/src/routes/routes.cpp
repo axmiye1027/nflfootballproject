@@ -160,7 +160,7 @@ void registerRoutes(crow::SimpleApp& app, BackendManager& backend)
             }
 
             auto ids = body["stadiumIds"];
-            if (!ids.is_list()) return crow::response(400);
+            if (ids.t() != crow::json::type::List) return crow::response(400);
 
             vector<int> stadiumIds;
             for (auto &v : ids) stadiumIds.push_back((int)v.u());
