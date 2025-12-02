@@ -38,7 +38,7 @@ bool BackendManager::login(string username, string password)
 
 void BackendManager::populateStadiums() 
 {
-    stadiums.clearTable();
+    adjacencyList.clearTable();
 
     cout << "[BackendManager::populateStadiums()]" << endl;
 
@@ -89,6 +89,7 @@ void BackendManager::populateStadiums()
 
 void BackendManager::populateDistances()
 {
+    adjacencyMatrix.clearTable();
     vector<Distance> distances = databaseManager.getAllDistances();
 
     // AdjacencyMatrix
@@ -182,6 +183,10 @@ bool BackendManager::updateStadium(int stadiumId, string teamName, string stadiu
         databaseManager.updateStadiumInt(stadiumId, "opened_year",  yearOpened);
         databaseManager.updateStadium(stadiumId,    "conference",   conference);
         databaseManager.updateStadium(stadiumId,    "division",     division);
+
+        // refreshes data in program
+        populateDistances();
+        populateStadiums();
 
         return true;
     }
