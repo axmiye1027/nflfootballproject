@@ -473,10 +473,22 @@ PathReturn BackendManager::calculateDijkstra(string startingStadium, string endi
     throw runtime_error("Path not found");
 }
 
-// PathReturn BackendManager::calculateDFS(string startingStadium)
-// {
+PathReturn BackendManager::calculateDFS(string startingStadium)
+{
+    adjacencyList.dfs(startingStadium);
 
-// }
+    vector<AdjacencyNode> path = adjacencyList.returnPath();
+    PathReturn convertedPaths; 
+
+    // converts the path returned by dfs to PathReturn struct
+    for(int i = 0; i < path.size(); ++i)
+    {
+        convertedPaths.path.push_back(path[i].cityName);
+        convertedPaths.distanceTraveled += path[i].distanceFromLast;
+    }
+
+    return convertedPaths;
+}
 
 // PathReturn BackendManager::calculateCustomTrip(vector<Stadium> trip)
 // {

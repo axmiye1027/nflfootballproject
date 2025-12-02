@@ -103,7 +103,7 @@ public:
     int calculateBFS(const string& startingStadium);
     int calculateMST(const string& startingStadium);
     PathReturn calculateDijkstra(string startingStadium, string endingStadium);
-    // PathReturn calculateDFS(string startingStadium);
+    PathReturn calculateDFS(string startingStadium);
     // PathReturn calculateCustomTrip(vector<Stadium> trip);
     // PathReturn calculateRecursiveTrip(vector<Stadium> trip);
 

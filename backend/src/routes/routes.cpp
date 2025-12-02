@@ -321,10 +321,12 @@ void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
 
         string startingStadium = body["dfsStadium"].s();
 
-        // vector<Stadium> dfsVector = backend.calculateDFS(startingStadium);
+        PathReturn path = backend.calculateDFS(startingStadium);
  
         crow::json::wvalue res;
-
+        res["success"]  = true;
+        res["path"]     = path.path;
+        res["distance"] = path.distanceTraveled;
         return crow::response(res.dump());
 
     });
@@ -338,5 +340,14 @@ void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
 
         return crow::response(res.dump());
     });
+
+    // CROW_ROUTE(app, "/recursiveTrip").methods(crow::HTTPMethod::POST)
+    // ([&backend](const crow::request& req) 
+    // {
+
+    //     crow::json::wvalue res;
+
+    //     return crow::response(res.dump());
+    // });
 
 }
