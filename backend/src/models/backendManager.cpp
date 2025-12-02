@@ -151,8 +151,6 @@ bool BackendManager::updateStadium(int stadiumId, string teamName, string stadiu
 
         // update the distances
 
-        database
-
         return true;
     }
     catch (...) 
@@ -338,6 +336,11 @@ DoubleHashTable<Souvenir> BackendManager::getTeamSouvenirs(string teamName)
     }
 
     throw runtime_error("Team '" + teamName + "' not found");
+}
+
+vector<Stadium> getStadiumsByGrass(const vector<Stadium>& stadiumsVect,string grassType)
+{
+
 }
 
 int BackendManager::totalStadiumCapacity(const vector<Stadium>& stadiumsVect)
