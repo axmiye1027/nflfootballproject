@@ -101,15 +101,15 @@ void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
             stadiums = backend.getStadiumsByConference(stadiums, conference);
         }
 
-        if (division != ALL_TEAMS)
-        {
-            stadiums = backend.getStadiumsByDivision(stadiums, division);
-        }
+        // if (division != ALL_TEAMS)
+        // {
+        //     stadiums = backend.getStadiumsByDivision(stadiums, division);
+        // }
 
-        if (roofType != ALL_TEAMS)
-        {
-            stadiums = backend.getStadiumsByRoofType(stadiums, roofType);
-        }
+        // if (roofType != ALL_TEAMS)
+        // {
+        //     stadiums = backend.getStadiumsByRoofType(stadiums, roofType);
+        // }
 
         if (!search.empty())
         {

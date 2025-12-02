@@ -5,11 +5,11 @@
 BackendManager::BackendManager() : isAdmin{false}
 {
     populateStadiums();
-    // populateDistances();
+    populateDistances();
     // printStadiums();
 
     //adjacencyMatrix.printMatrix();
-    //adjacencyMatrix.bfs("State Farm Stadium");
+    adjacencyMatrix.bfs("State Farm Stadium");
 
     //adjacencyMatrix.Dijkstra("State Farm Stadium");
     //adjacencyMatrix.mst("State Farm Stadium");
@@ -140,23 +140,23 @@ bool BackendManager::updateStadium(int stadiumId, string teamName, string stadiu
 {
     try 
     {
-        string targetStadiumName   = getStadiumById(getStadiumsAsVector(),stadiumId).getStadiumName();
+        string oldStadiumName      = getStadiumById(getStadiumsAsVector(),stadiumId).getStadiumName();
         vector<Distance> distances = adjacencyMatrix.getDistanceVector();
 
         // goes through the whole vector and finds the distance name to update
         for(int i = 0; i < distances.size(); ++i)
         {
             bool   needsUpdate  = false;
-            string newLocationA = dist.locationA;
-            string newLocationB = dist.locationB;
+            string newLocationA = distances[i].locationA;
+            string newLocationB = distances[i].locationB;
 
-            if (dist.locationA == oldStadiumName)
+            if (distances[i].locationA == oldStadiumName)
             {
                 newLocationA = stadiumName;
                 needsUpdate = true;
             }
             
-            if (dist.locationB == oldStadiumName)
+            if (distances[i].locationB == oldStadiumName)
             {
                 newLocationB = stadiumName;
                 needsUpdate = true;
@@ -164,11 +164,11 @@ bool BackendManager::updateStadium(int stadiumId, string teamName, string stadiu
 
             if (needsUpdate)
             {
-                bool distanceUpdated = databaseManager.updateDistance(dist.id, newLocationA, newLocationB);
+                bool distanceUpdated = databaseManager.updateDistance(distances[i].id, newLocationA, newLocationB);
                 
                 if (!distanceUpdated)
                 {
-                    cout << "[BackendManager::updateStadium] Failed to update distance ID: " << dist.id << endl;
+                    cout << "[BackendManager::updateStadium] Failed to update distance ID: " << distances[i].id << endl;
                 }
             }
         }
