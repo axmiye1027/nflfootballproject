@@ -83,53 +83,54 @@
 \DoxyCodeLine{00081\ \textcolor{comment}{\ \ \ \ /******************\ EDIT\ DATABASE\ ******************/}}
 \DoxyCodeLine{00082\ \ \ \ \ \textcolor{keywordtype}{int}\ \ addDistance(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ locationA,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ locationB,\ \textcolor{keywordtype}{double}\ distanceKm);}
 \DoxyCodeLine{00083\ \ \ \ \ \textcolor{keywordtype}{bool}\ updateDistance(\textcolor{keywordtype}{int}\ distanceId,\ \textcolor{keywordtype}{double}\ distanceKm);}
-\DoxyCodeLine{00084\ \ \ \ \ \textcolor{keywordtype}{bool}\ deleteDistance(\textcolor{keywordtype}{int}\ distanceId);}
-\DoxyCodeLine{00085\ }
-\DoxyCodeLine{00086\ \ \ \ \ \textcolor{keywordtype}{int}\ addStadium(\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ team,\ }
-\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ stadiumName,}
-\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ capacity,\ }
-\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ location,}
-\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ roofType,\ }
-\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ surface,}
-\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ yearOpened,\ }
-\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ conference,}
-\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ division,}
-\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vector<Souvenir>\ souvenirs);}
-\DoxyCodeLine{00096\ \ \ \ \ \textcolor{keywordtype}{bool}\ updateStadium(\textcolor{keywordtype}{int}\ stadiumId,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ field,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ value);}
-\DoxyCodeLine{00097\ \ \ \ \ \textcolor{keywordtype}{bool}\ updateStadiumInt(\textcolor{keywordtype}{int}\ stadiumId,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ field,\ \textcolor{keywordtype}{int}\ value);}
-\DoxyCodeLine{00098\ \ \ \ \ \textcolor{keywordtype}{bool}\ deleteStadium(\textcolor{keywordtype}{int}\ stadiumId);\ }
-\DoxyCodeLine{00099\ }
-\DoxyCodeLine{00100\ \ \ \ \ \textcolor{keywordtype}{int}\ \ addSouvenir(\textcolor{keywordtype}{int}\ stadiumId,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ souvenirName,\ \textcolor{keywordtype}{double}\ souvenirPrice);}
-\DoxyCodeLine{00101\ \ \ \ \ \textcolor{keywordtype}{bool}\ updateSouvenirName(\textcolor{keywordtype}{int}\ souvenirId,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ souvenirName);}
-\DoxyCodeLine{00102\ \ \ \ \ \textcolor{keywordtype}{bool}\ updateSouvenirPrice(\textcolor{keywordtype}{int}\ souvenirId,\ \textcolor{keywordtype}{double}\ souvenirPrice);}
-\DoxyCodeLine{00103\ \ \ \ \ \textcolor{keywordtype}{bool}\ deleteSouvenir(\textcolor{keywordtype}{int}\ souvenirId);}
-\DoxyCodeLine{00104\ \textcolor{comment}{\ \ \ \ /***************************************************/}}
-\DoxyCodeLine{00105\ }
-\DoxyCodeLine{00106\ \textcolor{comment}{\ \ \ \ /*****************\ GET\ FROM\ DATABASE\ ***************/}}
-\DoxyCodeLine{00107\ \ \ \ \ \mbox{\hyperlink{structDistance}{Distance}}*\ \ \ \ \ \ \ \ getDistance(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ locationA,\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ locationB);}
-\DoxyCodeLine{00108\ \ \ \ \ vector<Distance>\ getAllDistances();}
-\DoxyCodeLine{00109\ }
-\DoxyCodeLine{00110\ \ \ \ \ \mbox{\hyperlink{structStadiumStruct}{StadiumStruct}}*\ \ \ \ \ \ \ \ getStadiumById(\textcolor{keywordtype}{int}\ stadiumId);}
-\DoxyCodeLine{00111\ \ \ \ \ \mbox{\hyperlink{structStadiumStruct}{StadiumStruct}}*\ \ \ \ \ \ \ \ getStadiumByTeam(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ team);}
-\DoxyCodeLine{00112\ \ \ \ \ vector<StadiumStruct>\ getAllStadiums();}
-\DoxyCodeLine{00113\ }
-\DoxyCodeLine{00114\ \ \ \ \ vector<StadiumStruct>\ getStadiumsByConference(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ conference);}
-\DoxyCodeLine{00115\ \ \ \ \ vector<StadiumStruct>\ getStadiumsByDivision(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ division);}
-\DoxyCodeLine{00116\ }
-\DoxyCodeLine{00117\ \ \ \ \ \mbox{\hyperlink{structSouvenir}{Souvenir}}*\ \ \ \ \ \ \ \ getSouvenirById(\textcolor{keywordtype}{int}\ souvenirId);}
-\DoxyCodeLine{00118\ \ \ \ \ vector<Souvenir>\ getStadiumSouvenirs(\textcolor{keywordtype}{int}\ stadiumId);}
-\DoxyCodeLine{00119\ \textcolor{comment}{\ \ \ \ /***************************************************/}}
-\DoxyCodeLine{00120\ }
-\DoxyCodeLine{00121\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00122\ \ \ \ \ sqlite3*\ db;}
-\DoxyCodeLine{00123\ \ \ \ \ \textcolor{keywordtype}{string}\ \ \ db\_path;}
-\DoxyCodeLine{00124\ }
-\DoxyCodeLine{00125\ \ \ \ \ \textcolor{keywordtype}{void}\ executeSQL(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ sql);}
-\DoxyCodeLine{00126\ \ \ \ \ }
-\DoxyCodeLine{00127\ \ \ \ \ sqlite3\_stmt*\ prepareStatement(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ sql);}
-\DoxyCodeLine{00128\ \ \ \ \ }
-\DoxyCodeLine{00129\ \ \ \ \ \textcolor{keywordtype}{string}\ getColumnText(sqlite3\_stmt*\ stmt,\ \textcolor{keywordtype}{int}\ col);}
-\DoxyCodeLine{00130\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ getColumnInt(sqlite3\_stmt*\ stmt,\ \textcolor{keywordtype}{int}\ col);}
-\DoxyCodeLine{00131\ \};}
+\DoxyCodeLine{00084\ \ \ \ \ \textcolor{keywordtype}{bool}\ updateDistance(\textcolor{keywordtype}{int}\ distanceId,\ \textcolor{keywordtype}{string}\ locationA,\ \textcolor{keywordtype}{string}\ locationB);\ \textcolor{comment}{//\ bool\ determines\ whether\ to\ update\ location\ A\ or\ B\ in\ the\ table}}
+\DoxyCodeLine{00085\ \ \ \ \ \textcolor{keywordtype}{bool}\ deleteDistance(\textcolor{keywordtype}{int}\ distanceId);}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ \ \ \ \ \textcolor{keywordtype}{int}\ addStadium(\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ team,\ }
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ stadiumName,}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ capacity,\ }
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ location,}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ roofType,\ }
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ surface,}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ yearOpened,\ }
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ conference,}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ division,}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vector<Souvenir>\ souvenirs);}
+\DoxyCodeLine{00097\ \ \ \ \ \textcolor{keywordtype}{bool}\ updateStadium(\textcolor{keywordtype}{int}\ stadiumId,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ field,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ value);}
+\DoxyCodeLine{00098\ \ \ \ \ \textcolor{keywordtype}{bool}\ updateStadiumInt(\textcolor{keywordtype}{int}\ stadiumId,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ field,\ \textcolor{keywordtype}{int}\ value);}
+\DoxyCodeLine{00099\ \ \ \ \ \textcolor{keywordtype}{bool}\ deleteStadium(\textcolor{keywordtype}{int}\ stadiumId);\ }
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \ \ \ \ \textcolor{keywordtype}{int}\ \ addSouvenir(\textcolor{keywordtype}{int}\ stadiumId,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ souvenirName,\ \textcolor{keywordtype}{double}\ souvenirPrice);}
+\DoxyCodeLine{00102\ \ \ \ \ \textcolor{keywordtype}{bool}\ updateSouvenirName(\textcolor{keywordtype}{int}\ souvenirId,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ souvenirName);}
+\DoxyCodeLine{00103\ \ \ \ \ \textcolor{keywordtype}{bool}\ updateSouvenirPrice(\textcolor{keywordtype}{int}\ souvenirId,\ \textcolor{keywordtype}{double}\ souvenirPrice);}
+\DoxyCodeLine{00104\ \ \ \ \ \textcolor{keywordtype}{bool}\ deleteSouvenir(\textcolor{keywordtype}{int}\ souvenirId);}
+\DoxyCodeLine{00105\ \textcolor{comment}{\ \ \ \ /***************************************************/}}
+\DoxyCodeLine{00106\ }
+\DoxyCodeLine{00107\ \textcolor{comment}{\ \ \ \ /*****************\ GET\ FROM\ DATABASE\ ***************/}}
+\DoxyCodeLine{00108\ \ \ \ \ \mbox{\hyperlink{structDistance}{Distance}}*\ \ \ \ \ \ \ \ getDistance(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ locationA,\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ locationB);}
+\DoxyCodeLine{00109\ \ \ \ \ vector<Distance>\ getAllDistances();}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00111\ \ \ \ \ \mbox{\hyperlink{structStadiumStruct}{StadiumStruct}}*\ \ \ \ \ \ \ \ getStadiumById(\textcolor{keywordtype}{int}\ stadiumId);}
+\DoxyCodeLine{00112\ \ \ \ \ \mbox{\hyperlink{structStadiumStruct}{StadiumStruct}}*\ \ \ \ \ \ \ \ getStadiumByTeam(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ team);}
+\DoxyCodeLine{00113\ \ \ \ \ vector<StadiumStruct>\ getAllStadiums();}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00115\ \ \ \ \ vector<StadiumStruct>\ getStadiumsByConference(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ conference);}
+\DoxyCodeLine{00116\ \ \ \ \ vector<StadiumStruct>\ getStadiumsByDivision(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ division);}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00118\ \ \ \ \ \mbox{\hyperlink{structSouvenir}{Souvenir}}*\ \ \ \ \ \ \ \ getSouvenirById(\textcolor{keywordtype}{int}\ souvenirId);}
+\DoxyCodeLine{00119\ \ \ \ \ vector<Souvenir>\ getStadiumSouvenirs(\textcolor{keywordtype}{int}\ stadiumId);}
+\DoxyCodeLine{00120\ \textcolor{comment}{\ \ \ \ /***************************************************/}}
+\DoxyCodeLine{00121\ }
+\DoxyCodeLine{00122\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00123\ \ \ \ \ sqlite3*\ db;}
+\DoxyCodeLine{00124\ \ \ \ \ \textcolor{keywordtype}{string}\ \ \ db\_path;}
+\DoxyCodeLine{00125\ }
+\DoxyCodeLine{00126\ \ \ \ \ \textcolor{keywordtype}{void}\ executeSQL(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ sql);}
+\DoxyCodeLine{00127\ \ \ \ \ }
+\DoxyCodeLine{00128\ \ \ \ \ sqlite3\_stmt*\ prepareStatement(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ sql);}
+\DoxyCodeLine{00129\ \ \ \ \ }
+\DoxyCodeLine{00130\ \ \ \ \ \textcolor{keywordtype}{string}\ getColumnText(sqlite3\_stmt*\ stmt,\ \textcolor{keywordtype}{int}\ col);}
+\DoxyCodeLine{00131\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ getColumnInt(sqlite3\_stmt*\ stmt,\ \textcolor{keywordtype}{int}\ col);}
+\DoxyCodeLine{00132\ \};}
 
 \end{DoxyCode}

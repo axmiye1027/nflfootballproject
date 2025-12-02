@@ -86,31 +86,35 @@
 \DoxyCodeLine{00082\ \ \ \ \ vector<Stadium>\ sortStadiumsByDateOpened(\textcolor{keyword}{const}\ vector<Stadium>\&\ \ stadiumsVect);}
 \DoxyCodeLine{00083\ \ \ \ \ vector<Stadium>\ sortStadiumsByCapacity(\textcolor{keyword}{const}\ vector<Stadium>\&\ \ \ \ stadiumsVect);}
 \DoxyCodeLine{00084\ }
-\DoxyCodeLine{00085\ \ \ \ \ \mbox{\hyperlink{classStadium}{Stadium}}\ \ \ \ \ \ \ \ \ getStadiumByName(\textcolor{keyword}{const}\ vector<Stadium>\&\ \ \ \ \ \ \ \ stadiumsVect,\textcolor{keywordtype}{string}\ stadiumName);}
-\DoxyCodeLine{00086\ \ \ \ \ vector<Stadium>\ getStadiumsByRoofType(\textcolor{keyword}{const}\ vector<Stadium>\&\ \ \ stadiumsVect,\textcolor{keywordtype}{string}\ roofType);}
-\DoxyCodeLine{00087\ \ \ \ \ vector<Stadium>\ getStadiumsByDivision(\textcolor{keyword}{const}\ vector<Stadium>\&\ \ \ stadiumsVect,\textcolor{keywordtype}{string}\ division);}
+\DoxyCodeLine{00085\ \ \ \ \ \mbox{\hyperlink{classStadium}{Stadium}}\ \ \ \ \ \ \ \ \ getStadiumById(\textcolor{keyword}{const}\ vector<Stadium>\&\ \ \ \ \ \ \ \ \ \ stadiumsVect,\textcolor{keywordtype}{int}\ \ \ \ \textcolor{keywordtype}{id});}
+\DoxyCodeLine{00086\ \ \ \ \ \mbox{\hyperlink{classStadium}{Stadium}}\ \ \ \ \ \ \ \ \ getStadiumByName(\textcolor{keyword}{const}\ vector<Stadium>\&\ \ \ \ \ \ \ \ stadiumsVect,\textcolor{keywordtype}{string}\ stadiumName);}
+\DoxyCodeLine{00087\ \ \ \ \ vector<Stadium>\ getStadiumsByRoofType(\textcolor{keyword}{const}\ vector<Stadium>\&\ \ \ stadiumsVect,\textcolor{keywordtype}{string}\ roofType);}
 \DoxyCodeLine{00088\ \ \ \ \ vector<Stadium>\ getStadiumsByConference(\textcolor{keyword}{const}\ vector<Stadium>\&\ stadiumsVect,\textcolor{keywordtype}{string}\ conference);}
-\DoxyCodeLine{00089\ }
-\DoxyCodeLine{00090\ \ \ \ \ \mbox{\hyperlink{classDoubleHashTable}{DoubleHashTable<Souvenir>}}\ getTeamSouvenirs(\textcolor{keywordtype}{string}\ teamName);}
+\DoxyCodeLine{00089\ \ \ \ \ vector<Stadium>\ getStadiumsByDivision(\textcolor{keyword}{const}\ vector<Stadium>\&\ \ \ stadiumsVect,\textcolor{keywordtype}{string}\ division);}
+\DoxyCodeLine{00090\ \ \ \ \ vector<Stadium>\ getStadiumsByGrass(\textcolor{keyword}{const}\ vector<Stadium>\&\ \ \ \ \ \ stadiumsVect,\textcolor{keywordtype}{string}\ grassType);}
 \DoxyCodeLine{00091\ }
-\DoxyCodeLine{00092\ \ \ \ \ \textcolor{keywordtype}{int}\ totalStadiumCapacity(\textcolor{keyword}{const}\ vector<Stadium>\&\ stadiumsVect);}
+\DoxyCodeLine{00092\ \ \ \ \ \mbox{\hyperlink{classDoubleHashTable}{DoubleHashTable<Souvenir>}}\ getTeamSouvenirs(\textcolor{keywordtype}{string}\ teamName);}
 \DoxyCodeLine{00093\ }
-\DoxyCodeLine{00094\ \ \ \ \ vector<Stadium>\ filterStadiums(\textcolor{keyword}{const}\ vector<Stadium>\&\ stadiumsVect,\ \textcolor{keywordtype}{string}\ search);}
-\DoxyCodeLine{00095\ }
-\DoxyCodeLine{00096\ \ \ \ \ \textcolor{comment}{/*\ -\/-\/-\/-\/-\/\ PRINT\ TO\ TERMINAL\ -\/-\/-\/-\/-\/*/}}
-\DoxyCodeLine{00097\ \ \ \ \ \textcolor{keywordtype}{void}\ printStadiums()\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00098\ }
-\DoxyCodeLine{00099\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00100\ \ \ \ \ \mbox{\hyperlink{classDoubleHashTable}{DoubleHashTable<Stadium>}}\ stadiums;}
-\DoxyCodeLine{00101\ }
-\DoxyCodeLine{00102\ \ \ \ \ \mbox{\hyperlink{classAdjacencyList}{AdjacencyList}}\ \ \ adjacencyList;\ \ \ \textcolor{comment}{//\ list\ used\ for\ dfs}}
-\DoxyCodeLine{00103\ \ \ \ \ \mbox{\hyperlink{classAdjacencyMatrix}{AdjacencyMatrix}}\ adjacencyMatrix;\ \textcolor{comment}{//\ matrix\ used\ for\ bfs,\ djikstra,\ mst}}
-\DoxyCodeLine{00104\ }
-\DoxyCodeLine{00105\ \ \ \ \ \mbox{\hyperlink{classDatabaseManager}{DatabaseManager}}\ databaseManager;}
-\DoxyCodeLine{00106\ }
-\DoxyCodeLine{00107\ \ \ \ \ \textcolor{keywordtype}{bool}\ isAdmin;}
-\DoxyCodeLine{00108\ \};}
-\DoxyCodeLine{00109\ }
-\DoxyCodeLine{00110\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00094\ \ \ \ \ \textcolor{keywordtype}{int}\ totalStadiumCapacity(\textcolor{keyword}{const}\ vector<Stadium>\&\ stadiumsVect);}
+\DoxyCodeLine{00095\ \ \ \ \ \textcolor{keywordtype}{int}\ calculateBFS(\textcolor{keywordtype}{string}\ startingCity);}
+\DoxyCodeLine{00096\ \ \ \ \ \textcolor{keywordtype}{int}\ calculateMST(\textcolor{keywordtype}{string}\ startingCity);}
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00098\ \ \ \ \ vector<Stadium>\ filterStadiums(\textcolor{keyword}{const}\ vector<Stadium>\&\ stadiumsVect,\ \textcolor{keywordtype}{string}\ search);}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00100\ \ \ \ \ \textcolor{comment}{/*\ -\/-\/-\/-\/-\/\ PRINT\ TO\ TERMINAL\ -\/-\/-\/-\/-\/*/}}
+\DoxyCodeLine{00101\ \ \ \ \ \textcolor{keywordtype}{void}\ printStadiums()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00103\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00104\ \ \ \ \ \mbox{\hyperlink{classDoubleHashTable}{DoubleHashTable<Stadium>}}\ stadiums;}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00106\ \ \ \ \ \mbox{\hyperlink{classAdjacencyList}{AdjacencyList}}\ \ \ adjacencyList;\ \ \ \textcolor{comment}{//\ list\ used\ for\ dfs}}
+\DoxyCodeLine{00107\ \ \ \ \ \mbox{\hyperlink{classAdjacencyMatrix}{AdjacencyMatrix}}\ adjacencyMatrix;\ \textcolor{comment}{//\ matrix\ used\ for\ bfs,\ djikstra,\ mst}}
+\DoxyCodeLine{00108\ }
+\DoxyCodeLine{00109\ \ \ \ \ \mbox{\hyperlink{classDatabaseManager}{DatabaseManager}}\ databaseManager;}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00111\ \ \ \ \ \textcolor{keywordtype}{bool}\ isAdmin;}
+\DoxyCodeLine{00112\ \};}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00114\ \textcolor{preprocessor}{\#endif}}
 
 \end{DoxyCode}

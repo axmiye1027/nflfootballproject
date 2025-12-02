@@ -34,10 +34,6 @@
     transition: background-color 0.2s ease-in-out;
 }
 
-.folder-header:hover {
-    background-color: #2c3e9e;
-}
-
 
 .folder-content {
     background-color: #f5f5f5;

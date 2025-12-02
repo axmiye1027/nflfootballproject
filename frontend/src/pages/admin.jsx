@@ -75,6 +75,8 @@ function AdminPage({ stadiums })
                 {mode === "add" && (
                     <div className="folder-content">
                         <AddTeamForm onSubmit={data => console.log("Add", data)} />
+
+                        
                     </div>
                 )}
             </div>
