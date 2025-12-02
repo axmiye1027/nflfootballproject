@@ -140,7 +140,7 @@ bool BackendManager::updateStadium(int stadiumId, string teamName, string stadiu
 {
     try 
     {
-        string targetStadiumName   = getStadiumById(stadiumId).getStadiumName();
+        string targetStadiumName   = getStadiumById(getStadiumsAsVector(),stadiumId).getStadiumName();
         vector<Distance> distances = adjacencyMatrix.getDistanceVector();
 
         // goes through the whole vector and finds the distance name to update
@@ -316,7 +316,7 @@ Stadium BackendManager::getStadiumById(const vector<Stadium>& stadiumsVect,int i
         }
     }
 
-    cout << "Stadium Not Found." << endl;
+    throw runtime_error("Stadium not found");
 }
 
 Stadium BackendManager::getStadiumByName(const vector<Stadium>& stadiumsVect,string stadiumName)
@@ -329,7 +329,7 @@ Stadium BackendManager::getStadiumByName(const vector<Stadium>& stadiumsVect,str
         }
     }
 
-    cout << "Stadium Not Found." << endl;
+    throw runtime_error("Stadium not found");
 }
 
 vector<Stadium> BackendManager::getStadiumsByDivision(const vector<Stadium>& stadiumsVect,string division)
@@ -368,7 +368,7 @@ vector<Stadium> BackendManager::getStadiumsByConference(const vector<Stadium>& s
 
 vector<Stadium> getStadiumsByGrass(const vector<Stadium>& stadiumsVect,string grassType)
 {
-    transform(conference.begin(), conference.end(), conference.begin(), ::toupper);
+    transform(grassType.begin(), grassType.end(), grassType.begin(), ::toupper);
 
     vector<Stadium> stadiums;
 
