@@ -183,10 +183,6 @@ bool BackendManager::updateStadium(int stadiumId, string teamName, string stadiu
         databaseManager.updateStadium(stadiumId,    "conference",   conference);
         databaseManager.updateStadium(stadiumId,    "division",     division);
 
-        // refreshes data in program
-        populateDistances();
-        populateStadiums();
-
         return true;
     }
     catch (...) 
