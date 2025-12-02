@@ -458,32 +458,32 @@ int BackendManager::calculateMST(const string& startingCity)
     return adjacencyMatrix.mst(startingCity);
 }
 
-int BackendManager::calculateDijkstra(string startingStadium, string endingStadium)
+PathReturn BackendManager::calculateDijkstra(string startingStadium, string endingStadium)
 {
-    // auto dijkstraList = adjacencyMatrix.dijkstra(startingStadium);
+    auto dijkstraList = adjacencyMatrix.dijkstra(startingStadium);
 
-    // int index = 0;
-    // while (index != dijkstraList.end() )
-    // {
+    for (int i = 0; i < dijkstraList.size(); ++i)
+    {
+        if(dijkstraList[i].path.front() == startingStadium && dijkstraList[i].path.back() == endingStadium)
+        {
+            return dijkstraList[i];
+        }
+    }
 
-
-    //     index++;
-    // }
-
-    return 0;
+    throw runtime_error("Path not found");
 }
 
-PathReturn BackendManager::calculateDFS(string startingStadium)
-{
+// PathReturn BackendManager::calculateDFS(string startingStadium)
+// {
 
-}
+// }
 
-PathReturn BackendManager::calculateCustomTrip(vector<Stadium> trip)
-{
+// PathReturn BackendManager::calculateCustomTrip(vector<Stadium> trip)
+// {
 
-}
+// }
 
-PathReturn BackendManager::calculateRecursiveTrip(vector<Stadium> trip)
-{
+// PathReturn BackendManager::calculateRecursiveTrip(vector<Stadium> trip)
+// {
 
-}
+// }

@@ -46,15 +46,13 @@ struct CompareByTeamName
     }
 };
 
+// struct PathReturn 
+// {
+//     vector<string> path;
+//     int distanceTraveled;
 
-struct PathReturn 
-{
-    vector<string> path;
-    int distanceTraveled;
-
-    PathReturn(vector<string> path, int distanceTraveled) : path(path), distanceTraveled(distanceTraveled) {}
-};
-
+//     PathReturn(vector<string> path, int distanceTraveled) : path(path), distanceTraveled(distanceTraveled) {}
+// };
 
 class BackendManager
 {
@@ -104,10 +102,10 @@ public:
 
     int calculateBFS(const string& startingStadium);
     int calculateMST(const string& startingStadium);
-    int calculateDijkstra(string startingStadium, string endingStadium);
-    PathReturn calculateDFS(string startingStadium);
-    PathReturn calculateCustomTrip(vector<Stadium> trip);
-    PathReturn calculateRecursiveTrip(vector<Stadium> trip);
+    PathReturn calculateDijkstra(string startingStadium, string endingStadium);
+    // PathReturn calculateDFS(string startingStadium);
+    // PathReturn calculateCustomTrip(vector<Stadium> trip);
+    // PathReturn calculateRecursiveTrip(vector<Stadium> trip);
 
     vector<Stadium> filterStadiums(const vector<Stadium>& stadiumsVect, string search);
 

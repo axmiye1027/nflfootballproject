@@ -3,7 +3,7 @@
  * @brief file containing all the routes
  */
 
-#include "includes.h"
+//#include "includes.h"
 #include "routes/routes.h"
 
 /**
@@ -298,11 +298,12 @@ void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
         string firstStadiumName  = stadiumsJson[0]["stadiumName"].s();
         string secondStadiumName = stadiumsJson[1]["stadiumName"].s();
 
-        int distance = backend.calculateDijkstra(firstStadiumName, secondStadiumName);
+        PathReturn path = backend.calculateDijkstra(firstStadiumName, secondStadiumName);
 
         crow::json::wvalue res;
-        res["success"] = true;
-        res["distance"] = distance;
+        res["success"]  = true;
+        res["path"]     = path.path;
+        res["distance"] = path.distanceTraveled;
         return crow::response(res.dump());
     });
 
