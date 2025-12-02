@@ -300,7 +300,7 @@ Stadium BackendManager::getStadiumById(const vector<Stadium>& stadiumsVect,int i
         }
     }
 
-    cout << "Stadium Not Found." << endl;
+    throw runtime_error("Stadium not found");
 }
 
 Stadium BackendManager::getStadiumByName(const vector<Stadium>& stadiumsVect,string stadiumName)
@@ -313,7 +313,7 @@ Stadium BackendManager::getStadiumByName(const vector<Stadium>& stadiumsVect,str
         }
     }
 
-    cout << "Stadium Not Found." << endl;
+    throw runtime_error("Stadium not found");
 }
 
 vector<Stadium> BackendManager::getStadiumsByDivision(const vector<Stadium>& stadiumsVect,string division)
