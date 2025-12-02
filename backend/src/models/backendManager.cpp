@@ -11,6 +11,8 @@ BackendManager::BackendManager() : isAdmin{false}
     //adjacencyMatrix.printMatrix();
     adjacencyMatrix.bfs("State Farm Stadium");
 
+    getStadiumsByDivision(getStadiumsAsVector(),"NFC North");
+
     //adjacencyMatrix.Dijkstra("State Farm Stadium");
     //adjacencyMatrix.mst("State Farm Stadium");
 
@@ -271,7 +273,7 @@ vector<Stadium> BackendManager::sortStadiumsByTeam(const vector<Stadium>& stadiu
 
 vector<Stadium> BackendManager::getStadiumsByRoofType(const vector<Stadium>& stadiumsVect, string roofType)
 {
-    transform(roofType.begin(), roofType.end(), roofType.begin(), ::toupper);
+    //transform(roofType.begin(), roofType.end(), roofType.begin(), ::toupper);
 
     vector<Stadium> roofTypes;
 
@@ -282,15 +284,15 @@ vector<Stadium> BackendManager::getStadiumsByRoofType(const vector<Stadium>& sta
         switch(stadiumsVect[i].getRoofType())
         {
             case OPEN:
-                stadiumRoof = "OPEN";
+                stadiumRoof = "Open";
             break;
 
             case FIXED_ROOF:
-                stadiumRoof = "FIXED ROOF";
+                stadiumRoof = "Fixed";
             break;
 
             case RETRACTABLE:
-                stadiumRoof = "RETRACTABLE";
+                stadiumRoof = "Retractable";
             break;
 
             default:
@@ -332,38 +334,40 @@ Stadium BackendManager::getStadiumByName(const vector<Stadium>& stadiumsVect,str
     throw runtime_error("Stadium not found");
 }
 
-vector<Stadium> BackendManager::getStadiumsByDivision(const vector<Stadium>& stadiumsVect,string division)
-{
-    transform(division.begin(), division.end(), division.begin(), ::toupper);
-
-    vector<Stadium> divisions;
-
-    for(int i = 0; i < stadiumsVect.size(); ++i)
-    {
-        if(stadiumsVect[i].getDivision().substr(0, 3) == division)
-        {
-            divisions.push_back(stadiumsVect[i]);
-        }
-    }
-
-    return divisions;
-}
-
 vector<Stadium> BackendManager::getStadiumsByConference(const vector<Stadium>& stadiumsVect,string conference)
 {
     transform(conference.begin(), conference.end(), conference.begin(), ::toupper);
 
-    vector<Stadium> conferences;
+    vector<Stadium> stadiums;
 
     for(int i = 0; i < stadiumsVect.size(); ++i)
     {
-        if(stadiumsVect[i].getConference().substr(0, 8) == conference)
+        if(stadiumsVect[i].getDivision().substr(0, 3) == conference)
         {
-            conferences.push_back(stadiumsVect[i]);
+            stadiums.push_back(stadiumsVect[i]);
         }
     }
 
-    return conferences;
+    return stadiums;
+}
+
+vector<Stadium> BackendManager::getStadiumsByDivision(const vector<Stadium>& stadiumsVect,string divison)
+{
+    //transform(divison.begin(), divison.end(), divison.begin(), ::toupper);
+
+    vector<Stadium> stadiums;
+
+    for(int i = 0; i < stadiumsVect.size(); ++i)
+    {
+        //cout << stadiumsVect[i].getDivision() << endl;
+
+        if(stadiumsVect[i].getDivision() == divison)
+        {
+            stadiums.push_back(stadiumsVect[i]);
+        }
+    }
+
+    return stadiums;
 }
 
 vector<Stadium> getStadiumsByGrass(const vector<Stadium>& stadiumsVect,string grassType)

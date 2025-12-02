@@ -87,9 +87,10 @@ void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
         string capacity    = req.url_params.get("capacity")    ? req.url_params.get("capacity")    : ALL_TEAMS;
 
         // FILTER
-        string roofType    = req.url_params.get("roofType")    ? req.url_params.get("roofType")    : ALL_TEAMS;
         string conference  = req.url_params.get("conference")  ? req.url_params.get("conference")  : ALL_TEAMS;
-        string division    = req.url_params.get("division")    ? req.url_params.get("division")    : ALL_TEAMS;
+        string division    = req.url_params.get("divisions")   ? req.url_params.get("divisions")   : ALL_TEAMS;
+        string roofType    = req.url_params.get("roofTypes")   ? req.url_params.get("roofTypes")   : ALL_TEAMS;
+
 
         // SEARCH
         string search   = req.url_params.get("search") ? req.url_params.get("search") : "";
@@ -101,15 +102,15 @@ void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
             stadiums = backend.getStadiumsByConference(stadiums, conference);
         }
 
-        // if (division != ALL_TEAMS)
-        // {
-        //     stadiums = backend.getStadiumsByDivision(stadiums, division);
-        // }
+        if (division != ALL_TEAMS)
+        {
+            stadiums = backend.getStadiumsByDivision(stadiums, division);
+        }
 
-        // if (roofType != ALL_TEAMS)
-        // {
-        //     stadiums = backend.getStadiumsByRoofType(stadiums, roofType);
-        // }
+        if (roofType != ALL_TEAMS)
+        {
+            stadiums = backend.getStadiumsByRoofType(stadiums, roofType);
+        }
 
         if (!search.empty())
         {

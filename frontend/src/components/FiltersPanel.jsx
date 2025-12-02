@@ -26,7 +26,7 @@ function FiltersPanel({ filters, updateFilter }) {
 
       <FilterBar title="Roof Type">
         <MultiCheckbox
-          options={["Open", "Retractable", "Dome"]}
+          options={["Open", "Fixed", "Retractable"]}
           selected={filters.roofTypes}
           setSelected={v => updateFilter("roofTypes", v)}
         />
