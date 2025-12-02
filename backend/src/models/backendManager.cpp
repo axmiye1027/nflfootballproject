@@ -138,7 +138,25 @@ void BackendManager::addStadium(string teamName, string stadiumName, int capacit
 bool BackendManager::updateStadium(int stadiumId, string teamName, string stadiumName, int capacity, string location, string roofType, string surface,
             int yearOpened, string conference, string division)
 {
-    try {
+    try 
+    {
+        string targetStadiumName   = getStadiumById(stadiumId).getStadiumName();
+        vector<Distance> distances = adjacencyMatrix.getDistanceVector();
+
+        // goes through the whole vector and finds the distance name to update
+        for(int i = 0; i < distances.size(); ++i)
+        {
+            // updates location A
+            if(distances[i].locationA == targetStadiumName)
+            {
+                databaseManager.updateDistance(distances[i].id,stadiumName,distances[i].locationB);
+            }
+            else if (distances[i].locationB == targetStadiumName) // updates location B
+            {
+                databaseManager.updateDistance(distances[i].id,distances[i].locationA,stadiumName);
+            }
+        }
+
         databaseManager.updateStadium(stadiumId,    "team",         teamName);
         databaseManager.updateStadium(stadiumId,    "stadium_name", stadiumName);
         databaseManager.updateStadiumInt(stadiumId, "capacity",     capacity);
@@ -148,8 +166,6 @@ bool BackendManager::updateStadium(int stadiumId, string teamName, string stadiu
         databaseManager.updateStadiumInt(stadiumId, "opened_year",  yearOpened);
         databaseManager.updateStadium(stadiumId,    "conference",   conference);
         databaseManager.updateStadium(stadiumId,    "division",     division);
-
-        // update the distances
 
         return true;
     }
@@ -181,8 +197,6 @@ void BackendManager::modifySouvenirPrice(int stadiumId, const string& name, doub
 {
     databaseManager.updateSouvenirPrice(stadiums.get(stadiumId).getSouvenirId(name),souvenirPrice);
 }
-
-
 
 
 vector<Stadium> BackendManager::getStadiumsAsVector()
@@ -276,6 +290,19 @@ vector<Stadium> BackendManager::getStadiumsByRoofType(const vector<Stadium>& sta
     return roofTypes;
 }
 
+Stadium BackendManager::getStadiumById(const vector<Stadium>& stadiumsVect,int id)
+{
+    for(int i = 0; i < stadiumsVect.size(); ++i)
+    {
+        if(stadiumsVect[i].getStadiumId() == id)
+        {
+            return stadiumsVect[i];
+        }
+    }
+
+    cout << "Stadium Not Found." << endl;
+}
+
 Stadium BackendManager::getStadiumByName(const vector<Stadium>& stadiumsVect,string stadiumName)
 {
     for(int i = 0; i < stadiumsVect.size(); ++i)
@@ -323,6 +350,23 @@ vector<Stadium> BackendManager::getStadiumsByConference(const vector<Stadium>& s
     return conferences;
 }
 
+vector<Stadium> getStadiumsByGrass(const vector<Stadium>& stadiumsVect,string grassType)
+{
+    transform(conference.begin(), conference.end(), conference.begin(), ::toupper);
+
+    vector<Stadium> stadiums;
+
+    for(int i = 0; i < stadiumsVect.size(); ++i)
+    {
+        if(stadiumsVect[i].getSurfaceType() == grassType)
+        {
+            stadiums.push_back(stadiumsVect[i]);
+        }
+    }
+
+    return stadiums;
+}
+
 DoubleHashTable<Souvenir> BackendManager::getTeamSouvenirs(string teamName)
 {
     vector<Stadium> stadiums = getStadiumsAsVector();
@@ -336,11 +380,6 @@ DoubleHashTable<Souvenir> BackendManager::getTeamSouvenirs(string teamName)
     }
 
     throw runtime_error("Team '" + teamName + "' not found");
-}
-
-vector<Stadium> getStadiumsByGrass(const vector<Stadium>& stadiumsVect,string grassType)
-{
-
 }
 
 int BackendManager::totalStadiumCapacity(const vector<Stadium>& stadiumsVect)

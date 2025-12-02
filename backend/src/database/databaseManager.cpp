@@ -77,12 +77,12 @@ void DatabaseManager::initializeDatabase()
 
 int DatabaseManager::addDistance(const string& locationA, const string& locationB, double distanceKm) 
 {
-    string sql = "INSERT INTO distances (locationA, locationB, distanceKm) "
+    string sql = "INSERT INTO distances (location_a, location_b, distance_km) "
                      "VALUES (?, ?, ?)";
     sqlite3_stmt* stmt = prepareStatement(sql);
     
-    sqlite3_bind_text(stmt, 1, locationA.c_str(), -1, SQLITE_TRANSIENT);
-    sqlite3_bind_text(stmt, 2, locationB.c_str(), -1, SQLITE_TRANSIENT);
+    sqlite3_bind_text(stmt,   1, locationA.c_str(), -1, SQLITE_TRANSIENT);
+    sqlite3_bind_text(stmt,   2, locationB.c_str(), -1, SQLITE_TRANSIENT);
     sqlite3_bind_double(stmt, 3, distanceKm);
     
     int rc = sqlite3_step(stmt);
@@ -99,8 +99,8 @@ int DatabaseManager::addDistance(const string& locationA, const string& location
 Distance* DatabaseManager::getDistance(const string& locationA, const string& locationB) 
 {
     string sql = "SELECT * FROM distances WHERE "
-                     "(locationA = ? AND locationB = ?) OR "
-                     "(locationA = ? AND locationB = ?)";
+                     "(location_a = ? AND location_b = ?) OR "
+                     "(location_a = ? AND location_b = ?)";
     sqlite3_stmt* stmt = prepareStatement(sql);
     
     sqlite3_bind_text(stmt, 1, locationA.c_str(), -1, SQLITE_TRANSIENT);
@@ -144,11 +144,27 @@ vector<Distance> DatabaseManager::getAllDistances()
 
 bool DatabaseManager::updateDistance(int distanceId, double distanceKm) 
 {
-    string sql = "UPDATE distances SET distanceKm = ? WHERE id = ?";
+    string sql = "UPDATE distances SET distance_km = ? WHERE id = ?";
     sqlite3_stmt* stmt = prepareStatement(sql);
     
     sqlite3_bind_double(stmt, 1, distanceKm);
     sqlite3_bind_int(stmt, 2, distanceId);
+    
+    sqlite3_step(stmt);
+    int changes = sqlite3_changes(db);
+    sqlite3_finalize(stmt);
+    
+    return changes > 0;
+}
+
+bool DatabaseManager::updateDistance(int distanceId, string locationA, string locationB)
+{
+    string sql = "UPDATE distances SET location_a = ?, location_b = ? WHERE id = ?";
+    sqlite3_stmt* stmt = prepareStatement(sql);
+
+    sqlite3_bind_text(stmt, 1, locationA.c_str(), -1, SQLITE_TRANSIENT);
+    sqlite3_bind_text(stmt, 2, locationB.c_str(), -1, SQLITE_TRANSIENT);
+    sqlite3_bind_int(stmt,  3, distanceId);
     
     sqlite3_step(stmt);
     int changes = sqlite3_changes(db);

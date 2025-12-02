@@ -82,6 +82,7 @@ public:
     vector<Stadium> sortStadiumsByDateOpened(const vector<Stadium>&  stadiumsVect);
     vector<Stadium> sortStadiumsByCapacity(const vector<Stadium>&    stadiumsVect);
 
+    Stadium         getStadiumById(const vector<Stadium>&          stadiumsVect,int    id);
     Stadium         getStadiumByName(const vector<Stadium>&        stadiumsVect,string stadiumName);
     vector<Stadium> getStadiumsByRoofType(const vector<Stadium>&   stadiumsVect,string roofType);
     vector<Stadium> getStadiumsByDivision(const vector<Stadium>&   stadiumsVect,string division);

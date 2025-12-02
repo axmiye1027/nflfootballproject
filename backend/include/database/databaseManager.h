@@ -80,6 +80,7 @@ public:
     /****************** EDIT DATABASE ******************/
     int  addDistance(const string& locationA, const string& locationB, double distanceKm);
     bool updateDistance(int distanceId, double distanceKm);
+    bool updateDistance(int distanceId, string locationA, string locationB); // bool determines whether to update location A or B in the table
     bool deleteDistance(int distanceId);
 
     int addStadium( const string& team, 

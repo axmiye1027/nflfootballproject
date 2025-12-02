@@ -9,12 +9,11 @@
 struct DistanceNode
 {
     string city;
-    int  level;
-    int  distanceFromLast;
+    int    level;
+    int    distanceFromLast;
 
     DistanceNode(string city) : city(city), level(0), distanceFromLast(0) {}
     DistanceNode(string city, int level, int distanceFromLast) : city(city), level(level), distanceFromLast(distanceFromLast) {}
-
 };
 
 struct PathNode
@@ -58,6 +57,8 @@ public:
     vector<PathNode> dijkstra(const string& startVertex);
     int mst(const string& startVertex);
     
+    vector<Distance> getDistanceVector();
+
 private:
 
     void printPath(int cityAIndex, int cityBIndex);

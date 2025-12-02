@@ -460,3 +460,8 @@ void AdjacencyMatrix::printCityName(int cityIndex)
     //     case Miami:         cout << "Miami"; break;
     // }
 }
+
+vector<Distance> AdjacencyMatrix::getDistanceVector()
+{
+    return distances;
+}
