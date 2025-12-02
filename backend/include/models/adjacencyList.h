@@ -1,8 +1,20 @@
+/**
+ * @file adjacencyList.h
+ * @brief DFS
+ * 
+ * Testings to see if it workds
+ */
 #include "includes.h"
 
 #ifndef DFS_H
 #define DFS_H
 
+/**
+ * @brief struct used to create an edge. It will be used for DFS
+ * @param originVertex starting point
+ * @param destinationVertex ending point
+ * @param distance weight
+ */
 struct edge
 {
     string  originVertex;
@@ -15,6 +27,9 @@ struct edge
     {}
 };
 
+/**
+ * @brief 
+ */
 class AdjacencyList
 {
 public:

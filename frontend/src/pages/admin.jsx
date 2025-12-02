@@ -33,7 +33,7 @@ function AdminPage({ stadiums })
 
     return (
         <div className="admin-container">
-            <div className="admin-title">
+            <div className="title">
                 Admin Panel
             </div>
 

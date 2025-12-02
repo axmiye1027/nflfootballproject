@@ -1,0 +1,23 @@
+\doxysection{routes.\+h}
+\hypertarget{routes_8h_source}{}\label{routes_8h_source}\index{backend/include/routes/routes.h@{backend/include/routes/routes.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//\ routes.h}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}crow.h"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}crow/middlewares/cors.h"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}../models/stadium.h"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}../models/backendManager.h"{}}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{comment}{/*\ -\/-\/-\/-\/\ \ Helper\ Functions\ -\/-\/-\/-\/-\/\ */}}
+\DoxyCodeLine{00011\ crow::json::wvalue\ stadiumToJson(\textcolor{keyword}{const}\ \mbox{\hyperlink{classStadium}{Stadium}}\&\ stadium);}
+\DoxyCodeLine{00012\ crow::json::wvalue\ souvenirToJson(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSouvenir}{Souvenir}}\&\ s);}
+\DoxyCodeLine{00013\ crow::json::wvalue\ stadiumListToJson(\textcolor{keyword}{const}\ vector<Stadium>\&\ stadiums);}
+\DoxyCodeLine{00014\ \textcolor{comment}{/*\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ */}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{keywordtype}{void}\ registerRoutes(crow::App<crow::CORSHandler>\&\ app,\ \mbox{\hyperlink{classBackendManager}{BackendManager}}\&\ backend);}
+\DoxyCodeLine{00017\ }
+
+\end{DoxyCode}

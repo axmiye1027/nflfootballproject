@@ -1,0 +1,71 @@
+\doxysection{Adjacency\+Matrix Class Reference}
+\hypertarget{classAdjacencyMatrix}{}\label{classAdjacencyMatrix}\index{AdjacencyMatrix@{AdjacencyMatrix}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classAdjacencyMatrix_a73916f37325b3200aded453aa9ea32f5}\label{classAdjacencyMatrix_a73916f37325b3200aded453aa9ea32f5} 
+void {\bfseries print\+Matrix} ()
+\item 
+\Hypertarget{classAdjacencyMatrix_ae5f7c34381bd8f492b34f3225d5bd1fa}\label{classAdjacencyMatrix_ae5f7c34381bd8f492b34f3225d5bd1fa} 
+void {\bfseries add\+Edge} (\mbox{\hyperlink{structDistance}{Distance}} distance)
+\item 
+\Hypertarget{classAdjacencyMatrix_ad49e453940d094571e06877c29550f28}\label{classAdjacencyMatrix_ad49e453940d094571e06877c29550f28} 
+void {\bfseries add\+Edge} (string locationA, string locationB, int distance)
+\item 
+\Hypertarget{classAdjacencyMatrix_ad3cc49ec25bff9aa2a9bd48ca81c7344}\label{classAdjacencyMatrix_ad3cc49ec25bff9aa2a9bd48ca81c7344} 
+void {\bfseries remove\+Edge} (string locationA, string locationB)
+\item 
+\Hypertarget{classAdjacencyMatrix_aa6c85d6bac450d5407ab48dba1878fa5}\label{classAdjacencyMatrix_aa6c85d6bac450d5407ab48dba1878fa5} 
+void {\bfseries set\+Distances} (vector$<$ \mbox{\hyperlink{structDistance}{Distance}} $>$ distances)
+\item 
+\Hypertarget{classAdjacencyMatrix_a4f3e94c7397233e2f1507e7cab1a4005}\label{classAdjacencyMatrix_a4f3e94c7397233e2f1507e7cab1a4005} 
+void {\bfseries populate\+Vertices} (\mbox{\hyperlink{classDoubleHashTable}{Double\+Hash\+Table}}$<$ \mbox{\hyperlink{classStadium}{Stadium}} $>$ stadiums)
+\item 
+\Hypertarget{classAdjacencyMatrix_aca0dab46592a29f7eebe34b7fc3b0327}\label{classAdjacencyMatrix_aca0dab46592a29f7eebe34b7fc3b0327} 
+int {\bfseries bfs} (string origin\+City)
+\item 
+\Hypertarget{classAdjacencyMatrix_aa2d6e26cff4b6291e1fd29737ce49101}\label{classAdjacencyMatrix_aa2d6e26cff4b6291e1fd29737ce49101} 
+vector$<$ \mbox{\hyperlink{structPathNode}{Path\+Node}} $>$ {\bfseries dijkstra} (const string \&start\+Vertex)
+\item 
+\Hypertarget{classAdjacencyMatrix_a55c7b051ca85a5f08cc8bcf7c6a33c02}\label{classAdjacencyMatrix_a55c7b051ca85a5f08cc8bcf7c6a33c02} 
+int {\bfseries mst} (const string \&start\+Vertex)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classAdjacencyMatrix_a247bb582e7a31f711ea868d768df4a7a}\label{classAdjacencyMatrix_a247bb582e7a31f711ea868d768df4a7a} 
+void {\bfseries print\+Path} (int city\+AIndex, int city\+BIndex)
+\item 
+\Hypertarget{classAdjacencyMatrix_a3fecdcb07139001ef705fe82f9c7e5ff}\label{classAdjacencyMatrix_a3fecdcb07139001ef705fe82f9c7e5ff} 
+void {\bfseries print\+Path\+Ext} (vector$<$ int $>$ previous, int city\+AIndex, int city\+BIndex)
+\item 
+\Hypertarget{classAdjacencyMatrix_a14611b82f049d6355b227934aa22f77c}\label{classAdjacencyMatrix_a14611b82f049d6355b227934aa22f77c} 
+void {\bfseries print\+Path\+Ext\+Recursion} (vector$<$ int $>$ previous, int city\+AIndex, int city\+BIndex)
+\item 
+\Hypertarget{classAdjacencyMatrix_aba6fea9f73741e11a01e1c7ff39542d9}\label{classAdjacencyMatrix_aba6fea9f73741e11a01e1c7ff39542d9} 
+void {\bfseries print\+City\+Name} (int city\+Index)
+\item 
+\Hypertarget{classAdjacencyMatrix_afe81a40cbf28ffae78b515a290937c81}\label{classAdjacencyMatrix_afe81a40cbf28ffae78b515a290937c81} 
+void {\bfseries initialize\+Matrix} (int vertex\+Count)
+\item 
+\Hypertarget{classAdjacencyMatrix_ab5052b92eeb1693a17f2510859c1d286}\label{classAdjacencyMatrix_ab5052b92eeb1693a17f2510859c1d286} 
+void {\bfseries vertices\+To\+Matrix} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classAdjacencyMatrix_a1efbc14a163d58157fd6b4240132571a}\label{classAdjacencyMatrix_a1efbc14a163d58157fd6b4240132571a} 
+vector$<$ \mbox{\hyperlink{structDistance}{Distance}} $>$ {\bfseries distances}
+\item 
+\Hypertarget{classAdjacencyMatrix_a3b14aa01d6bca2d0759c6b64b53aebcd}\label{classAdjacencyMatrix_a3b14aa01d6bca2d0759c6b64b53aebcd} 
+\mbox{\hyperlink{classDoubleHashTable}{Double\+Hash\+Table}}$<$ string $>$ {\bfseries vertices}
+\item 
+\Hypertarget{classAdjacencyMatrix_a02d050639ce9815942e6981488f4b943}\label{classAdjacencyMatrix_a02d050639ce9815942e6981488f4b943} 
+vector$<$ vector$<$ int $>$ $>$ {\bfseries matrix}
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+backend/include/models/adjacency\+Matrix.\+h\item 
+backend/src/models/adjacency\+Matrix.\+cpp\end{DoxyCompactItemize}

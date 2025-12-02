@@ -1,0 +1,50 @@
+\doxysection{Adjacency\+List Class Reference}
+\hypertarget{classAdjacencyList}{}\label{classAdjacencyList}\index{AdjacencyList@{AdjacencyList}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classAdjacencyList_ada032881b32f1cf20ae48f90c4a7784e}\label{classAdjacencyList_ada032881b32f1cf20ae48f90c4a7784e} 
+void {\bfseries populate\+List} (vector$<$ \mbox{\hyperlink{structedge}{edge}} $>$ \&edges)
+\item 
+\Hypertarget{classAdjacencyList_a7a993d4621757701e8c224cfc571bc63}\label{classAdjacencyList_a7a993d4621757701e8c224cfc571bc63} 
+void {\bfseries add\+Edge} (\mbox{\hyperlink{structedge}{edge}} \&vertex\+Edge)
+\item 
+\Hypertarget{classAdjacencyList_a4db9a2ef2fd4f20416b133fcc7d8d0f7}\label{classAdjacencyList_a4db9a2ef2fd4f20416b133fcc7d8d0f7} 
+void {\bfseries remove\+Edge} (string origin\+Vertex, string destination\+Vertex)
+\item 
+\Hypertarget{classAdjacencyList_aa8d2d4a905e44af938d7bd8fef880428}\label{classAdjacencyList_aa8d2d4a905e44af938d7bd8fef880428} 
+int {\bfseries find\+Index} (string vertex) const
+\item 
+\Hypertarget{classAdjacencyList_acb0eb3eeea0ede4acb0d5ef58029e019}\label{classAdjacencyList_acb0eb3eeea0ede4acb0d5ef58029e019} 
+void {\bfseries dfs} (string origin\+Vertex)
+\item 
+\Hypertarget{classAdjacencyList_a99790543dd7ebfc7ffd43e7c6bd28a34}\label{classAdjacencyList_a99790543dd7ebfc7ffd43e7c6bd28a34} 
+vector$<$ \mbox{\hyperlink{structAdjacencyNode}{Adjacency\+Node}} $>$ {\bfseries return\+Path} () const
+\item 
+\Hypertarget{classAdjacencyList_a87defdd877b232cd7078ce64adbbc7f9}\label{classAdjacencyList_a87defdd877b232cd7078ce64adbbc7f9} 
+int {\bfseries return\+Dist} () const
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classAdjacencyList_ad36a938bb802916b97e231814602d308}\label{classAdjacencyList_ad36a938bb802916b97e231814602d308} 
+void {\bfseries dfs\+Recusion} (int vertex\+Index, int last\+Index, vector$<$ bool $>$ \&visited, set$<$ pair$<$ int, int $>$ $>$ \&printed\+Edges, int \&total\+Distance)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classAdjacencyList_a9b73ba02dd27329940cbd59a3355793c}\label{classAdjacencyList_a9b73ba02dd27329940cbd59a3355793c} 
+vector$<$ \mbox{\hyperlink{structedge}{edge}} \texorpdfstring{$\ast$}{*} $>$ {\bfseries list}
+\item 
+\Hypertarget{classAdjacencyList_ad2c5d36ce7f78bdf51f955cdb3638e52}\label{classAdjacencyList_ad2c5d36ce7f78bdf51f955cdb3638e52} 
+vector$<$ \mbox{\hyperlink{structAdjacencyNode}{Adjacency\+Node}} $>$ {\bfseries path}
+\item 
+\Hypertarget{classAdjacencyList_a37481633b9d3a9798a8d9c4b447f61a1}\label{classAdjacencyList_a37481633b9d3a9798a8d9c4b447f61a1} 
+int {\bfseries total\+Dist}
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+backend/include/models/\mbox{\hyperlink{adjacencyList_8h}{adjacency\+List.\+h}}\item 
+backend/src/models/\mbox{\hyperlink{adjacencyList_8cpp}{adjacency\+List.\+cpp}}\end{DoxyCompactItemize}

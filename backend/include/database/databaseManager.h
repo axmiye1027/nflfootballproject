@@ -1,5 +1,6 @@
-// databaseManager.h
-
+/**
+ * @file databaseManager.h
+ */
 #pragma once
 
 #include <sqlite3.h>

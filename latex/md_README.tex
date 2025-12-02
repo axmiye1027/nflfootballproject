@@ -1,0 +1,72 @@
+\chapter{nflfootballproject }
+\hypertarget{md_README}{}\label{md_README}\index{nflfootballproject@{nflfootballproject}}
+\label{md_README_autotoc_md0}%
+\Hypertarget{md_README_autotoc_md0}%
+
+
+DOCKER STUFF {\ttfamily docker compose up -\/-\/build}\hypertarget{md_README_autotoc_md1}{}\doxysubsection{\texorpdfstring{official document}{official document}}\label{md_README_autotoc_md1}
+\href{https://docs.google.com/document/d/16GHdZtWyG812sLWVKvuitlYs8a-AQ2hzpYk1vL5V5cU/edit?usp=sharing}{\texttt{https\+://docs.\+google.\+com/document/d/16\+GHd\+Zt\+Wy\+G812s\+LWVKvuitl\+Ys8a-\/\+AQ2hzp\+Yk1v\+L5\+V5c\+U/edit?usp=sharing}} \hypertarget{md_README_autotoc_md2}{}\doxysubsection{\texorpdfstring{scrum log}{scrum log}}\label{md_README_autotoc_md2}
+\href{https://docs.google.com/document/d/1FckxorthKcGjb_AtRkYzbQUKesnQTLZhuBDjdyscdP4/edit?tab=t.0}{\texttt{https\+://docs.\+google.\+com/document/d/1\+Fckxorth\+Kc\+Gjb\+\_\+\+At\+Rk\+Yzb\+QUKesn\+QTLZhu\+BDjdyscd\+P4/edit?tab=t.\+0}}
+
+Please make sure you are in the correct folder or else things like the Makefile will not work! \begin{DoxyVerb}cd backend      - makes
+cd -            - takes you back to previous folder
+\end{DoxyVerb}
+
+
+"{}\+Ctrl"{} + "{}\+C"{} -\/ quit task, use if you are unable to stop something from running or cant exit
+
+\DoxyHorRuler{0}
+
+
+Create Database Tables
+
+
+\begin{DoxyEnumerate}
+\item make db\+\_\+clean -\/ removes database file (only do if errors with database or want to restart)
+\item make import -\/ creates databse file and imports our data to do
+\end{DoxyEnumerate}
+
+To See Database\+: database.\+db file must exist in order to see tables
+
+make show-\/all -\/ shows all tables make show-\/distances -\/ shows distance table make show-\/stadiums -\/ shows stadium information
+
+\DoxyHorRuler{0}
+
+
+Frontend Notes \begin{DoxyVerb}- must insteall Node.js to use and run
+npm install axios
+npm install react-router-dom
+\end{DoxyVerb}
+
+
+Run Frontend\+: npm run dev
+
+\DoxyHorRuler{0}
+
+
+BACKEND TABLE OF CONTENTS \begin{DoxyVerb}database Folder
+
+    database.db
+Our database
+
+    schema.sql
+creates tables for our database
+
+    scripts folder -> import_csv.py
+connects the csv folders to our tables (schema.sql)
+\end{DoxyVerb}
+
+
+\DoxyHorRuler{0}
+
+
+FRONT END TABLE OF CONTENTS \begin{DoxyVerb}App.js
+main page, basically index.html but for react
+
+App.css
+main styles, mostly global styles or styles 
+
+componenets folder
+where all reusable functions are stored
+\end{DoxyVerb}
+ 

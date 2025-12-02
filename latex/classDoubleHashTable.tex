@@ -1,0 +1,91 @@
+\doxysection{Double\+Hash\+Table\texorpdfstring{$<$}{<} T \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{classDoubleHashTable}{}\label{classDoubleHashTable}\index{DoubleHashTable$<$ T $>$@{DoubleHashTable$<$ T $>$}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classDoubleHashTable_aad5ff54699f81250cbb5bfbe2f0fced0}\label{classDoubleHashTable_aad5ff54699f81250cbb5bfbe2f0fced0} 
+{\bfseries Double\+Hash\+Table} (int size)
+\item 
+\Hypertarget{classDoubleHashTable_ae01bf254652c4e478fb95d114e593f97}\label{classDoubleHashTable_ae01bf254652c4e478fb95d114e593f97} 
+{\bfseries Double\+Hash\+Table} (const \mbox{\hyperlink{classDoubleHashTable}{Double\+Hash\+Table}} \&other)
+\item 
+\Hypertarget{classDoubleHashTable_a0df9949516686d3e59b246ed065dd823}\label{classDoubleHashTable_a0df9949516686d3e59b246ed065dd823} 
+const int {\bfseries operator\mbox{[}$\,$\mbox{]}} (const T \&value) const
+\item 
+\Hypertarget{classDoubleHashTable_a3f9b9e185e7ff61452d16ed1ffcd6983}\label{classDoubleHashTable_a3f9b9e185e7ff61452d16ed1ffcd6983} 
+int {\bfseries get\+Id\+From\+String} (const string \&name) const
+\item 
+\Hypertarget{classDoubleHashTable_ad8dc93e464a4c4c10f5f900ce02ae094}\label{classDoubleHashTable_ad8dc93e464a4c4c10f5f900ce02ae094} 
+\mbox{\hyperlink{classDoubleHashTable}{Double\+Hash\+Table}} \& {\bfseries operator=} (const \mbox{\hyperlink{classDoubleHashTable}{Double\+Hash\+Table}} \&other)
+\item 
+\Hypertarget{classDoubleHashTable_a05fe731a515d3aeb8bed2fdf5526ca78}\label{classDoubleHashTable_a05fe731a515d3aeb8bed2fdf5526ca78} 
+void {\bfseries clear\+Table} ()
+\item 
+\Hypertarget{classDoubleHashTable_a1c434436d32af5deb1859d13a23b59b8}\label{classDoubleHashTable_a1c434436d32af5deb1859d13a23b59b8} 
+bool {\bfseries insert} (T input, int key)
+\item 
+\Hypertarget{classDoubleHashTable_ada7d12500759155b7ffdd754af2c4b21}\label{classDoubleHashTable_ada7d12500759155b7ffdd754af2c4b21} 
+bool {\bfseries insert} (\mbox{\hyperlink{structkeyInput}{key\+Input}}$<$ T $>$ input)
+\item 
+\Hypertarget{classDoubleHashTable_a5b01751fc2da47e2be0540b8fe7d60f8}\label{classDoubleHashTable_a5b01751fc2da47e2be0540b8fe7d60f8} 
+bool {\bfseries remove} (int key)
+\item 
+\Hypertarget{classDoubleHashTable_a0e5b176559d7706ef796e0b21974bda7}\label{classDoubleHashTable_a0e5b176559d7706ef796e0b21974bda7} 
+bool {\bfseries search} (int key)
+\item 
+\Hypertarget{classDoubleHashTable_a1c148429fac4d97f2c2bc86e0b7e6b56}\label{classDoubleHashTable_a1c148429fac4d97f2c2bc86e0b7e6b56} 
+void {\bfseries print\+Table} () const
+\item 
+\Hypertarget{classDoubleHashTable_a45a2bdd6a2d5c2909d1e4771af54a3d7}\label{classDoubleHashTable_a45a2bdd6a2d5c2909d1e4771af54a3d7} 
+vector$<$ T $>$ {\bfseries get\+Values} () const
+\item 
+\Hypertarget{classDoubleHashTable_a987fc905ae148f61f1e98d4e8eb77fcb}\label{classDoubleHashTable_a987fc905ae148f61f1e98d4e8eb77fcb} 
+int {\bfseries get\+Size} () const
+\item 
+\Hypertarget{classDoubleHashTable_a56618fb2b6f2abcf65c1bc02abc85d14}\label{classDoubleHashTable_a56618fb2b6f2abcf65c1bc02abc85d14} 
+T {\bfseries get} (int key)
+\item 
+\Hypertarget{classDoubleHashTable_a6669d51e8ee9dd7ab5ef92118603f312}\label{classDoubleHashTable_a6669d51e8ee9dd7ab5ef92118603f312} 
+int {\bfseries get\+Count} () const
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classDoubleHashTable_a874276333720019697fbcea9b49120c0}\label{classDoubleHashTable_a874276333720019697fbcea9b49120c0} 
+int {\bfseries hash1} (int key)
+\item 
+\Hypertarget{classDoubleHashTable_aba070c32de2cff4fa3ad08c8a4d910dd}\label{classDoubleHashTable_aba070c32de2cff4fa3ad08c8a4d910dd} 
+int {\bfseries hash2} (int key)
+\item 
+\Hypertarget{classDoubleHashTable_a561ccc2e7b7a4abc4ca9b725f5de83bd}\label{classDoubleHashTable_a561ccc2e7b7a4abc4ca9b725f5de83bd} 
+int {\bfseries double\+Hash} (int key, int i)
+\item 
+\Hypertarget{classDoubleHashTable_aaad2fd0053ca83ab84e60fa761bb33f8}\label{classDoubleHashTable_aaad2fd0053ca83ab84e60fa761bb33f8} 
+bool {\bfseries is\+Prime} (int n)
+\item 
+\Hypertarget{classDoubleHashTable_a7169e44e8f8d52e7d7ff7cbe4b606fd6}\label{classDoubleHashTable_a7169e44e8f8d52e7d7ff7cbe4b606fd6} 
+int {\bfseries next\+Prime} (int n)
+\item 
+\Hypertarget{classDoubleHashTable_adc3f744fb26fc9f4e29535c25cb5e28e}\label{classDoubleHashTable_adc3f744fb26fc9f4e29535c25cb5e28e} 
+void {\bfseries rehash} ()
+\item 
+\Hypertarget{classDoubleHashTable_ab0abbb7bb89a758fb6c6ed2c3bf0200f}\label{classDoubleHashTable_ab0abbb7bb89a758fb6c6ed2c3bf0200f} 
+bool {\bfseries insert\+Without\+Resize} (\mbox{\hyperlink{structkeyInput}{key\+Input}}$<$ T $>$ input)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classDoubleHashTable_afa5e46adcdef1696ccfeccdac3e6fa3f}\label{classDoubleHashTable_afa5e46adcdef1696ccfeccdac3e6fa3f} 
+\mbox{\hyperlink{structkeyInput}{key\+Input}}$<$ T $>$ \texorpdfstring{$\ast$}{*} {\bfseries table}
+\item 
+\Hypertarget{classDoubleHashTable_a0639a8805840f9f86f2d21be130907a4}\label{classDoubleHashTable_a0639a8805840f9f86f2d21be130907a4} 
+int {\bfseries size}
+\item 
+\Hypertarget{classDoubleHashTable_ad5a7458655beadd38918aaa4edcdf233}\label{classDoubleHashTable_ad5a7458655beadd38918aaa4edcdf233} 
+int {\bfseries count}
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+backend/include/models/hash.\+h\end{DoxyCompactItemize}

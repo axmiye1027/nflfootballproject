@@ -1,0 +1,87 @@
+\doxysection{backend/src/routes/routes.cpp File Reference}
+\hypertarget{routes_8cpp}{}\label{routes_8cpp}\index{backend/src/routes/routes.cpp@{backend/src/routes/routes.cpp}}
+
+
+file containing all the routes  
+
+
+{\ttfamily \#include "{}includes.\+h"{}}\newline
+{\ttfamily \#include "{}routes/routes.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+crow\+::json\+::wvalue \mbox{\hyperlink{routes_8cpp_a8e435139a38dd27daf91e0e437fb1bfd}{stadium\+To\+Json}} (const \mbox{\hyperlink{classStadium}{Stadium}} \&stadium)
+\begin{DoxyCompactList}\small\item\em gets stadium information and puts it in a json file \end{DoxyCompactList}\item 
+crow\+::json\+::wvalue \mbox{\hyperlink{routes_8cpp_a3972236c2f4ec1ef5d33037eca244acc}{souvenir\+To\+Json}} (const \mbox{\hyperlink{structSouvenir}{Souvenir}} \&s)
+\begin{DoxyCompactList}\small\item\em gets the souvenirs and converts it to a json file \end{DoxyCompactList}\item 
+crow\+::json\+::wvalue \mbox{\hyperlink{routes_8cpp_adb5131190a11ebf1f2514f1ada01ed25}{stadium\+List\+To\+Json}} (const vector$<$ \mbox{\hyperlink{classStadium}{Stadium}} $>$ \&stadiums)
+\begin{DoxyCompactList}\small\item\em converts the stadiums in a json and puts it into an array \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{routes_8cpp_a91cfa872673fc36acfdbcb6f78ead50f}{register\+Routes}} (crow\+::\+App$<$ crow\+::\+CORSHandler $>$ \&app, \mbox{\hyperlink{classBackendManager}{Backend\+Manager}} \&backend)
+\begin{DoxyCompactList}\small\item\em searching \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+file containing all the routes 
+
+
+
+\label{doc-func-members}
+\Hypertarget{routes_8cpp_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{routes_8cpp_a91cfa872673fc36acfdbcb6f78ead50f}\index{routes.cpp@{routes.cpp}!registerRoutes@{registerRoutes}}
+\index{registerRoutes@{registerRoutes}!routes.cpp@{routes.cpp}}
+\doxysubsubsection{\texorpdfstring{registerRoutes()}{registerRoutes()}}
+{\footnotesize\ttfamily \label{routes_8cpp_a91cfa872673fc36acfdbcb6f78ead50f} 
+void register\+Routes (\begin{DoxyParamCaption}\item[{crow\+::\+App$<$ crow\+::\+CORSHandler $>$ \&}]{app}{, }\item[{\mbox{\hyperlink{classBackendManager}{Backend\+Manager}} \&}]{backend}{}\end{DoxyParamCaption})}
+
+
+
+searching 
+
+gets user login credentials
+
+updates stadium information\Hypertarget{routes_8cpp_a3972236c2f4ec1ef5d33037eca244acc}\index{routes.cpp@{routes.cpp}!souvenirToJson@{souvenirToJson}}
+\index{souvenirToJson@{souvenirToJson}!routes.cpp@{routes.cpp}}
+\doxysubsubsection{\texorpdfstring{souvenirToJson()}{souvenirToJson()}}
+{\footnotesize\ttfamily \label{routes_8cpp_a3972236c2f4ec1ef5d33037eca244acc} 
+crow\+::json\+::wvalue souvenir\+To\+Json (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structSouvenir}{Souvenir}} \&}]{s}{}\end{DoxyParamCaption})}
+
+
+
+gets the souvenirs and converts it to a json file 
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & souveniers \\
+\hline
+\end{DoxyParams}
+\Hypertarget{routes_8cpp_adb5131190a11ebf1f2514f1ada01ed25}\index{routes.cpp@{routes.cpp}!stadiumListToJson@{stadiumListToJson}}
+\index{stadiumListToJson@{stadiumListToJson}!routes.cpp@{routes.cpp}}
+\doxysubsubsection{\texorpdfstring{stadiumListToJson()}{stadiumListToJson()}}
+{\footnotesize\ttfamily \label{routes_8cpp_adb5131190a11ebf1f2514f1ada01ed25} 
+crow\+::json\+::wvalue stadium\+List\+To\+Json (\begin{DoxyParamCaption}\item[{const vector$<$ \mbox{\hyperlink{classStadium}{Stadium}} $>$ \&}]{stadiums}{}\end{DoxyParamCaption})}
+
+
+
+converts the stadiums in a json and puts it into an array 
+
+
+\begin{DoxyParams}{Parameters}
+{\em stadiums} & stadiums inside a json \\
+\hline
+\end{DoxyParams}
+\Hypertarget{routes_8cpp_a8e435139a38dd27daf91e0e437fb1bfd}\index{routes.cpp@{routes.cpp}!stadiumToJson@{stadiumToJson}}
+\index{stadiumToJson@{stadiumToJson}!routes.cpp@{routes.cpp}}
+\doxysubsubsection{\texorpdfstring{stadiumToJson()}{stadiumToJson()}}
+{\footnotesize\ttfamily \label{routes_8cpp_a8e435139a38dd27daf91e0e437fb1bfd} 
+crow\+::json\+::wvalue stadium\+To\+Json (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classStadium}{Stadium}} \&}]{stadium}{}\end{DoxyParamCaption})}
+
+
+
+gets stadium information and puts it in a json file 
+
+
+\begin{DoxyParams}{Parameters}
+{\em stadium} & current stadium we are storing the data of \\
+\hline
+\end{DoxyParams}

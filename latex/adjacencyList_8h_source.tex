@@ -1,0 +1,51 @@
+\doxysection{adjacency\+List.\+h}
+\hypertarget{adjacencyList_8h_source}{}\label{adjacencyList_8h_source}\index{backend/include/models/adjacencyList.h@{backend/include/models/adjacencyList.h}}
+\mbox{\hyperlink{adjacencyList_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}includes.h"{}}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#ifndef\ DFS\_H}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#define\ DFS\_H}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00018\ \textcolor{keyword}{struct\ }edge}
+\DoxyCodeLine{00019\ \{}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordtype}{string}\ \ originVertex;}
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keywordtype}{string}\ \ destinationVertex;}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ distance;}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \ \ \ \ edge\ *next;}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \ \ \ \ edge(\textcolor{keywordtype}{string}\ originVertex,\ \textcolor{keywordtype}{string}\ destVertex,\ \textcolor{keywordtype}{int}\ distance)\ :\ originVertex(originVertex),\ destinationVertex(destVertex),\ distance(distance),\ next(\textcolor{keyword}{nullptr})\ }
+\DoxyCodeLine{00027\ \ \ \ \ \{\}}
+\DoxyCodeLine{00028\ \};}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00033\ \textcolor{keyword}{class\ }AdjacencyList}
+\DoxyCodeLine{00034\ \{}
+\DoxyCodeLine{00035\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00036\ \ \ \ \ AdjacencyList();}
+\DoxyCodeLine{00037\ \ \ \ \ \string~AdjacencyList();}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordtype}{void}\ populateList(vector<edge>\&\ edges);}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordtype}{void}\ addEdge(\mbox{\hyperlink{structedge}{edge}}\&\ vertexEdge);}
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keywordtype}{void}\ removeEdge(\textcolor{keywordtype}{string}\ originVertex,\ \textcolor{keywordtype}{string}\ destinationVertex);}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keywordtype}{int}\ \ findIndex(\textcolor{keywordtype}{string}\ vertex)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordtype}{void}\ dfs(\textcolor{keywordtype}{string}\ originVertex);}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \ \ \ \ vector<AdjacencyNode>\ returnPath()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ returnDist()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordtype}{void}\ dfsRecusion(\textcolor{keywordtype}{int}\ vertexIndex,\ \textcolor{keywordtype}{int}\ lastIndex,\ vector<bool>\&\ visited,set<pair<int,\ int>>\&\ printedEdges,\ \textcolor{keywordtype}{int}\&\ totalDistance);}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \ \ \ \ vector<edge*>\ list;}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \ \ \ \ vector<AdjacencyNode>\ path;}
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ totalDist;}
+\DoxyCodeLine{00057\ \};}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}
