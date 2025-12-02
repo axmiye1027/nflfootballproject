@@ -1,0 +1,127 @@
+
+
+.containerStyle {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.columnStyle {
+    flex: 1;
+    border: 1px solid var(--border);
+    border-radius: 8;
+    padding: 0.75rem;
+    min-height: 12rem;
+    background: var(--panel);
+}
+
+.createTripButton {
+    width: 100%;
+    padding: 0 1rem 1rem;
+    font-weight: 700;
+}
+
+.createTripButton button {
+    color: var(--white);
+    background-color: var(--purple);
+}
+
+.teamStyle {
+    padding: 0.5rem;
+    border-radius: 1em;
+    min-height: 4.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: var(--muted);
+    border: var(--border);
+}
+
+.teamStyle button {
+    margin-top: 0.25rem;
+    text-align: right;
+    background-color: var(--purple);
+    color: var(--white);
+    align-self:flex-end;
+}
+
+.nameStyle {
+    font-size: medium;
+    color: var(--muted);
+}
+
+.loadingStyle {
+    padding: 1rem;
+}
+
+.errorStyle {
+    padding: 1rem;
+    color: var(--danger);
+}
+
+.headerStyle {
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.gridStyle {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+}
+
+.header-row {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.trip-calc-box {
+    position: absolute;
+    right: 150px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    padding: 12px;
+    border: 2px solid var(--purple);
+    border-radius: 8px;
+    background: transparent;   
+}
+
+
+.calc-item {
+    display: flex;
+    justify-content: space-between;
+    width: 200px;
+}
+
+.calc-item input {
+    width: 120px;
+}
+
+.calc-item label {
+    width: 100px;
+    color: var(--purple);
+}
+
+.calc-item input {
+    flex: 1;
+}
+
+.calc-button {
+    margin-top: 8px;
+    padding: 6px 10px;
+    border: 1px solid var(--purple);
+    background: transparent;
+    color: var(--purple);
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.calc-output {
+    margin-top: 10px;
+    font-size: 0.9rem;
+}

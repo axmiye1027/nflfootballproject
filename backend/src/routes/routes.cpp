@@ -180,5 +180,45 @@ void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
     });
 
 
+    CROW_ROUTE(app, "/calculateDist").methods(crow::HTTPMethod::POST)
+    ([&backend](const crow::request& req) 
+    {
+        auto body = crow::json::load(req.body);
+        if (!body)
+        {
+            crow::json::wvalue error;
+            error["success"] = false;
+            error["message"] = "Invalid JSON";
+            return crow::response(400, error.dump());
+        }
+
+        string bfsCity = body["bfsCity"].s();
+        string mstCity = body["mstCity"].s();
+
+        if (bfsCity.empty() && mstCity.empty())
+        {
+            crow::json::wvalue error;
+            error["success"] = false;
+            error["message"] = "At least one city must be provided";
+            return crow::response(400, error.dump());
+        }
+
+        int bfsResult = 0;
+        int mstResult = 0;
+        
+        if (!bfsCity.empty())
+            bfsResult = backend.calculateBFS(bfsCity);
+        if (!mstCity.empty())
+            mstResult = backend.calculateMST(mstCity);
+
+        // Build response JSON
+        crow::json::wvalue res;
+        res["success"] = true;
+        res["bfs"]     = bfsResult;
+        res["mst"]     = mstResult;
+
+        return crow::response(res);
+    });
+
 
 }

@@ -92,6 +92,8 @@ public:
     DoubleHashTable<Souvenir> getTeamSouvenirs(string teamName);
 
     int totalStadiumCapacity(const vector<Stadium>& stadiumsVect);
+    int calculateBFS(string startingCity);
+    int calculateMST(string startingCity);
 
     vector<Stadium> filterStadiums(const vector<Stadium>& stadiumsVect, string search);
 
