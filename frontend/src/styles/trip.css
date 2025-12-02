@@ -16,8 +16,7 @@
 }
 
 .createTripButton {
-    width: 100%;
-    padding: 0 1rem 1rem;
+    padding: .5rem;
     font-weight: 700;
 }
 
@@ -71,57 +70,16 @@
 }
 
 .header-row {
-    position: relative;
     display: flex;
+    flex-direction: row;
     justify-content: center;
-    margin-top: 10px;
 }
 
-.trip-calc-box {
-    position: absolute;
-    right: 150px;
-
+.trip-type-container {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-
-    padding: 12px;
-    border: 2px solid var(--purple);
-    border-radius: 8px;
-    background: transparent;   
 }
 
-
-.calc-item {
-    display: flex;
-    justify-content: space-between;
-    width: 200px;
-}
-
-.calc-item input {
-    width: 120px;
-}
-
-.calc-item label {
-    width: 100px;
-    color: var(--purple);
-}
-
-.calc-item input {
-    flex: 1;
-}
-
-.calc-button {
-    margin-top: 8px;
-    padding: 6px 10px;
-    border: 1px solid var(--purple);
-    background: transparent;
-    color: var(--purple);
-    border-radius: 6px;
-    cursor: pointer;
-}
-
-.calc-output {
-    margin-top: 10px;
-    font-size: 0.9rem;
+.trip-type-container label {
+    font-weight: 600;
 }

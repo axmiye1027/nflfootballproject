@@ -447,17 +447,43 @@ vector<Stadium> BackendManager::filterStadiums(const vector<Stadium>& stadiumsVe
 }
 
 
-int BackendManager::calculateBFS(string startingCity)
+int BackendManager::calculateBFS(const string& startingCity)
 {
-    transform(startingCity.begin(), startingCity.end(), startingCity.begin(), ::tolower);
-
     return adjacencyMatrix.bfs(startingCity);
 }
 
 
-int BackendManager::calculateMST(string startingCity)
+int BackendManager::calculateMST(const string& startingCity)
 {
-    transform(startingCity.begin(), startingCity.end(), startingCity.begin(), ::tolower);
-
     return adjacencyMatrix.mst(startingCity);
+}
+
+int BackendManager::calculateDijkstra(string startingStadium, string endingStadium)
+{
+    // auto dijkstraList = adjacencyMatrix.dijkstra(startingStadium);
+
+    // int index = 0;
+    // while (index != dijkstraList.end() )
+    // {
+
+
+    //     index++;
+    // }
+
+    return 0;
+}
+
+PathReturn BackendManager::calculateDFS(string startingStadium)
+{
+
+}
+
+PathReturn BackendManager::calculateCustomTrip(vector<Stadium> trip)
+{
+
+}
+
+PathReturn BackendManager::calculateRecursiveTrip(vector<Stadium> trip)
+{
+
 }

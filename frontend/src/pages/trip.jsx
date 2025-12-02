@@ -1,5 +1,5 @@
 // Trip Planning Page / Trip button
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { use, useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import '../styles/trip.css'
@@ -13,10 +13,7 @@ export default function TripPage() {
     const [activeCity, setActiveCity] = useState('')
     const [startingId, setStartingId] = useState(null)
 
-    const [bfsCity, setBfsCity] = useState("")
-    const [mstCity, setMstCity] = useState("")
-    const [bfsResult, setBfsResult] = useState(null);
-    const [mstResult, setMstResult] = useState(null);
+    const [tripType, setTripType] = useState("customTrip");
 
     useEffect(() => {
         let mounted = true
@@ -36,6 +33,81 @@ export default function TripPage() {
 
         return () => { mounted = false }
     }, [])
+
+
+    function buildTripRequest(tripType, startingId, stadiums) 
+    {
+        const startingStadium = stadiums.find(s => s.stadiumId === startingId);
+        const selectedStadiums = stadiums.filter(s => selectedIds.includes(s.stadiumId));
+
+        switch (tripType) {
+            case "bfsTrip":
+                return {
+                    endpoint: "/bfsTrip",
+                    body: { bfsStadium: startingStadium.stadiumName }
+                };
+
+            case "mstTrip":
+                return {
+                    endpoint: "/mstTrip",
+                    body: { mstStadium: startingStadium.stadiumName }
+                };
+
+            case "dijkstraTrip":
+                return {
+                    endpoint: "/dijkstraTrip",
+                    body: { stadiums: selectedStadiums, startingStadium }
+                };
+
+            case "dfsTrip":
+                return {
+                    endpoint: "/dfsTrip",
+                    body: { dfsStadium: startingStadium.stadiumName }
+                };
+
+            case "recursiveTrip":
+                return {
+                    endpoint: "/recursiveTrip",
+                    body: { stadiums: selectedStadiums, startingStadium }
+                }
+
+            case "customTrip":
+            default:
+                return {
+                    endpoint: "/customTrip",
+                    body: { stadiums: selectedStadiums, startingStadium }
+                };
+        }
+    }
+
+    async function handleCreateTrip() 
+    {
+        const { endpoint, body } = buildTripRequest(tripType, startingId, stadiums);
+
+        try {
+            const res = await fetch(`http://localhost:18080${endpoint}`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(body)
+            });
+
+            const json = await res.json();
+            console.log("Trip calculation result:", json);
+
+            if (!json.success) {
+                throw new Error(json.message || "Unknown error");
+            }
+
+            sessionStorage.setItem("tripResult", JSON.stringify(json));
+
+            navigate("/summary", { state: { result: json } });
+
+        } catch (err) {
+            console.error("Failed to calculate trip:", err);
+            setError(err.message);
+        }
+    }
+
 
     const stadiumsByCity = useMemo(() => {
         const map = {}
@@ -145,32 +217,6 @@ export default function TripPage() {
         }
     }
 
-    async function handleCalculate() {
-        try {
-            // Make sure we always send strings, not null/undefined
-            const payload = {
-                bfsCity: bfsCity || "",
-                mstCity: mstCity || ""
-            };
-
-            const res = await fetch("http://localhost:18080/calculateDist", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload)
-            });
-
-            const json = await res.json();
-
-            // Assume backend returns { bfs: number, mst: number }
-            setBfsResult(json.bfs);
-            setMstResult(json.mst);
-
-        } catch (err) {
-            console.error("Calculation error:", err);
-        }
-    }
-
-
     const selectedStadiums = stadiums.filter((s) => selectedIds.includes(s.stadiumId))
 
     //STYLES
@@ -189,14 +235,35 @@ export default function TripPage() {
     // DISPLAY 
     const navigate = useNavigate()
 
-    function handleCreateTrip() {
-        // Prepare ordered stadiums as they appear in selectedIds
-        const ordered = selectedIds.map((id) => stadiums.find((s) => s.stadiumId === id)).filter(Boolean)
-        const payload = { stadiums: ordered, startingId }
-        // persist to sessionStorage so Summary can reload on refresh
-        try { sessionStorage.setItem('lastTrip', JSON.stringify(payload)) } catch (e) {}
-        navigate('/summary', { state: payload })
-    }
+    // function handleCreateTrip() {
+    //     // Prepare ordered stadiums as they appear in selectedIds
+    //     const ordered = selectedIds.map((id) => stadiums.find((s) => s.stadiumId === id)).filter(Boolean)
+    //     const payload = { stadiums: ordered, startingId }
+    //     // persist to sessionStorage so Summary can reload on refresh
+    //     try { sessionStorage.setItem('lastTrip', JSON.stringify(payload)) } catch (e) {}
+    //     navigate('/summary', { state: payload })
+    // }
+
+    const disableCreateTrip = (() => {
+        const numSelected = selectedIds.length + (startingId ? 1 : 0);
+
+        if (numSelected <= 0)
+            return true;
+
+        switch (tripType) {
+            case 'dijkstraTrip':
+                return numSelected != 2;
+            case 'bfsTrip':
+            case 'mstTrip':
+            case 'dfsTrip':
+                return numSelected > 1; 
+            case 'customTrip':
+            case 'recursiveTrip':
+                return numSelected < 2;
+            default: 
+                return true;
+        }
+    })();
 
     return (
         <div>
@@ -205,52 +272,22 @@ export default function TripPage() {
             {/* Create Trip button */}
             <div className="header-row">
                 <div className="createTripButton">
-                    <button onClick={handleCreateTrip} disabled={selectedIds.length === 0}>
+                    <button onClick={handleCreateTrip} disabled={disableCreateTrip}>
                         Create Trip
                     </button>
                 </div>
 
-                <div className="trip-calc-box">
-
-                    <div className="calc-item">
-                        <label>BFS:</label>
-                        <input 
-                            type="text"
-                            value={bfsCity}
-                            onChange={(e) => { setBfsCity(e.target.value); setBfsResult(null); }}
-                        />
-                        {bfsResult !== null && <span className="calc-output"> {bfsResult} </span>}
-                    </div>
-
-                    <div className="calc-item">
-                        <label>MST:</label>
-                        <input 
-                            type="text"
-                            value={mstCity}
-                            onChange={(e) => { setMstCity(e.target.value); setMstCity(null); }}
-                        />
-                        {mstResult !== null && <span className="calc-output"> {mstResult} </span>}
-                    </div>
-
-                    <button 
-                        className="calc-button" 
-                        onClick={handleCalculate}
-                        disabled={!bfsCity && !mstCity}
-                    >
-                        Calculate
-                    </button>
-
-                    <div className="calc-output">
-                        {bfsResult !== null && (
-                            <div>Bfs Result: {bfsResult}</div>
-                        )}
-                        {mstResult !== null && (
-                            <div>MST Result: {mstResult}</div>
-                        )}
-                    </div>
-
+                <div className="trip-type-container">
+                    <label>Type of trip:</label>
+                    <select value={tripType} onChange={e => setTripType(e.target.value)}>
+                        <option value="customTrip">Custom trip</option>
+                        <option value="dijkstraTrip">Shortest trip</option>
+                        <option value="recursiveTrip">Recursive trip</option>
+                        <option value="dfsTrip">Visit all teams</option>
+                        <option value="bfsTrip">BFS</option>
+                        <option value="mstTrip">MST</option>
+                    </select>
                 </div>
-
 
             </div>
             {loading && <div className="loadingStyle">Loading stadiums…</div>}

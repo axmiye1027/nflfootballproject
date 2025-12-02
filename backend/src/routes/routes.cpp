@@ -203,7 +203,8 @@ void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
     });
 
 
-    CROW_ROUTE(app, "/calculateDist").methods(crow::HTTPMethod::POST)
+    /* ------------------------------- TRIPS -------------------------------*/
+    CROW_ROUTE(app, "/bfsTrip").methods(crow::HTTPMethod::POST)
     ([&backend](const crow::request& req) 
     {
         auto body = crow::json::load(req.body);
@@ -215,10 +216,9 @@ void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
             return crow::response(400, error.dump());
         }
 
-        string bfsCity = body["bfsCity"].s();
-        string mstCity = body["mstCity"].s();
+        string bfsCity = body["bfsStadium"].s();
 
-        if (bfsCity.empty() && mstCity.empty())
+        if (bfsCity.empty())
         {
             crow::json::wvalue error;
             error["success"] = false;
@@ -227,21 +227,115 @@ void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
         }
 
         int bfsResult = 0;
-        int mstResult = 0;
         
         if (!bfsCity.empty())
             bfsResult = backend.calculateBFS(bfsCity);
-        if (!mstCity.empty())
-            mstResult = backend.calculateMST(mstCity);
 
-        // Build response JSON
         crow::json::wvalue res;
         res["success"] = true;
         res["bfs"]     = bfsResult;
-        res["mst"]     = mstResult;
 
-        return crow::response(res);
+        return crow::response(res.dump());
     });
 
+
+    CROW_ROUTE(app, "/mstTrip").methods(crow::HTTPMethod::POST)
+    ([&backend](const crow::request& req) 
+    {
+        auto body = crow::json::load(req.body);
+        if (!body)
+        {
+            crow::json::wvalue error;
+            error["success"] = false;
+            error["message"] = "Invalid JSON";
+            return crow::response(400, error.dump());
+        }
+
+        string mstCity = body["mstStadium"].s();
+
+        if (mstCity.empty())
+        {
+            crow::json::wvalue error;
+            error["success"] = false;
+            error["message"] = "At least one city must be provided";
+            return crow::response(400, error.dump());
+        }
+
+        int mstResult = 0;
+        
+        if (!mstCity.empty())
+            mstResult = backend.calculateMST(mstCity);
+
+        crow::json::wvalue res;
+        res["success"] = true;
+        res["mst"]     = mstResult;
+
+        return crow::response(res.dump());
+    });
+
+
+    CROW_ROUTE(app, "/dijkstraTrip").methods(crow::HTTPMethod::POST)
+    ([&backend](const crow::request& req) 
+    {
+        auto body = crow::json::load(req.body);
+        if (!body)
+        {
+            crow::json::wvalue error;
+            error["success"] = false;
+            error["message"] = "Invalid JSON";
+            return crow::response(400, error.dump());
+        }
+
+        auto stadiumsJson = body["stadiums"];
+        // if (!stadiumsJson || !stadiumsJson.is_list() || stadiumsJson.size() < 2) 
+        // {
+        //     crow::json::wvalue error;
+        //     error["success"] = false;
+        //     error["message"] = "Two stadiums required";
+        //     return crow::response(400, error.dump());
+        // }
+
+        string firstStadiumName  = stadiumsJson[0]["stadiumName"].s();
+        string secondStadiumName = stadiumsJson[1]["stadiumName"].s();
+
+        int distance = backend.calculateDijkstra(firstStadiumName, secondStadiumName);
+
+        crow::json::wvalue res;
+        res["success"] = true;
+        res["distance"] = distance;
+        return crow::response(res.dump());
+    });
+
+    CROW_ROUTE(app, "/dfsTrip").methods(crow::HTTPMethod::POST)
+    ([&backend](const crow::request& req) 
+    {
+        auto body = crow::json::load(req.body);
+        if (!body)
+        {
+            crow::json::wvalue error;
+            error["success"] = false;
+            error["message"] = "Invalid JSON";
+            return crow::response(400, error.dump());
+        }
+
+        string startingStadium = body["dfsStadium"].s();
+
+        // vector<Stadium> dfsVector = backend.calculateDFS(startingStadium);
+ 
+        crow::json::wvalue res;
+
+        return crow::response(res.dump());
+
+    });
+
+
+    CROW_ROUTE(app, "/customTrip").methods(crow::HTTPMethod::POST)
+    ([&backend](const crow::request& req) 
+    {
+
+        crow::json::wvalue res;
+
+        return crow::response(res.dump());
+    });
 
 }
