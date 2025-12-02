@@ -149,6 +149,10 @@ bool BackendManager::updateStadium(int stadiumId, string teamName, string stadiu
         databaseManager.updateStadium(stadiumId,    "conference",   conference);
         databaseManager.updateStadium(stadiumId,    "division",     division);
 
+        // update the distances
+
+        database
+
         return true;
     }
     catch (...) 

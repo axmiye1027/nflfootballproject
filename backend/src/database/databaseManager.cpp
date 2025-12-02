@@ -131,9 +131,9 @@ vector<Distance> DatabaseManager::getAllDistances()
     while (sqlite3_step(stmt) == SQLITE_ROW) 
     {
         Distance d;
-        d.id = getColumnInt(stmt, 0);
-        d.locationA = getColumnText(stmt, 1);
-        d.locationB = getColumnText(stmt, 2);
+        d.id         = getColumnInt(stmt, 0);
+        d.locationA  = getColumnText(stmt, 1);
+        d.locationB  = getColumnText(stmt, 2);
         d.distanceKm = getColumnInt(stmt, 3);
         distances.push_back(d);
     }
@@ -191,11 +191,11 @@ int DatabaseManager::addStadium(const string& team,
     
     sqlite3_bind_text(stmt, 1, team.c_str(), -1, SQLITE_TRANSIENT);
     sqlite3_bind_text(stmt, 2, stadiumName.c_str(), -1, SQLITE_TRANSIENT);
-    sqlite3_bind_int(stmt, 3, capacity);
+    sqlite3_bind_int(stmt,  3, capacity);
     sqlite3_bind_text(stmt, 4, location.c_str(), -1, SQLITE_TRANSIENT);
     sqlite3_bind_text(stmt, 5, roofType.c_str(), -1, SQLITE_TRANSIENT);
     sqlite3_bind_text(stmt, 6, surface.c_str(), -1, SQLITE_TRANSIENT);
-    sqlite3_bind_int(stmt, 7, yearOpened);
+    sqlite3_bind_int(stmt,  7, yearOpened);
     sqlite3_bind_text(stmt, 8, conference.c_str(), -1, SQLITE_TRANSIENT);
     sqlite3_bind_text(stmt, 9, division.c_str(), -1, SQLITE_TRANSIENT);
     
@@ -233,14 +233,14 @@ StadiumStruct* DatabaseManager::getStadiumById(int stadiumId)
     {
         result = new StadiumStruct();
 
-        result->stadiumId   = getColumnInt(stmt, 0);
+        result->stadiumId   = getColumnInt(stmt,  0);
         result->teamName    = getColumnText(stmt, 1);
         result->stadiumName = getColumnText(stmt, 2);
-        result->capacity    = getColumnInt(stmt, 3);
+        result->capacity    = getColumnInt(stmt,  3);
         result->location    = getColumnText(stmt, 4);
         result->roofType    = getColumnText(stmt, 5);
         result->surface     = getColumnText(stmt, 6);
-        result->yearOpened  = getColumnInt(stmt, 7);
+        result->yearOpened  = getColumnInt(stmt,  7);
         result->conference  = getColumnText(stmt, 8);
         result->division    = getColumnText(stmt, 9);
     }
@@ -261,14 +261,14 @@ StadiumStruct* DatabaseManager::getStadiumByTeam(const string& team)
     {
         result = new StadiumStruct();
 
-        result->stadiumId    = getColumnInt(stmt, 0);
+        result->stadiumId    = getColumnInt(stmt,  0);
         result->teamName     = getColumnText(stmt, 1);
         result->stadiumName  = getColumnText(stmt, 2);
-        result->capacity     = getColumnInt(stmt, 3);
+        result->capacity     = getColumnInt(stmt,  3);
         result->location     = getColumnText(stmt, 4);
         result->roofType     = getColumnText(stmt, 5);
         result->surface      = getColumnText(stmt, 6);
-        result->yearOpened   = getColumnInt(stmt, 7);
+        result->yearOpened   = getColumnInt(stmt,  7);
         result->conference   = getColumnText(stmt, 8);
         result->division     = getColumnText(stmt, 9);
     }
@@ -289,14 +289,14 @@ vector<StadiumStruct> DatabaseManager::getAllStadiums()
     {
         StadiumStruct s;
 
-        s.stadiumId   = getColumnInt(stmt, 0);
+        s.stadiumId   = getColumnInt(stmt,  0);
         s.teamName    = getColumnText(stmt, 1);
         s.stadiumName = getColumnText(stmt, 2);
-        s.capacity    = getColumnInt(stmt, 3);
+        s.capacity    = getColumnInt(stmt,  3);
         s.location    = getColumnText(stmt, 4);
         s.roofType    = getColumnText(stmt, 5);
         s.surface     = getColumnText(stmt, 6);
-        s.yearOpened  = getColumnInt(stmt, 7);
+        s.yearOpened  = getColumnInt(stmt,  7);
         s.conference  = getColumnText(stmt, 8);
         s.division    = getColumnText(stmt, 9);
 
@@ -319,14 +319,14 @@ vector<StadiumStruct> DatabaseManager::getStadiumsByConference(const string& con
     {
         StadiumStruct s;
 
-        s.stadiumId   = getColumnInt(stmt, 0);
+        s.stadiumId   = getColumnInt(stmt,  0);
         s.teamName    = getColumnText(stmt, 1);
         s.stadiumName = getColumnText(stmt, 2);
-        s.capacity    = getColumnInt(stmt, 3);
+        s.capacity    = getColumnInt(stmt,  3);
         s.location    = getColumnText(stmt, 4);
         s.roofType    = getColumnText(stmt, 5);
         s.surface     = getColumnText(stmt, 6);
-        s.yearOpened  = getColumnInt(stmt, 7);
+        s.yearOpened  = getColumnInt(stmt,  7);
         s.conference  = getColumnText(stmt, 8);
         s.division    = getColumnText(stmt, 9);
 
@@ -349,14 +349,14 @@ vector<StadiumStruct> DatabaseManager::getStadiumsByDivision(const string& divis
     {
         StadiumStruct s;
 
-        s.stadiumId   = getColumnInt(stmt, 0);
+        s.stadiumId   = getColumnInt(stmt,  0);
         s.teamName    = getColumnText(stmt, 1);
         s.stadiumName = getColumnText(stmt, 2);
-        s.capacity    = getColumnInt(stmt, 3);
+        s.capacity    = getColumnInt(stmt,  3);
         s.location    = getColumnText(stmt, 4);
         s.roofType    = getColumnText(stmt, 5);
         s.surface     = getColumnText(stmt, 6);
-        s.yearOpened  = getColumnInt(stmt, 7);
+        s.yearOpened  = getColumnInt(stmt,  7);
         s.conference  = getColumnText(stmt, 8);
         s.division    = getColumnText(stmt, 9);
 

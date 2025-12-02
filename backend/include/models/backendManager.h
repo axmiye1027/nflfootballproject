@@ -86,6 +86,7 @@ public:
     vector<Stadium> getStadiumsByRoofType(const vector<Stadium>&   stadiumsVect,string roofType);
     vector<Stadium> getStadiumsByDivision(const vector<Stadium>&   stadiumsVect,string division);
     vector<Stadium> getStadiumsByConference(const vector<Stadium>& stadiumsVect,string conference);
+    vector<Stadium> getStadiumsByGrass(const vector<Stadium>&      stadiumsVect,string grassType);
 
     DoubleHashTable<Souvenir> getTeamSouvenirs(string teamName);
 
