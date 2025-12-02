@@ -320,7 +320,7 @@ vector<PathNode> AdjacencyMatrix::dijkstra(const string& startVertex)
 int AdjacencyMatrix::mst(const string& startVertex)
 {
     cout << "\n\n[AdjacencyMatrix::MST]" << endl;
-
+    
     const int NUMBER_OF_CITIES = vertices.getCount();
     const int INF = 999999;
 

@@ -2,6 +2,8 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import '../styles/trip.css'
+
 export default function TripPage() {
     const [stadiums, setStadiums] = useState([])
     const [loading, setLoading] = useState(true)
@@ -10,6 +12,11 @@ export default function TripPage() {
     const [selectedIds, setSelectedIds] = useState([])
     const [activeCity, setActiveCity] = useState('')
     const [startingId, setStartingId] = useState(null)
+
+    const [bfsCity, setBfsCity] = useState("")
+    const [mstCity, setMstCity] = useState("")
+    const [bfsResult, setBfsResult] = useState(null);
+    const [mstResult, setMstResult] = useState(null);
 
     useEffect(() => {
         let mounted = true
@@ -138,12 +145,36 @@ export default function TripPage() {
         }
     }
 
+    async function handleCalculate() {
+        try {
+            // Make sure we always send strings, not null/undefined
+            const payload = {
+                bfsCity: bfsCity || "",
+                mstCity: mstCity || ""
+            };
+
+            const res = await fetch("http://localhost:18080/calculateDist", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+
+            const json = await res.json();
+
+            // Assume backend returns { bfs: number, mst: number }
+            setBfsResult(json.bfs);
+            setMstResult(json.mst);
+
+        } catch (err) {
+            console.error("Calculation error:", err);
+        }
+    }
+
+
     const selectedStadiums = stadiums.filter((s) => selectedIds.includes(s.stadiumId))
 
     //STYLES
     const containerStyle = { display: 'flex', gap: '1rem', padding: '1rem' }
-    const columnStyle = { flex: 1, border: '1px solid var(--border)', borderRadius: 8, padding: '0.75rem', minHeight: '12rem', background: 'var(--panel)' }
-    const headerStyle = { fontWeight: '700', marginBottom: '0.5rem' }
 
     // container for teams
     const listStyle = { 
@@ -151,13 +182,6 @@ export default function TripPage() {
         border: 'var(--border)',
         borderRadius: '1em',
         padding: '.5em'
-    }
-
-    // team box
-    const teamStyle = {
-        background: 'var(--muted)',
-        border: 'var(--border)',
-        borderRadius: '1em',
     }
 
     const cityButtonStyle = (active) => ({ padding: '0.4rem 0.6rem', cursor: 'pointer', borderRadius: 6, background: active ? 'var(--purple)' : 'transparent', color: active ? 'white' : 'var(--text)', border: '1px solid var(--border)' })
@@ -179,25 +203,71 @@ export default function TripPage() {
             <div className='title'>Create a Trip</div>
 
             {/* Create Trip button */}
-            <div style={{ width: '100%', padding: '0 1rem 1rem' }}>
-                <button onClick={handleCreateTrip} disabled={selectedIds.length === 0} style={{ padding: '0.6rem 1rem', fontWeight: 700 }}>
-                    Create Trip
-                </button>
-            </div>
+            <div className="header-row">
+                <div className="createTripButton">
+                    <button onClick={handleCreateTrip} disabled={selectedIds.length === 0}>
+                        Create Trip
+                    </button>
+                </div>
 
-            {loading && <div style={{ padding: '1rem' }}>Loading stadiums…</div>}
-            {error && <div style={{ padding: '1rem', color: 'var(--danger)' }}>Error: {error}</div>}
+                <div className="trip-calc-box">
+
+                    <div className="calc-item">
+                        <label>BFS:</label>
+                        <input 
+                            type="text"
+                            value={bfsCity}
+                            onChange={(e) => { setBfsCity(e.target.value); setBfsResult(null); }}
+                        />
+                        {bfsResult !== null && <span className="calc-output"> {bfsResult} </span>}
+                    </div>
+
+                    <div className="calc-item">
+                        <label>MST:</label>
+                        <input 
+                            type="text"
+                            value={mstCity}
+                            onChange={(e) => { setMstCity(e.target.value); setMstCity(null); }}
+                        />
+                        {mstResult !== null && <span className="calc-output"> {mstResult} </span>}
+                    </div>
+
+                    <button 
+                        className="calc-button" 
+                        onClick={handleCalculate}
+                        disabled={!bfsCity && !mstCity}
+                    >
+                        Calculate
+                    </button>
+
+                    <div className="calc-output">
+                        {bfsResult !== null && (
+                            <div>Bfs Result: {bfsResult}</div>
+                        )}
+                        {mstResult !== null && (
+                            <div>MST Result: {mstResult}</div>
+                        )}
+                    </div>
+
+                </div>
+
+
+            </div>
+            {loading && <div className="loadingStyle">Loading stadiums…</div>}
+            {error && <div className="errorStyle">Error: {error}</div>}
 
             {!loading && !error && (
                 <>
                 <div style={{ padding: '1rem' }}>
+                    
                     {/* Selected (top) */}
-                    <div style={columnStyle} onDragOver={(e) => e.preventDefault()} onDrop={onDropToChoose}>
-                        <div style={headerStyle}>Selected</div>
+                    <div className='columnStyle' onDragOver={(e) => e.preventDefault()} onDrop={onDropToChoose}>
+                        <div className="headerStyle">Selected</div>
                         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.5rem' }}>
+
                             {/* starting card as first grid item */}
                             <div key='starting-card' style={{ minHeight: '4.5rem' }}>
-                                <div onDragOver={(e) => e.preventDefault()} onDrop={onDropToStarting} className='teamStyle' style={{ ...teamStyle, padding: '0.5rem', borderRadius: 6, minHeight: '4.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                                <div onDragOver={(e) => e.preventDefault()} onDrop={onDropToStarting} className="teamStyle">
                                     <div style={{ fontWeight: 700 }}>Starting point</div>
                                     <div style={{ marginTop: '0.25rem' }}>
                                         {startingId ? (
@@ -207,11 +277,11 @@ export default function TripPage() {
                                                 return (
                                                     <div>
                                                         <div draggable onDragStart={(e) => onDragStart(e, s.stadiumId, 'starting')}>
-                                                            <div style={{ fontWeight: 600 }}>{s.teamName}</div>
-                                                            <div style={{ fontSize: '0.9rem', color: 'var(--muted)' }}>{s.stadiumName} — {s.location}</div>
+                                                            <div className="nameStyle">{s.teamName}</div>
+                                                            <div className="nameStyle">{s.stadiumName} — {s.location}</div>
                                                         </div>
                                                         <div style={{ marginTop: '0.5rem', textAlign: 'right' }}>
-                                                            <button onClick={() => setStartingId(null)} style={{ cursor: 'pointer' }}>Remove</button>
+                                                            <button onClick={() => setStartingId(null)}>Remove</button>
                                                         </div>
                                                     </div>
                                                 )
@@ -224,10 +294,10 @@ export default function TripPage() {
                             </div>
 
                             {selectedStadiums.map((s) => (
-                                <div key={s.stadiumId} draggable onDragStart={(e) => onDragStart(e, s.stadiumId, 'selected')} className='teamStyle' style={{ ...teamStyle, padding: '0.5rem', borderRadius: 6, minHeight: '4.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                                <div className='teamStyle' key={s.stadiumId} draggable onDragStart={(e) => onDragStart(e, s.stadiumId, 'selected')}>
                                     <div>
                                         <div style={{ fontWeight: 600 }}>{s.teamName || s.stadiumName}</div>
-                                        <div style={{ fontSize: '0.9rem', color: 'var(--muted)' }}>{s.stadiumName} — {s.location}</div>
+                                        <div className="nameStyle">{s.stadiumName} — {s.location}</div>
                                     </div>
                                     <div style={{ marginTop: '0.25rem', textAlign: 'right' }}>
                                         <button onClick={() => removeStadium(s.stadiumId)} style={{ cursor: 'pointer' }}>Remove</button>
@@ -238,18 +308,16 @@ export default function TripPage() {
                     </div>
 
                     {/* Choose (below) */}
-                    <div style={{ ...columnStyle, marginTop: '1rem' }} onDragOver={(e) => e.preventDefault()} onDrop={onDropToChoose}>
-                        <div style={headerStyle}>Choose</div>
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.5rem' }}>
+                    <div className="columnStyle" onDragOver={(e) => e.preventDefault()} onDrop={onDropToChoose}>
+                        <div className="headerStyle">Choose</div>
+                        <div className="gridStyle">
                             {stadiums.filter(s => !selectedIds.includes(s.stadiumId) && s.stadiumId !== startingId).map((s) => (
-                                <div key={s.stadiumId} className='teamStyle' draggable onDragStart={(e) => onDragStart(e, s.stadiumId, 'choose')} style={{ ...teamStyle, padding: '0.5rem', borderRadius: 6, minHeight: '4.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                                <div key={s.stadiumId} className='teamStyle' draggable onDragStart={(e) => onDragStart(e, s.stadiumId, 'choose')}>
                                     <div>
                                         <div style={{ fontWeight: 600 }}>{s.teamName}</div>
-                                        <div style={{ fontSize: '0.9rem', color: 'var(--muted)' }}>{s.stadiumName} — {s.location}</div>
+                                        <div className="nameStyle">{s.stadiumName} — {s.location}</div>
                                     </div>
-                                    <div style={{ marginTop: '0.25rem', textAlign: 'right' }}>
-                                        <button onClick={() => addStadium(s.stadiumId)} style={{ cursor: 'pointer' }}>Add</button>
-                                    </div>
+                                    <button onClick={() => addStadium(s.stadiumId)}>Add</button>
                                 </div>
                             ))}
                         </div>

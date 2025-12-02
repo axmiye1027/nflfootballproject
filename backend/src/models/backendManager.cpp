@@ -445,3 +445,19 @@ vector<Stadium> BackendManager::filterStadiums(const vector<Stadium>& stadiumsVe
 
     return output;
 }
+
+
+int BackendManager::calculateBFS(string startingCity)
+{
+    transform(startingCity.begin(), startingCity.end(), startingCity.begin(), ::tolower);
+
+    return adjacencyMatrix.bfs(startingCity);
+}
+
+
+int BackendManager::calculateMST(string startingCity)
+{
+    transform(startingCity.begin(), startingCity.end(), startingCity.begin(), ::tolower);
+
+    return adjacencyMatrix.mst(startingCity);
+}
