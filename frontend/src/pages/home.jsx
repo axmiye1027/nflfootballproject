@@ -3,10 +3,10 @@
 import React, { useEffect, useState, useMemo } from 'react'
 
 // components
-import SearchBar from '../components/SearchBar.jsx'
-import TeamInfo  from '../components/TeamInfo.jsx'
+import SearchBar    from '../components/SearchBar.jsx'
+import TeamInfo     from '../components/TeamInfo.jsx'
 import FiltersPanel from '../components/FiltersPanel.jsx'
-import SortOptions from '../components/SortOptions.jsx'
+import SortOptions  from '../components/SortOptions.jsx'
 
 // CSS
 import '../styles/home.css'
