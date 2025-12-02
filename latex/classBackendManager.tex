@@ -1,0 +1,100 @@
+\doxysection{Backend\+Manager Class Reference}
+\hypertarget{classBackendManager}{}\label{classBackendManager}\index{BackendManager@{BackendManager}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classBackendManager_a8e5662630dc42eb0ee548469c0fe1aa3}\label{classBackendManager_a8e5662630dc42eb0ee548469c0fe1aa3} 
+bool {\bfseries login} (string username, string password)
+\item 
+\Hypertarget{classBackendManager_a52b74b1f652bd008726f533d34e9fd9f}\label{classBackendManager_a52b74b1f652bd008726f533d34e9fd9f} 
+void {\bfseries populate\+Stadiums} ()
+\item 
+\Hypertarget{classBackendManager_adb6cde83a9c4b549d744f2f552b46e3a}\label{classBackendManager_adb6cde83a9c4b549d744f2f552b46e3a} 
+void {\bfseries populate\+Distances} ()
+\item 
+\Hypertarget{classBackendManager_aeb362bcd55fb416aed3443cd784a28f0}\label{classBackendManager_aeb362bcd55fb416aed3443cd784a28f0} 
+void {\bfseries add\+Team} ()
+\item 
+\Hypertarget{classBackendManager_afecf8a1d2fa0979e1b096576df755de7}\label{classBackendManager_afecf8a1d2fa0979e1b096576df755de7} 
+void {\bfseries add\+Stadium} (string team\+Name, string stadium\+Name, int capacity, string location, Roof\+Type roof\+Type, string surface, int year\+Opened, string conference, string division, vector$<$ \mbox{\hyperlink{structSouvenir}{Souvenir}} $>$ souvenir\+List)
+\item 
+\Hypertarget{classBackendManager_ae0695e098b2b86183486b6adeb1fceb2}\label{classBackendManager_ae0695e098b2b86183486b6adeb1fceb2} 
+bool {\bfseries update\+Stadium} (int stadium\+Id, string team\+Name, string stadium\+Name, int capacity, string location, string roof\+Type, string surface, int year\+Opened, string conference, string division)
+\item 
+\Hypertarget{classBackendManager_a160f3976c3d432f6d2969f60bcd2e1db}\label{classBackendManager_a160f3976c3d432f6d2969f60bcd2e1db} 
+void {\bfseries add\+Souvenir} (int stadium\+Id, const string \&souvenir\+Name, double souvenir\+Price)
+\item 
+\Hypertarget{classBackendManager_a538b87195d0cb7f6ab053982628549ef}\label{classBackendManager_a538b87195d0cb7f6ab053982628549ef} 
+void {\bfseries remove\+Souvenir} (int stadium\+Id, const string \&name)
+\item 
+\Hypertarget{classBackendManager_a28fed28201ae2bd0c6662837337b2fbc}\label{classBackendManager_a28fed28201ae2bd0c6662837337b2fbc} 
+void {\bfseries modify\+Souvenir\+Name} (int stadium\+Id, const string \&old\+Name, const string \&new\+Name)
+\item 
+\Hypertarget{classBackendManager_ad508ef79eacfe0a182b0e79576eea2ae}\label{classBackendManager_ad508ef79eacfe0a182b0e79576eea2ae} 
+void {\bfseries modify\+Souvenir\+Price} (int stadium\+Id, const string \&name, double souvenir\+Price)
+\item 
+\Hypertarget{classBackendManager_a4abac8604f8feb65098db8d68ab50afc}\label{classBackendManager_a4abac8604f8feb65098db8d68ab50afc} 
+vector$<$ \mbox{\hyperlink{classStadium}{Stadium}} $>$ {\bfseries get\+Stadiums\+As\+Vector} ()
+\item 
+\Hypertarget{classBackendManager_a306a1dd892baeb1c1551fdc37d8b9fca}\label{classBackendManager_a306a1dd892baeb1c1551fdc37d8b9fca} 
+{\footnotesize template$<$typename Compare$>$ }\\vector$<$ \mbox{\hyperlink{classStadium}{Stadium}} $>$ {\bfseries sort\+Stadiums} (const vector$<$ \mbox{\hyperlink{classStadium}{Stadium}} $>$ \&stadiums\+Vect, Compare compare)
+\item 
+\Hypertarget{classBackendManager_a7e36aed5c6a4a0f8763fcb63c2e04cb7}\label{classBackendManager_a7e36aed5c6a4a0f8763fcb63c2e04cb7} 
+vector$<$ \mbox{\hyperlink{classStadium}{Stadium}} $>$ {\bfseries sort\+Stadiums\+By\+Stadium\+Name} (const vector$<$ \mbox{\hyperlink{classStadium}{Stadium}} $>$ \&stadiums\+Vect)
+\item 
+\Hypertarget{classBackendManager_a0c3f104bc9410c64330a90ce5c6dfb1f}\label{classBackendManager_a0c3f104bc9410c64330a90ce5c6dfb1f} 
+vector$<$ \mbox{\hyperlink{classStadium}{Stadium}} $>$ {\bfseries sort\+Stadiums\+By\+Team} (const vector$<$ \mbox{\hyperlink{classStadium}{Stadium}} $>$ \&stadiums\+Vect, string team\+Name)
+\item 
+\Hypertarget{classBackendManager_a815c7d7f15a8ef286a74d96f1aa6de65}\label{classBackendManager_a815c7d7f15a8ef286a74d96f1aa6de65} 
+vector$<$ \mbox{\hyperlink{classStadium}{Stadium}} $>$ {\bfseries sort\+Stadiums\+By\+Date\+Opened} (const vector$<$ \mbox{\hyperlink{classStadium}{Stadium}} $>$ \&stadiums\+Vect)
+\item 
+\Hypertarget{classBackendManager_a7112a6cd2458fda7cba70838bcb95b2d}\label{classBackendManager_a7112a6cd2458fda7cba70838bcb95b2d} 
+vector$<$ \mbox{\hyperlink{classStadium}{Stadium}} $>$ {\bfseries sort\+Stadiums\+By\+Capacity} (const vector$<$ \mbox{\hyperlink{classStadium}{Stadium}} $>$ \&stadiums\+Vect)
+\item 
+\Hypertarget{classBackendManager_a32901ae63c67dfb15f98f4062640645a}\label{classBackendManager_a32901ae63c67dfb15f98f4062640645a} 
+\mbox{\hyperlink{classStadium}{Stadium}} {\bfseries get\+Stadium\+By\+Name} (const vector$<$ \mbox{\hyperlink{classStadium}{Stadium}} $>$ \&stadiums\+Vect, string stadium\+Name)
+\item 
+\Hypertarget{classBackendManager_a7952a0eb3739b54d9d405d6f80a5415e}\label{classBackendManager_a7952a0eb3739b54d9d405d6f80a5415e} 
+vector$<$ \mbox{\hyperlink{classStadium}{Stadium}} $>$ {\bfseries get\+Stadiums\+By\+Roof\+Type} (const vector$<$ \mbox{\hyperlink{classStadium}{Stadium}} $>$ \&stadiums\+Vect, string roof\+Type)
+\item 
+\Hypertarget{classBackendManager_ac072a4fc9b5ec01791a05f3945d30527}\label{classBackendManager_ac072a4fc9b5ec01791a05f3945d30527} 
+vector$<$ \mbox{\hyperlink{classStadium}{Stadium}} $>$ {\bfseries get\+Stadiums\+By\+Division} (const vector$<$ \mbox{\hyperlink{classStadium}{Stadium}} $>$ \&stadiums\+Vect, string division)
+\item 
+\Hypertarget{classBackendManager_a3252803b3f40b4cf130b2f0813431a1c}\label{classBackendManager_a3252803b3f40b4cf130b2f0813431a1c} 
+vector$<$ \mbox{\hyperlink{classStadium}{Stadium}} $>$ {\bfseries get\+Stadiums\+By\+Conference} (const vector$<$ \mbox{\hyperlink{classStadium}{Stadium}} $>$ \&stadiums\+Vect, string conference)
+\item 
+\Hypertarget{classBackendManager_a7974efa9b6a0089911357225b5d89c23}\label{classBackendManager_a7974efa9b6a0089911357225b5d89c23} 
+\mbox{\hyperlink{classDoubleHashTable}{Double\+Hash\+Table}}$<$ \mbox{\hyperlink{structSouvenir}{Souvenir}} $>$ {\bfseries get\+Team\+Souvenirs} (string team\+Name)
+\item 
+\Hypertarget{classBackendManager_ae974dc6475021fd3f92b899ebfe335b3}\label{classBackendManager_ae974dc6475021fd3f92b899ebfe335b3} 
+int {\bfseries total\+Stadium\+Capacity} (const vector$<$ \mbox{\hyperlink{classStadium}{Stadium}} $>$ \&stadiums\+Vect)
+\item 
+\Hypertarget{classBackendManager_a45a1c4fcc12607aa7a7b5053a6cfb240}\label{classBackendManager_a45a1c4fcc12607aa7a7b5053a6cfb240} 
+vector$<$ \mbox{\hyperlink{classStadium}{Stadium}} $>$ {\bfseries filter\+Stadiums} (const vector$<$ \mbox{\hyperlink{classStadium}{Stadium}} $>$ \&stadiums\+Vect, string search)
+\item 
+\Hypertarget{classBackendManager_a625cb26b5f98e2d7175445499c3fe594}\label{classBackendManager_a625cb26b5f98e2d7175445499c3fe594} 
+void {\bfseries print\+Stadiums} () const
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classBackendManager_aec59face1411a2dd50e6bbfb264f8f4e}\label{classBackendManager_aec59face1411a2dd50e6bbfb264f8f4e} 
+\mbox{\hyperlink{classDoubleHashTable}{Double\+Hash\+Table}}$<$ \mbox{\hyperlink{classStadium}{Stadium}} $>$ {\bfseries stadiums}
+\item 
+\Hypertarget{classBackendManager_aab68fb93ad3b1799efb2f160bef320c2}\label{classBackendManager_aab68fb93ad3b1799efb2f160bef320c2} 
+\mbox{\hyperlink{classAdjacencyList}{Adjacency\+List}} {\bfseries adjacency\+List}
+\item 
+\Hypertarget{classBackendManager_adc6b5a4290b25c47dee7b2f72f47816d}\label{classBackendManager_adc6b5a4290b25c47dee7b2f72f47816d} 
+\mbox{\hyperlink{classAdjacencyMatrix}{Adjacency\+Matrix}} {\bfseries adjacency\+Matrix}
+\item 
+\Hypertarget{classBackendManager_a5165614efb08700ac7a9c2af15761d36}\label{classBackendManager_a5165614efb08700ac7a9c2af15761d36} 
+\mbox{\hyperlink{classDatabaseManager}{Database\+Manager}} {\bfseries database\+Manager}
+\item 
+\Hypertarget{classBackendManager_a702e8e24406e90e952fa92600abb1fe8}\label{classBackendManager_a702e8e24406e90e952fa92600abb1fe8} 
+bool {\bfseries is\+Admin}
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+backend/include/models/backend\+Manager.\+h\end{DoxyCompactItemize}

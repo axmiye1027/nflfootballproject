@@ -1,0 +1,94 @@
+\doxysection{stadium.\+h}
+\hypertarget{stadium_8h_source}{}\label{stadium_8h_source}\index{backend/include/models/stadium.h@{backend/include/models/stadium.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#include\ "{}../includes.h"{}}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ "{}hash.h"{}}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{databaseManager_8h}{../database/databaseManager.h}}"{}}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#ifndef\ STADIUM\_H}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#define\ STADIUM\_H}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{keyword}{enum}\ RoofType\ \{OPEN,\ FIXED\_ROOF,\ RETRACTABLE,\ NONE\};}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{keyword}{class\ }Stadium}
+\DoxyCodeLine{00011\ \{}
+\DoxyCodeLine{00012\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00013\ \ \ \ \ Stadium();\ \textcolor{comment}{//\ Default\ Constructor}}
+\DoxyCodeLine{00014\ \ \ \ \ Stadium(\textcolor{keywordtype}{string}\ teamName,\ \textcolor{keywordtype}{string}\ stadiumName,\ \textcolor{keywordtype}{int}\ capacity,\ \textcolor{keywordtype}{string}\ location,\ RoofType\ roofType,\ \textcolor{keywordtype}{string}\ surface,\ \textcolor{comment}{//\ Overloade\ Const}}
+\DoxyCodeLine{00015\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ dateOpened,\ \textcolor{keywordtype}{string}\ conference,\ \textcolor{keywordtype}{string}\ division,\ \mbox{\hyperlink{classDoubleHashTable}{DoubleHashTable<Souvenir>}}\ souvenirList);}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \ \ \ \ Stadium(\textcolor{keyword}{const}\ Stadium\&\ other);}
+\DoxyCodeLine{00018\ \ \ \ \ }
+\DoxyCodeLine{00019\ \ \ \ \ Stadium\&\ operator=(\textcolor{keyword}{const}\ Stadium\&\ other);}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \ \ \ \ \string~Stadium();\ \textcolor{comment}{//\ Destructor}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{comment}{/*\ -\/-\/-\/-\/-\/-\/\ Setters\ -\/-\/-\/-\/-\/-\/\ */}}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordtype}{void}\ setStadiumId(\textcolor{keywordtype}{int}\ \textcolor{keywordtype}{id});}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{void}\ setTeamName(\textcolor{keywordtype}{string}\ teamName);}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{void}\ setStadiumName(\textcolor{keywordtype}{string}\ stadiumName);}
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{void}\ setCapacity(\textcolor{keywordtype}{int}\ capacity);}
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keywordtype}{void}\ setLocation(\textcolor{keywordtype}{string}\ city,\ \textcolor{keywordtype}{string}\ location);}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{void}\ setLocation(\textcolor{keywordtype}{string}\ location);}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordtype}{void}\ setRoofType(RoofType\ roofType);}
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keywordtype}{void}\ setSurfaceType(\textcolor{keywordtype}{string}\ surfaceType);}
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordtype}{void}\ setYearOpened(\textcolor{keywordtype}{int}\ yearOpened);}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keywordtype}{void}\ setConference(\textcolor{keywordtype}{string}\ conference);}
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keywordtype}{void}\ setDivision(\textcolor{keywordtype}{string}\ division);}
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keywordtype}{void}\ setSouvenirList(\mbox{\hyperlink{classDoubleHashTable}{DoubleHashTable<Souvenir>}}\ souvenirList);}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{comment}{/*\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ */}}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{comment}{/*\ -\/-\/-\/-\/-\/-\/\ Getters\ -\/-\/-\/-\/-\/-\/\ */}}
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ getStadiumId()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordtype}{string}\ \ \ getTeamName()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keywordtype}{string}\ \ \ getStadiumName()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ getCapacity()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keywordtype}{string}\ \ \ getLocation()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00045\ \ \ \ \ RoofType\ getRoofType()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keywordtype}{string}\ \ \ getSurfaceType()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ getYearOpened()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keywordtype}{string}\ \ \ getConference()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keywordtype}{string}\ \ \ getDivision()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ getSouvenirId(\textcolor{keywordtype}{string}\ name)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00051\ \ \ \ \ \mbox{\hyperlink{classDoubleHashTable}{DoubleHashTable<Souvenir>}}\ getSouvenirList()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{comment}{/*\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ */}}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keywordtype}{void}\ addSouvenir(\mbox{\hyperlink{structSouvenir}{Souvenir}}\ souvenir);}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keyword}{friend}\ std::ostream\&\ operator<<(std::ostream\&\ os,\ \textcolor{keyword}{const}\ Stadium\&\ s);}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keywordtype}{bool}\ operator==(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ other)\textcolor{keyword}{\ const\ }}
+\DoxyCodeLine{00059\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ stadiumName\ ==\ other;}
+\DoxyCodeLine{00061\ \ \ \ \ \}}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keywordtype}{void}\ printSouvenirs()\textcolor{keyword}{\ const}}
+\DoxyCodeLine{00064\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ vector<Souvenir>\ souvenirVec\ =\ souvenirList.getValues();}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ souvenirVec.size();\ ++i)}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}Name:\ "{}}\ <<\ souvenirVec[i].souvenirName\ <<\ \textcolor{stringliteral}{"{}\ Price:\ \$"{}}\ <<\ souvenirVec[i].souvenirPrice\ <<\ endl;}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00071\ \ \ \ \ \}}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ stadiumId;}
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keywordtype}{string}\ \ \ teamName;}
+\DoxyCodeLine{00076\ \ \ \ \ \textcolor{keywordtype}{string}\ \ \ stadiumName;}
+\DoxyCodeLine{00077\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ capacity;}
+\DoxyCodeLine{00078\ \ \ \ \ \textcolor{keywordtype}{string}\ \ \ location;\ \textcolor{comment}{//\ city,\ state}}
+\DoxyCodeLine{00079\ \ \ \ \ RoofType\ roofType;}
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keywordtype}{string}\ \ \ surfaceType;}
+\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ yearOpened;}
+\DoxyCodeLine{00082\ \ \ \ \ \textcolor{keywordtype}{string}\ \ \ conference;}
+\DoxyCodeLine{00083\ \ \ \ \ \textcolor{keywordtype}{string}\ \ \ division;}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00085\ \ \ \ \ \mbox{\hyperlink{classDoubleHashTable}{DoubleHashTable<Souvenir>}}\ souvenirList;\ \textcolor{comment}{//\ If\ each\ team/stadium\ has\ their\ own\ souvenirs}}
+\DoxyCodeLine{00086\ \};}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00088\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

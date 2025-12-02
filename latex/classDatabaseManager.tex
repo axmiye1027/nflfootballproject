@@ -1,0 +1,106 @@
+\doxysection{Database\+Manager Class Reference}
+\hypertarget{classDatabaseManager}{}\label{classDatabaseManager}\index{DatabaseManager@{DatabaseManager}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classDatabaseManager_a32474da1a02ddef1e351ea5cf9977db7}\label{classDatabaseManager_a32474da1a02ddef1e351ea5cf9977db7} 
+{\bfseries Database\+Manager} (const string \&PATH="{}./assets/database.\+db"{})
+\item 
+\Hypertarget{classDatabaseManager_aefa3d6eae7782904f5d758462b573b1e}\label{classDatabaseManager_aefa3d6eae7782904f5d758462b573b1e} 
+{\bfseries Database\+Manager} (const \mbox{\hyperlink{classDatabaseManager}{Database\+Manager}} \&)=delete
+\item 
+\Hypertarget{classDatabaseManager_ab5a4c00314aae0887ac7a1495f6b803c}\label{classDatabaseManager_ab5a4c00314aae0887ac7a1495f6b803c} 
+\mbox{\hyperlink{classDatabaseManager}{Database\+Manager}} \& {\bfseries operator=} (const \mbox{\hyperlink{classDatabaseManager}{Database\+Manager}} \&)=delete
+\item 
+\Hypertarget{classDatabaseManager_aa21c9b72ba21899ace7cfef2838514a7}\label{classDatabaseManager_aa21c9b72ba21899ace7cfef2838514a7} 
+void {\bfseries initialize\+Database} ()
+\item 
+\Hypertarget{classDatabaseManager_a5b6c02bf5412945f31d0018949398529}\label{classDatabaseManager_a5b6c02bf5412945f31d0018949398529} 
+int {\bfseries add\+Distance} (const string \&locationA, const string \&locationB, double distance\+Km)
+\item 
+\Hypertarget{classDatabaseManager_a040e4a3c79d5384e86d13d11ab4471b8}\label{classDatabaseManager_a040e4a3c79d5384e86d13d11ab4471b8} 
+bool {\bfseries update\+Distance} (int distance\+Id, double distance\+Km)
+\item 
+\Hypertarget{classDatabaseManager_a689027336ddf761cca6bb40080df4810}\label{classDatabaseManager_a689027336ddf761cca6bb40080df4810} 
+bool {\bfseries delete\+Distance} (int distance\+Id)
+\item 
+\Hypertarget{classDatabaseManager_add139d6df02b6ea2c07bf977913b6c1d}\label{classDatabaseManager_add139d6df02b6ea2c07bf977913b6c1d} 
+int {\bfseries add\+Stadium} (const string \&team, const string \&stadium\+Name, int capacity, const string \&location, const string \&roof\+Type, const string \&surface, int year\+Opened, const string \&conference, const string \&division, vector$<$ \mbox{\hyperlink{structSouvenir}{Souvenir}} $>$ souvenirs)
+\item 
+\Hypertarget{classDatabaseManager_ad9294860cb27375e5727ef956a91aa4c}\label{classDatabaseManager_ad9294860cb27375e5727ef956a91aa4c} 
+bool {\bfseries update\+Stadium} (int stadium\+Id, const string \&field, const string \&value)
+\item 
+\Hypertarget{classDatabaseManager_a8c03bf691d0a74ebcd08010db8f1c2ab}\label{classDatabaseManager_a8c03bf691d0a74ebcd08010db8f1c2ab} 
+bool {\bfseries update\+Stadium\+Int} (int stadium\+Id, const string \&field, int value)
+\item 
+\Hypertarget{classDatabaseManager_a524917e10e9ea6ece52f25ea6685226f}\label{classDatabaseManager_a524917e10e9ea6ece52f25ea6685226f} 
+bool {\bfseries delete\+Stadium} (int stadium\+Id)
+\item 
+\Hypertarget{classDatabaseManager_a605720f495f48bc4fff7bc98eecb0718}\label{classDatabaseManager_a605720f495f48bc4fff7bc98eecb0718} 
+int {\bfseries add\+Souvenir} (int stadium\+Id, const string \&souvenir\+Name, double souvenir\+Price)
+\item 
+\Hypertarget{classDatabaseManager_a482a77e15fa937ffeb3d03001dad7ed9}\label{classDatabaseManager_a482a77e15fa937ffeb3d03001dad7ed9} 
+bool {\bfseries update\+Souvenir\+Name} (int souvenir\+Id, const string \&souvenir\+Name)
+\item 
+\Hypertarget{classDatabaseManager_a9d79e38f62aa89e5659e789cc8eabd1f}\label{classDatabaseManager_a9d79e38f62aa89e5659e789cc8eabd1f} 
+bool {\bfseries update\+Souvenir\+Price} (int souvenir\+Id, double souvenir\+Price)
+\item 
+\Hypertarget{classDatabaseManager_aa94eb8f76e64d1b4349d6f255c7d52d3}\label{classDatabaseManager_aa94eb8f76e64d1b4349d6f255c7d52d3} 
+bool {\bfseries delete\+Souvenir} (int souvenir\+Id)
+\item 
+\Hypertarget{classDatabaseManager_ad8d38b4da349df4ce842392a16b7f586}\label{classDatabaseManager_ad8d38b4da349df4ce842392a16b7f586} 
+\mbox{\hyperlink{structDistance}{Distance}} \texorpdfstring{$\ast$}{*} {\bfseries get\+Distance} (const string \&locationA, const string \&locationB)
+\item 
+\Hypertarget{classDatabaseManager_a944f630d783415be38c5e8d6db24ce80}\label{classDatabaseManager_a944f630d783415be38c5e8d6db24ce80} 
+vector$<$ \mbox{\hyperlink{structDistance}{Distance}} $>$ {\bfseries get\+All\+Distances} ()
+\item 
+\Hypertarget{classDatabaseManager_a2368d73acbe92f6bed68b31bbca2f96b}\label{classDatabaseManager_a2368d73acbe92f6bed68b31bbca2f96b} 
+\mbox{\hyperlink{structStadiumStruct}{Stadium\+Struct}} \texorpdfstring{$\ast$}{*} {\bfseries get\+Stadium\+By\+Id} (int stadium\+Id)
+\item 
+\Hypertarget{classDatabaseManager_aa08514fc25ca6303c422b1102c644022}\label{classDatabaseManager_aa08514fc25ca6303c422b1102c644022} 
+\mbox{\hyperlink{structStadiumStruct}{Stadium\+Struct}} \texorpdfstring{$\ast$}{*} {\bfseries get\+Stadium\+By\+Team} (const string \&team)
+\item 
+\Hypertarget{classDatabaseManager_adf16a2bdd165225718cfd965068e9db0}\label{classDatabaseManager_adf16a2bdd165225718cfd965068e9db0} 
+vector$<$ \mbox{\hyperlink{structStadiumStruct}{Stadium\+Struct}} $>$ {\bfseries get\+All\+Stadiums} ()
+\item 
+\Hypertarget{classDatabaseManager_a3bae740a0d04eecb9609b16a500b5492}\label{classDatabaseManager_a3bae740a0d04eecb9609b16a500b5492} 
+vector$<$ \mbox{\hyperlink{structStadiumStruct}{Stadium\+Struct}} $>$ {\bfseries get\+Stadiums\+By\+Conference} (const string \&conference)
+\item 
+\Hypertarget{classDatabaseManager_ab144a7e18bbcf8ede12d981a04623fca}\label{classDatabaseManager_ab144a7e18bbcf8ede12d981a04623fca} 
+vector$<$ \mbox{\hyperlink{structStadiumStruct}{Stadium\+Struct}} $>$ {\bfseries get\+Stadiums\+By\+Division} (const string \&division)
+\item 
+\Hypertarget{classDatabaseManager_a21f6e4bf1d64c1ef756069f62c18b9d3}\label{classDatabaseManager_a21f6e4bf1d64c1ef756069f62c18b9d3} 
+\mbox{\hyperlink{structSouvenir}{Souvenir}} \texorpdfstring{$\ast$}{*} {\bfseries get\+Souvenir\+By\+Id} (int souvenir\+Id)
+\item 
+\Hypertarget{classDatabaseManager_a96a59171c8a7ab3b72c44ffc63da8baa}\label{classDatabaseManager_a96a59171c8a7ab3b72c44ffc63da8baa} 
+vector$<$ \mbox{\hyperlink{structSouvenir}{Souvenir}} $>$ {\bfseries get\+Stadium\+Souvenirs} (int stadium\+Id)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classDatabaseManager_a8b44d4af715f62aa2f311a3c6d7c84a6}\label{classDatabaseManager_a8b44d4af715f62aa2f311a3c6d7c84a6} 
+void {\bfseries execute\+SQL} (const string \&sql)
+\item 
+\Hypertarget{classDatabaseManager_ae337bb70e0c9204761c66149032a2867}\label{classDatabaseManager_ae337bb70e0c9204761c66149032a2867} 
+sqlite3\+\_\+stmt \texorpdfstring{$\ast$}{*} {\bfseries prepare\+Statement} (const string \&sql)
+\item 
+\Hypertarget{classDatabaseManager_af1d45398e94c0a95a1deb65fb8044160}\label{classDatabaseManager_af1d45398e94c0a95a1deb65fb8044160} 
+string {\bfseries get\+Column\+Text} (sqlite3\+\_\+stmt \texorpdfstring{$\ast$}{*}stmt, int col)
+\item 
+\Hypertarget{classDatabaseManager_a5c969f5f365576ad0200d3b3e6170aa0}\label{classDatabaseManager_a5c969f5f365576ad0200d3b3e6170aa0} 
+int {\bfseries get\+Column\+Int} (sqlite3\+\_\+stmt \texorpdfstring{$\ast$}{*}stmt, int col)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classDatabaseManager_a5341532377ae75614a5e9ccf81e18355}\label{classDatabaseManager_a5341532377ae75614a5e9ccf81e18355} 
+sqlite3 \texorpdfstring{$\ast$}{*} {\bfseries db}
+\item 
+\Hypertarget{classDatabaseManager_ac36cc60086ec499e87a2027baabef76c}\label{classDatabaseManager_ac36cc60086ec499e87a2027baabef76c} 
+string {\bfseries db\+\_\+path}
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+backend/include/database/\mbox{\hyperlink{databaseManager_8h}{database\+Manager.\+h}}\end{DoxyCompactItemize}

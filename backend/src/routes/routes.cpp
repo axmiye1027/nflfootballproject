@@ -1,8 +1,15 @@
-// routes.cpp
+/**
+ * @file routes.cpp
+ * @brief file containing all the routes
+ */
 
 #include "includes.h"
 #include "routes/routes.h"
 
+/**
+ * @brief gets stadium information and puts it in a json file
+ * @param stadium current stadium we are storing the data of
+ */
 crow::json::wvalue stadiumToJson(const Stadium& stadium)
 {
     crow::json::wvalue json;
@@ -44,7 +51,10 @@ crow::json::wvalue stadiumToJson(const Stadium& stadium)
     return json;
 }
 
-
+/**
+ * @brief gets the souvenirs and converts it to a json file
+ * @param s souveniers 
+ */
 crow::json::wvalue souvenirToJson(const Souvenir& s)
 {
     crow::json::wvalue json;
@@ -56,6 +66,10 @@ crow::json::wvalue souvenirToJson(const Souvenir& s)
 }
 
 
+/**
+ * @brief converts the stadiums in a json and puts it into an array
+ * @param stadiums stadiums inside a json 
+ */
 crow::json::wvalue stadiumListToJson(const vector<Stadium>& stadiums)
 {
     crow::json::wvalue json;
@@ -72,6 +86,9 @@ crow::json::wvalue stadiumListToJson(const vector<Stadium>& stadiums)
     return json;
 }
 
+/**
+ * @brief searching
+ */
 void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
 {
 
@@ -111,6 +128,9 @@ void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
         return crow::response{ json.dump() };
     });
 
+    /**
+     * @brief gets user login credentials 
+     */
     CROW_ROUTE(app, "/login").methods(crow::HTTPMethod::POST)
     ([&backend](const crow::request& req) 
     {
@@ -136,7 +156,9 @@ void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
         return crow::response(res.dump());
     });
 
-
+    /**
+     * @brief updates stadium information
+     */
     CROW_ROUTE(app, "/updateStadium").methods(crow::HTTPMethod::POST)
     ([&backend](const crow::request& req) 
     {
@@ -168,7 +190,5 @@ void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
 
         return crow::response(res);
     });
-
-
 
 }
