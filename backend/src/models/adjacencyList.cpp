@@ -1,3 +1,9 @@
+/**
+ * @file adjacencyList.cpp
+ * @brief aa
+ * 
+ * Test
+ */
 #include "models/adjacencyList.h"
 
 AdjacencyList::AdjacencyList() : totalDist{0}

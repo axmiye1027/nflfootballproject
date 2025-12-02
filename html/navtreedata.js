@@ -24,20 +24,24 @@
 */
 var NAVTREE =
 [
-  [ "My Project", "index.html", [
+  [ "NFL Football Team Project", "index.html", [
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
       [ "Class Index", "classes.html", null ]
     ] ],
     [ "Files", "files.html", [
-      [ "File List", "files.html", "files_dup" ]
+      [ "File List", "files.html", "files_dup" ],
+      [ "File Members", "globals.html", [
+        [ "All", "globals.html", null ],
+        [ "Functions", "globals_func.html", null ]
+      ] ]
     ] ]
   ] ]
 ];
 
 var NAVTREEINDEX =
 [
-"adjacencyList_8h.html"
+"adjacencyList_8cpp.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';
