@@ -146,14 +146,30 @@ bool BackendManager::updateStadium(int stadiumId, string teamName, string stadiu
         // goes through the whole vector and finds the distance name to update
         for(int i = 0; i < distances.size(); ++i)
         {
-            // updates location A
-            if(distances[i].locationA == targetStadiumName)
+            bool   needsUpdate  = false;
+            string newLocationA = dist.locationA;
+            string newLocationB = dist.locationB;
+
+            if (dist.locationA == oldStadiumName)
             {
-                databaseManager.updateDistance(distances[i].id,stadiumName,distances[i].locationB);
+                newLocationA = stadiumName;
+                needsUpdate = true;
             }
-            else if (distances[i].locationB == targetStadiumName) // updates location B
+            
+            if (dist.locationB == oldStadiumName)
             {
-                databaseManager.updateDistance(distances[i].id,distances[i].locationA,stadiumName);
+                newLocationB = stadiumName;
+                needsUpdate = true;
+            }
+
+            if (needsUpdate)
+            {
+                bool distanceUpdated = databaseManager.updateDistance(dist.id, newLocationA, newLocationB);
+                
+                if (!distanceUpdated)
+                {
+                    cout << "[BackendManager::updateStadium] Failed to update distance ID: " << dist.id << endl;
+                }
             }
         }
 
