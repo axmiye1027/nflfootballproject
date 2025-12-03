@@ -242,9 +242,35 @@ bool BackendManager::updateStadium(int stadiumId, string teamName, string stadiu
     }
 }
 
-void BackendManager::deleteStadium(int stadiumId)
+bool BackendManager::deleteStadium(int stadiumId)
 {
+    string oldStadiumName      = getStadiumById(getStadiumsAsVector(),stadiumId).getStadiumName();
+    vector<Distance> distances = adjacencyMatrix.getDistanceVector();
+
+    // goes through the whole vector and finds the distance name to delete
+    for (int i = 0; i < distances.size(); ++i)
+    {
+        bool   needsUpdate  = false;
+
+        if (distances[i].locationA == oldStadiumName || distances[i].locationB == oldStadiumName)
+        {
+            needsUpdate = true;
+        }
+
+        if (needsUpdate)
+        {
+            bool distanceUpdated = databaseManager.deleteDistance(distances[i].id);
+            
+            if (!distanceUpdated)
+            {
+                cout << "[BackendManager::updateStadium] Failed to delete distance ID: " << distances[i].id << endl;
+            }
+        }
+    }
+
     databaseManager.deleteStadium(stadiumId);
+
+    return true;
 }
 
 
