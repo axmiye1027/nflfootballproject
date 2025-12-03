@@ -92,6 +92,7 @@ public:
     void addTeam();
     void addStadium(string teamName, string stadiumName, int capacity, string location, RoofType roofType, string surface,
             int yearOpened, string conference, string division, vector<Souvenir> souvenirList);
+    void deleteStadium(int stadiumId);
     bool updateStadium(int stadiumId, string teamName, string stadiumName, int capacity, string location, string roofType, string surface,
             int yearOpened, string conference, string division, vector<Souvenir> souvenirs);
     void addSouvenir(int stadiumId, const string& souvenirName, double souvenirPrice);

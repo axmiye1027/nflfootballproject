@@ -27,9 +27,57 @@ function AdminPage({ stadiums })
         }
     };
 
-    const handleDelete = async (id) => {
-        
-    }
+    const handleDelete = async (stadiumId) => {
+        if (!window.confirm("Are you sure you want to delete this stadium?")) return;
+
+        try {
+            const res = await fetch(`http://localhost:18080/deleteStadium`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ stadiumId })  // send the id in the body
+            });
+
+            const data = await res.json();
+
+            if (!data.success) {
+                console.error("Failed to delete stadium:", data.message);
+                return;
+            }
+
+            console.log("Deleted stadium:", data);
+
+            // Update frontend state
+            const index = stadiums.findIndex(s => s.stadiumId === stadiumId);
+            if (index !== -1) stadiums.splice(index, 1);
+
+        } catch (err) {
+            console.error("Error deleting stadium:", err);
+        }
+    };
+
+
+    const handleAddTeam = async (newTeam) => {
+        try {
+            const res = await fetch(`http://localhost:18080/addStadium`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(newTeam),
+            });
+
+            const data = await res.json();
+            if (!data.success) {
+                console.error("Failed to add team:", data.message);
+                return;
+            }
+
+            console.log("Successfully added team:", data);
+
+            // Update frontend state
+            stadiums.push(data.stadium); // assuming backend returns the created stadium object
+        } catch (err) {
+            console.error("Error adding team:", err);
+        }
+    };
 
     return (
         <div className="admin-container">
@@ -74,7 +122,9 @@ function AdminPage({ stadiums })
 
                 {mode === "add" && (
                     <div className="folder-content">
-                        <AddTeamForm onSubmit={data => console.log("Add", data)} />
+                        <AddTeamForm 
+                            existingStadiums={stadiums}
+                            onSubmit={handleAddTeam} />
 
                         
                     </div>

@@ -300,6 +300,25 @@ void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
         return crow::response(res);
     });
 
+    CROW_ROUTE(app, "/deleteStadium").methods(crow::HTTPMethod::POST)
+    ([&backend](const crow::request& req){
+        auto body = crow::json::load(req.body);
+        if (!body) {
+            crow::json::wvalue error;
+            error["success"] = false;
+            error["message"] = "Invalid JSON";
+            return crow::response(400, error.dump());
+        }
+
+        int stadiumId = body["stadiumId"].i();
+        bool success = backend.deleteStadium(stadiumId);
+
+        crow::json::wvalue res;
+        res["success"] = success;
+        if (!success) res["message"] = "Failed to delete stadium";
+        return crow::response(res);
+    });
+
     /* ------------------------------- TRIPS -------------------------------*/
     CROW_ROUTE(app, "/bfsTrip").methods(crow::HTTPMethod::POST)
     ([&backend](const crow::request& req) 

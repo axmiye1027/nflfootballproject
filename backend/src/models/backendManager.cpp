@@ -241,6 +241,12 @@ bool BackendManager::updateStadium(int stadiumId, string teamName, string stadiu
     }
 }
 
+void BackendManager::deleteStadium(int stadiumId)
+{
+    databaseManager.deleteStadium(stadiumId);
+}
+
+
 void BackendManager::addTeam() {}
 
 void BackendManager::addSouvenir(int stadiumId, const string& souvenirName, double souvenirPrice)
