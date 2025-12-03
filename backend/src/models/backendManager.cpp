@@ -149,7 +149,7 @@ void BackendManager::printStadiums() const
 }
 
 
-void BackendManager::addStadium(string teamName, string stadiumName, int capacity, string location, RoofType roofType, string surface,
+bool BackendManager::addStadium(string teamName, string stadiumName, int capacity, string location, RoofType roofType, string surface,
             int yearOpened, string conference, string division, vector<Souvenir> souvenirList)
 {
     string roof;
@@ -168,6 +168,7 @@ void BackendManager::addStadium(string teamName, string stadiumName, int capacit
 
     databaseManager.addStadium(teamName, stadiumName, capacity, location, roof, surface, yearOpened, conference, division, souvenirList);
 
+    return true;
 }
 
 bool BackendManager::updateStadium(int stadiumId, string teamName, string stadiumName, int capacity, string location, string roofType, string surface,

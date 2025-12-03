@@ -237,6 +237,58 @@ void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
     });
 
     /**
+     * @brief adds stadium to database
+     */
+    CROW_ROUTE(app, "/addStadium").methods(crow::HTTPMethod::POST)
+    ([&backend](const crow::request& req) 
+    {
+        auto body = crow::json::load(req.body);
+        if (!body)
+        {
+            crow::json::wvalue error;
+            error["success"] = false;
+            error["message"] = "Invalid JSON";
+            return crow::response(400, error.dump());
+        }
+
+        string teamName    = body["teamName"].s();
+        string stadiumName = body["stadiumName"].s();
+        int    capacity    = body["capacity"].i();
+        string location    = body["location"].s();
+        string roofType    = body["roofType"].s();
+        string surfaceType = body["surfaceType"].s();
+        int    yearOpened  = body["yearOpened"].i();
+        string conference  = body["conference"].s();
+        string division    = body["division"].s();
+
+        vector<Souvenir> souvenirList;
+
+        RoofType stadiumRoof;
+
+        // convert fron string to enum
+        if(roofType == "Open")
+        {
+            stadiumRoof = OPEN;
+        }
+        else if (roofType == "Fixed")
+        {
+            stadiumRoof = FIXED_ROOF;
+        }
+        else
+        {
+            stadiumRoof = RETRACTABLE;
+        }
+
+        bool success = backend.addStadium(teamName, stadiumName, capacity, location, stadiumRoof, surfaceType, yearOpened, conference, division,souvenirList);
+
+        crow::json::wvalue res;
+        res["success"] = success;
+        if (!success) res["message"] = "Failed to add stadium";
+
+        return crow::response(res);
+    });
+
+    /**
      * @brief updates stadium information
      */
     CROW_ROUTE(app, "/updateStadium").methods(crow::HTTPMethod::POST)
