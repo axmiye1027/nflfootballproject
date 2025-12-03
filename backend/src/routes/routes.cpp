@@ -314,7 +314,36 @@ void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
         string conference  = body["conference"].s();
         string division    = body["division"].s();
 
-        bool success = backend.updateStadium(stadiumId, teamName, stadiumName, capacity, location, roofType, surfaceType, yearOpened, conference, division);
+
+        auto jsonSouvenirs = body["souvenirs"];
+        vector<Souvenir> currentSouvenirs = backend.getTeamSouvenirs(teamName).getValues();
+
+        set<int> submittedIds;
+        vector<Souvenir> submittedSouvenirs;
+        for (const auto& item : jsonSouvenirs)
+        {
+            Souvenir s;
+            s.stadiumId     = item["stadiumId"].i();
+            s.souvenirId    = item["souvenirId"].i();
+            s.souvenirName  = item["souvenirName"].s();
+            s.souvenirPrice = item["souvenirPrice"].d();
+            submittedSouvenirs.push_back(s);
+
+            if (s.souvenirId != -1)
+                submittedIds.insert(s.souvenirId);
+        }
+
+
+        for (const auto& s : currentSouvenirs)
+        {
+            if (submittedIds.find(s.souvenirId) == submittedIds.end())
+            {
+                backend.removeSouvenir(s.souvenirId);
+            }
+        }
+
+
+        bool success = backend.updateStadium(stadiumId, teamName, stadiumName, capacity, location, roofType, surfaceType, yearOpened, conference, division, submittedSouvenirs);
 
         crow::json::wvalue res;
         res["success"] = success;

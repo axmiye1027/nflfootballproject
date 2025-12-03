@@ -93,8 +93,9 @@ public:
     bool addStadium(string teamName, string stadiumName, int capacity, string location, RoofType roofType, string surface,
             int yearOpened, string conference, string division, vector<Souvenir> souvenirList);
     bool updateStadium(int stadiumId, string teamName, string stadiumName, int capacity, string location, string roofType, string surface,
-            int yearOpened, string conference, string division);
+            int yearOpened, string conference, string division, vector<Souvenir> souvenirs);
     void addSouvenir(int stadiumId, const string& souvenirName, double souvenirPrice);
+    void removeSouvenir(int souvenirId);
     void removeSouvenir(int stadiumId,const string&  name);
     void modifySouvenirName(int stadiumId,const string&  oldName,const string& newName);
     void modifySouvenirPrice(int stadiumId, const string& name, double souvenirPrice);
@@ -125,7 +126,6 @@ public:
 
     
     vector<Stadium> getStadiumsBySurface(const vector<Stadium>&    stadiumsVect,string surface);
-
 
     DoubleHashTable<Souvenir> getTeamSouvenirs(string teamName);
 
