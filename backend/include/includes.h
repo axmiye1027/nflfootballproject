@@ -20,3 +20,12 @@ struct AdjacencyNode
     AdjacencyNode() : cityName{""}, distanceFromLast{0} {}
     AdjacencyNode(const string& name, int dist) : cityName{name}, distanceFromLast{dist} {}
 };
+
+struct PathReturn 
+{
+    vector<string> path;
+    int            distanceTraveled;
+
+    PathReturn() : distanceTraveled{0} {}
+    PathReturn(vector<string> path, int distanceTraveled) : path(path), distanceTraveled(distanceTraveled) {}
+};

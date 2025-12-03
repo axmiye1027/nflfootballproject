@@ -8,12 +8,12 @@
 #include <algorithm>
 
 #include "../includes.h"
-#include "stadium.h"
 
 #include "hash.h"
 #include "adjacencyList.h"
 #include "adjacencyMatrix.h"
 #include "database/databaseManager.h"
+#include "cart.h"
 
 
 #ifndef BACKENDMANAGER_H
@@ -56,7 +56,6 @@ struct CompareByTeamName
         return a.getTeamName() > b.getTeamName();
     }
 };
-
 
 class BackendManager
 {
@@ -124,14 +123,31 @@ public:
     vector<Stadium> getStadiumsByConference(const vector<Stadium>& stadiumsVect,string conference);
     vector<Stadium> getStadiumsByDivision(const vector<Stadium>&   stadiumsVect,string division);
     vector<Stadium> getStadiumsByGrass(const vector<Stadium>&      stadiumsVect,string grassType);
+    //NEW - for dropdown
+    vector<Stadium> getStadiumsByTeamName(const vector<Stadium>& stadiumsVect, string teamName);
+    vector<Stadium> getStadiumsByStadiumName(const vector<Stadium>& stadiumsVect, const string& stadiumName);
+
+    
+    vector<Stadium> getStadiumsBySurface(const vector<Stadium>&    stadiumsVect,string surface);
+
 
     DoubleHashTable<Souvenir> getTeamSouvenirs(string teamName);
 
     int totalStadiumCapacity(const vector<Stadium>& stadiumsVect);
-    int calculateBFS(string startingCity);
-    int calculateMST(string startingCity);
+
+    int calculateBFS(const string& startingStadium);
+    int calculateMST(const string& startingStadium);
+    PathReturn calculateDijkstra(string startingStadium, string endingStadium);
+    PathReturn calculateDFS(string startingStadium);
+    PathReturn calculateCustomTrip(vector<string> trip);
+    PathReturn calculateRecursiveTrip(vector<string> trip);
 
     vector<Stadium> filterStadiums(const vector<Stadium>& stadiumsVect, string search);
+
+    void addPathToCart(vector<string> path);
+
+    int getCartTotalDistance();
+    vector<Stadium> getCartPath();
 
     /* ----- PRINT TO TERMINAL -----*/
     /**
@@ -140,6 +156,9 @@ public:
     void printStadiums() const;
 
 private:
+    
+    PathReturn shortestTripRecursion(PathReturn& calculatedPath, vector<string>& path,string prevStadium);
+
     DoubleHashTable<Stadium> stadiums;
 
     AdjacencyList   adjacencyList;   // list used for dfs
@@ -147,6 +166,7 @@ private:
 
     DatabaseManager databaseManager;
 
+    Cart cart;
     bool isAdmin;
 };
 

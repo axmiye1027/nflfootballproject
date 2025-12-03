@@ -3,7 +3,7 @@
  * @brief file containing all the routes
  */
 
-#include "includes.h"
+//#include "includes.h"
 #include "routes/routes.h"
 
 /**
@@ -65,6 +65,28 @@ crow::json::wvalue souvenirToJson(const Souvenir& s)
     return json;
 }
 
+crow::json::wvalue stringToJson(const string& s)
+{
+    crow::json::wvalue json;
+    json["stadiumName"] = s;
+    return json;
+}
+
+crow::json::wvalue stringListToJson(const vector<string>& vec)
+{
+    crow::json::wvalue json;
+
+    json["stadiums"] = crow::json::wvalue(crow::json::type::List);
+    auto& jsonArr = json["stadiums"];
+
+    for (int i = 0; i < vec.size(); ++i)
+    {
+        jsonArr[i] = stringToJson(vec[i]);
+    }
+
+    return json;
+}
+
 
 /**
  * @brief converts the stadiums in a json and puts it into an array
@@ -95,6 +117,12 @@ void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
     CROW_ROUTE(app, "/stadiums").methods(crow::HTTPMethod::GET)
     ([&backend](const crow::request& req)
     {
+        const string ALL_TEAMS = "All Teams";
+        
+        
+        //NEW - for dropdown
+        string sortBy = req.url_params.get("sortBy") ? req.url_params.get("sortBy") : ""; 
+        
         try {
             const string ALL_TEAMS = "All Teams";
 
@@ -104,10 +132,16 @@ void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
             string yearOpened  = req.url_params.get("yearOpened")  ? req.url_params.get("yearOpened")  : ALL_TEAMS;
             string capacity    = req.url_params.get("capacity")    ? req.url_params.get("capacity")    : ALL_TEAMS;
 
+        // FILTER
+        string conference  = req.url_params.get("conference")  ? req.url_params.get("conference")  : ALL_TEAMS;
+        string division    = req.url_params.get("divisions")   ? req.url_params.get("divisions")   : ALL_TEAMS;
+        string roofType    = req.url_params.get("roofTypes")   ? req.url_params.get("roofTypes")   : ALL_TEAMS;
+        string surface     = req.url_params.get("surfaces")    ? req.url_params.get("surfaces")    : ALL_TEAMS;
             // FILTER
             string conference  = req.url_params.get("conference")  ? req.url_params.get("conference")  : ALL_TEAMS;
             string division    = req.url_params.get("divisions")   ? req.url_params.get("divisions")   : ALL_TEAMS;
             string roofType    = req.url_params.get("roofTypes")   ? req.url_params.get("roofTypes")   : ALL_TEAMS;
+            string surface     = req.url_params.get("surfaces")    ? req.url_params.get("surfaces")    : ALL_TEAMS;
 
             // SEARCH
             string search   = req.url_params.get("search") ? req.url_params.get("search") : "";
@@ -124,16 +158,39 @@ void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
                 stadiums = backend.getStadiumsByDivision(stadiums, division);
             }
 
-            if (roofType != ALL_TEAMS)
-            {
-                stadiums = backend.getStadiumsByRoofType(stadiums, roofType);
-            }
+        if (roofType != ALL_TEAMS)
+        {
+            stadiums = backend.getStadiumsByRoofType(stadiums, roofType);
+        }
 
-            if (!search.empty())
-            {
-                stadiums = backend.filterStadiums(stadiums, search);
-            }
+        if (surface != ALL_TEAMS)
+        {
+            stadiums = backend.getStadiumsBySurface(stadiums, surface);
+        }
 
+        if (!search.empty())
+        {
+            stadiums = backend.filterStadiums(stadiums, search);
+        }
+
+        //NEW - for dropdown
+        if (teamName != ALL_TEAMS)
+            stadiums = backend.getStadiumsByTeamName(stadiums, teamName);
+
+        if (stadiumName != ALL_TEAMS)
+            stadiums = backend.getStadiumsByStadiumName(stadiums, stadiumName);
+
+        //NEW - for dropdown
+        if (sortBy == "teamName")
+            stadiums = backend.sortStadiumsByTeam(stadiums, "");
+        else if (sortBy == "stadiumName")
+            stadiums = backend.sortStadiumsByStadiumName(stadiums);
+        else if (sortBy == "capacity")
+            stadiums = backend.sortStadiumsByCapacity(stadiums);
+        else if (sortBy == "yearOpened")
+            stadiums = backend.sortStadiumsByDateOpened(stadiums);
+
+        crow::json::wvalue json = stadiumListToJson(stadiums);
             crow::json::wvalue json = stadiumListToJson(stadiums);
 
             return crow::response{ json.dump() };
@@ -251,8 +308,9 @@ void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
 
     /**
      * @brief distances for BFS, MST
-     */
-    CROW_ROUTE(app, "/calculateDist").methods(crow::HTTPMethod::POST)
+     */    
+    /* ------------------------------- TRIPS -------------------------------*/
+    CROW_ROUTE(app, "/bfsTrip").methods(crow::HTTPMethod::POST)
     ([&backend](const crow::request& req) 
     {
         auto body = crow::json::load(req.body);
@@ -264,10 +322,9 @@ void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
             return crow::response(400, error.dump());
         }
 
-        string bfsCity = body["bfsCity"].s();
-        string mstCity = body["mstCity"].s();
+        string bfsStadium = body["bfsStadium"].s();
 
-        if (bfsCity.empty() && mstCity.empty())
+        if (bfsStadium.empty())
         {
             crow::json::wvalue error;
             error["success"] = false;
@@ -276,48 +333,179 @@ void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
         }
 
         int bfsResult = 0;
+        
+        if (!bfsStadium.empty())
+            bfsResult = backend.calculateBFS(bfsStadium);
+
+        crow::json::wvalue res;
+        res["success"]       = true;
+        res["totalDistance"] = bfsResult;
+        res["stadiums"]      = bfsStadium;
+
+        return crow::response(res.dump());
+    });
+
+
+    CROW_ROUTE(app, "/mstTrip").methods(crow::HTTPMethod::POST)
+    ([&backend](const crow::request& req) 
+    {
+        auto body = crow::json::load(req.body);
+        if (!body)
+        {
+            crow::json::wvalue error;
+            error["success"] = false;
+            error["message"] = "Invalid JSON";
+            return crow::response(400, error.dump());
+        }
+
+        string mstStadium = body["mstStadium"].s();
+
+        if (mstStadium.empty())
+        {
+            crow::json::wvalue error;
+            error["success"] = false;
+            error["message"] = "At least one city must be provided";
+            return crow::response(400, error.dump());
+        }
+
         int mstResult = 0;
         
-        if (!bfsCity.empty())
-            bfsResult = backend.calculateBFS(bfsCity);
-        if (!mstCity.empty())
-            mstResult = backend.calculateMST(mstCity);
+        if (!mstStadium.empty())
+            mstResult = backend.calculateMST(mstStadium);
 
-        // Build response JSON
+        crow::json::wvalue res;
+        res["success"]       = true;
+        res["totalDistance"] = mstResult;
+        res["stadiums"]      = mstStadium;
+        return crow::response(res.dump());
+    });
+
+
+    CROW_ROUTE(app, "/dijkstraTrip").methods(crow::HTTPMethod::POST)
+    ([&backend](const crow::request& req) 
+    {
+        std::cout << "Raw request body:\n" << req.body << "\n"; // <-- ADD THIS
+
+        auto body = crow::json::load(req.body);
+        if (!body)
+        {
+            crow::json::wvalue error;
+            error["success"] = false;
+            error["message"] = "Invalid JSON";
+            return crow::response(400, error.dump());
+        }
+
+        auto startingStadiumJson = body["startingStadium"];
+        auto endingStadiumJson   = body["endingStadium"];
+
+        string startingName = startingStadiumJson["stadiumName"].s();
+        string endingName   = endingStadiumJson["stadiumName"].s();
+
+        PathReturn path = backend.calculateDijkstra(startingName, endingName);
+        vector<string> stringPath = path.path;
+
+        cout << "[DEBUG] Path size: " << stringPath.size() << endl;
+        for (size_t i = 0; i < stringPath.size(); ++i)
+        {
+            if (stringPath.empty()) cout << "[DEBUG] path[" << i << "] is empty\n";
+            else cout << "[DEBUG] path[" << i << "]: " << stringPath[i] << endl;
+        }
+
         crow::json::wvalue res;
         res["success"] = true;
-        res["bfs"]     = bfsResult;
-        res["mst"]     = mstResult;
+        res["totalDistance"] = path.distanceTraveled; 
+        res["stadiums"] = crow::json::wvalue(crow::json::type::List);
 
-        return crow::response(res);
-    });
-
-    /**
-     * @brief
-     */
-    CROW_ROUTE(app, "/importStadium").methods(crow::HTTPMethod::POST, crow::HTTPMethod::OPTIONS)
-    ([&backend](const crow::request& req)
-    {
-        // Handle preflight CORS OPTIONS requests by returning OK immediately
-        if (req.method == crow::HTTPMethod::OPTIONS)
+        auto& arr = res["stadiums"];
+        for (size_t i = 0; i < path.path.size(); ++i)
         {
-            return crow::response(200);
+            arr[i] = path.path[i];
         }
 
-        std::string error;
-        bool ok = backend.importStadiums(req.body, error);
-        
-        crow::json::wvalue res;
-        res["success"] = ok;
-        if (!ok) {
-            // Log the error server-side for easier debugging
-            std::cerr << "[importStadium] Error: " << error << std::endl;
-            res["message"] = error;
-            return crow::response(400, res.dump());
-        }
-
-        res["message"] = "Imported stadium successfully";
-        return crow::response(200, res.dump());
+        return crow::response(res.dump());
     });
 
+
+    CROW_ROUTE(app, "/dfsTrip").methods(crow::HTTPMethod::POST)
+    ([&backend](const crow::request& req) 
+    {
+        auto body = crow::json::load(req.body);
+        if (!body)
+        {
+            crow::json::wvalue error;
+            error["success"] = false;
+            error["message"] = "Invalid JSON";
+            return crow::response(400, error.dump());
+        }
+
+        string startingStadium = body["dfsStadium"].s();
+
+        PathReturn path = backend.calculateDFS(startingStadium);
+ 
+        crow::json::wvalue res;
+        res["success"]       = true;
+        res["stadiums"]      = path.path;
+        res["totalDistance"] = path.distanceTraveled;
+        return crow::response(res.dump());
+
+    });
+
+
+    CROW_ROUTE(app, "/customTrip").methods(crow::HTTPMethod::POST)
+    ([&backend](const crow::request& req) 
+    {
+
+        crow::json::wvalue res;
+
+        return crow::response(res.dump());
+    });
+
+    CROW_ROUTE(app, "/recursiveTrip").methods(crow::HTTPMethod::POST)
+    ([&backend](const crow::request& req) 
+    {
+
+        crow::json::wvalue res;
+
+        return crow::response(res.dump());
+    });
+
+
+    CROW_ROUTE(app, "/souvenirs").methods(crow::HTTPMethod::POST)
+    ([&backend](const crow::request& req) 
+    {
+        auto body = crow::json::load(req.body);
+        if (!body)
+        {
+            crow::json::wvalue error;
+            error["success"] = false;
+            error["message"] = "Invalid JSON";
+            return crow::response(400, error.dump());
+        }
+
+        vector<string> stadiumNames;
+        if (body.has("stadiums") && body["stadiums"].t() == crow::json::type::List)
+        {
+            for (auto& s : body["stadiums"])
+            {
+                stadiumNames.push_back(s.s());
+                cout << "stadiumNames.push_back(s.s()): " << s;
+            }
+        }
+        else
+        {
+            crow::json::wvalue error;
+            error["success"] = false;
+            error["message"] = "stadiums must be an array of strings";
+            return crow::response(400, error.dump());
+        }
+
+        // Put path into the cart (converts strings to Stadium)
+        backend.addPathToCart(stadiumNames);
+        vector<Stadium> updatedPath = backend.getCartPath();
+
+        crow::json::wvalue res;
+        res = stadiumListToJson(updatedPath);
+        cout << endl << endl << endl << "res" << res.dump() << endl << endl << endl;
+        return crow::response(res.dump());
+    });
 }

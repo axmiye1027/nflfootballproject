@@ -16,14 +16,6 @@ struct DistanceNode
     DistanceNode(string city, int level, int distanceFromLast) : city(city), level(level), distanceFromLast(distanceFromLast) {}
 };
 
-struct PathNode
-{
-    vector<string> path;
-    int            totalDist;
-
-    PathNode() : totalDist{0} {}
-};
-
 struct DistanceComparator
 {
     bool operator()(const DistanceNode& distanceOne, const DistanceNode& distanceTwo) const
@@ -54,7 +46,7 @@ public:
     void populateVertices(DoubleHashTable<Stadium> stadiums);
 
     int bfs(string originCity);
-    vector<PathNode> dijkstra(const string& startVertex);
+    vector<PathReturn> dijkstra(const string& startVertex);
     int mst(const string& startVertex);
     
     vector<Distance> getDistanceVector();

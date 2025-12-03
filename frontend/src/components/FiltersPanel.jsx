@@ -31,6 +31,15 @@ function FiltersPanel({ filters, updateFilter }) {
           setSelected={v => updateFilter("roofTypes", v)}
         />
       </FilterBar>
+
+      {/*Too much ganja((*/}
+      <FilterBar title="Surface Type">
+        <MultiCheckbox
+          options={["Bermuda grass", "FieldTurf Revolution 360", "A-Turf Titan 50", "FieldTurf","UBU Speed Series S5-M Synthetic Turf","Kentucky bluegrass","Hellas Matrix Turf","FieldTurf Classic HD","Kentucky bluegrass reinforced with SIS Grass","Shaw Sports Momentum Pro","FieldTurf CORE","Desso GrassMaster","Bermuda grass / Perennial Ryegrass mixture"]}
+          selected={filters.surfaces}
+          setSelected={v => updateFilter("surfaces", v)}
+        />
+      </FilterBar>
     </div>
   );
 }
