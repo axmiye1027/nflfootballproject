@@ -79,6 +79,20 @@ nav a:hover {
   margin: 1em 0;
 }
 
+.header {
+  font-family: var(--header);
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.subHeader {
+  font-style: italic;
+}
+
+.importantText {
+  font-weight: bold;
+}
+
 /* search bar class */
 .search-bar:focus {
   outline: none;

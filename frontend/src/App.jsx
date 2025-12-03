@@ -14,6 +14,11 @@ import HomePage    from "./pages/home.jsx"
 import AdminPage   from "./pages/admin.jsx"
 import TripPage    from "./pages/trip.jsx"
 import SummaryPage from "./pages/summary.jsx"
+import LoginPage from "./pages/login.jsx"
+import HomePage  from "./pages/home.jsx"
+import AdminPage from "./pages/admin.jsx"
+import TripPage  from "./pages/trip.jsx"
+import SummaryPage  from "./pages/summary.jsx"
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -32,6 +37,11 @@ function App() {
           <Route path="/admin"   element={<AdminPage stadiums={stadiums} />} />
           <Route path="/trip"    element={<TripPage/>} />
           <Route path="/summary" element={<SummaryPage/>} />
+          <Route path="/"      element={<HomePage stadiums={stadiums} setStadiums={setStadiums}/>} />
+          <Route path="/login" element={<LoginPage setLoggedIn={setLoggedIn} />} />
+          <Route path="/admin" element={<AdminPage stadiums={stadiums} />} />
+          <Route path="/trip"  element={<TripPage/>} />
+          <Route path="/summary" element={<SummaryPage />} />
         </Routes> 
       </>
     </BrowserRouter>

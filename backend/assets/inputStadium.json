@@ -1,0 +1,14 @@
+{
+    "team": "San Diego Sailors",
+    "stadium": "Qualcomm Stadium",
+    "capacity": "71,500",
+    "location": "San Diego California",
+    "roof": "Open",
+    "surface": "Bermuda grass",
+    "opened": "2023",
+    "conference": "American Football Conference",
+    "division": "AFC West",
+    "distances": [
+        { "stadiumA": "a", "stadiumB": "b", "lenght": "1" }
+    ]
+}

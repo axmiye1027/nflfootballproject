@@ -1,7 +1,12 @@
-// databaseManager.cpp
-
+/**
+ * @file databaseManager.cpp
+ * @brief implementation for databaseManager
+ */
 #include "../../include/database/databaseManager.h"
 
+/**
+ * @brief opens the database
+ */
 DatabaseManager::DatabaseManager(const string& PATH) : db_path(PATH)
 {
     db = nullptr;
@@ -20,7 +25,9 @@ DatabaseManager::DatabaseManager(const string& PATH) : db_path(PATH)
     // initializeDatabase();
 }
 
-
+/**
+ * @brief destructor, closes database
+ */
 DatabaseManager::~DatabaseManager()
 {
     if (db) 
@@ -29,6 +36,13 @@ DatabaseManager::~DatabaseManager()
     }
 }
 
+/**
+ * @brief intializes database
+ * @param createDistances distance table
+ * @param createStadiums stadium table
+ * @param creatSouvenirs souvenier table
+ * Creates tables to store information
+ */
 void DatabaseManager::initializeDatabase() 
 {
     string createDistances = R"(
