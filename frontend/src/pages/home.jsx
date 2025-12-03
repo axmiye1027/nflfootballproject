@@ -20,6 +20,7 @@ function HomePage({ stadiums, setStadiums }) {
     conference: [],
     divisions: [], 
     roofTypes: [],
+    surfaces:  [],
     surfaceType: "", 
     capacity: "",
     yearOpened: "",
