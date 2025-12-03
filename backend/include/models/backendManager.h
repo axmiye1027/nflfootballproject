@@ -104,7 +104,7 @@ public:
     int calculateMST(const string& startingStadium);
     PathReturn calculateDijkstra(string startingStadium, string endingStadium);
     PathReturn calculateDFS(string startingStadium);
-    // PathReturn calculateCustomTrip(vector<Stadium> trip);
+    PathReturn calculateCustomTrip(vector<string> trip);
     // PathReturn calculateRecursiveTrip(vector<Stadium> trip);
 
     vector<Stadium> filterStadiums(const vector<Stadium>& stadiumsVect, string search);

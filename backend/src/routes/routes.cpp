@@ -341,13 +341,13 @@ void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
         return crow::response(res.dump());
     });
 
-    // CROW_ROUTE(app, "/recursiveTrip").methods(crow::HTTPMethod::POST)
-    // ([&backend](const crow::request& req) 
-    // {
+    CROW_ROUTE(app, "/recursiveTrip").methods(crow::HTTPMethod::POST)
+    ([&backend](const crow::request& req) 
+    {
 
-    //     crow::json::wvalue res;
+        crow::json::wvalue res;
 
-    //     return crow::response(res.dump());
-    // });
+        return crow::response(res.dump());
+    });
 
 }

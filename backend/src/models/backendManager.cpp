@@ -490,10 +490,28 @@ PathReturn BackendManager::calculateDFS(string startingStadium)
     return convertedPaths;
 }
 
-// PathReturn BackendManager::calculateCustomTrip(vector<Stadium> trip)
-// {
+PathReturn BackendManager::calculateCustomTrip(vector<string> trip)
+{
+    PathReturn path;
 
-// }
+    path.path = trip; // adds the trip to paths
+
+    for(int i = 0; i < trip.size() - 1; ++i)
+    {
+        auto dijkstraList = adjacencyMatrix.dijkstra(trip[i]);
+
+        for(int j = 0; j < dijkstraList.size(); ++j)
+        {
+            if (dijkstraList[j].path.back() == trip[i+1])
+            {
+                path.distanceTraveled += dijkstraList[j].distanceTraveled;
+                break;
+            }
+        }
+    }
+
+    return path;
+}
 
 // PathReturn BackendManager::calculateRecursiveTrip(vector<Stadium> trip)
 // {
