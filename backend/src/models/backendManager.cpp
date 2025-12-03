@@ -530,34 +530,35 @@ PathReturn BackendManager::calculateDFS(string startingStadium)
 PathReturn BackendManager::calculateCustomTrip(vector<string> trip)
 {
     PathReturn path;
+    path.path = trip;
 
-    path.path = trip; // adds the trip to paths
+    if (trip.size() < 2)
+    {
+        return path;
+    }
 
-    for(int i = 0; i < trip.size() - 1; ++i)
+    for (int i = 0; i < trip.size() - 1; ++i)
     {
         auto dijkstraList = adjacencyMatrix.dijkstra(trip[i]);
-
-        for(int j = 0; j < dijkstraList.size(); ++j)
+        
+        int destIndex = adjacencyMatrix.vertices[trip[i+1]];
+        
+        if (destIndex >= 0 && destIndex < dijkstraList.size())
         {
-            if (dijkstraList[j].path.back() == trip[i+1])
+            if (!dijkstraList[destIndex].path.empty())
             {
-                path.distanceTraveled += dijkstraList[j].distanceTraveled;
-                break;
+                path.distanceTraveled += dijkstraList[destIndex].distanceTraveled;
+            }
+            else
+            {
+                cerr << "Error: No path from " << trip[i] 
+                     << " to " << trip[i+1]    << endl;
             }
         }
     }
 
     return path;
 }
-
-// PathReturn BackendManager::calculateRecursiveTrip(vector<Stadium> trip)
-// {
-
-// }
-
-
-
-
 
 ///NEW - For dropdown fix
 vector<Stadium> BackendManager::getStadiumsByTeamName(const vector<Stadium>& stadiumsVect, string teamName)
@@ -581,38 +582,53 @@ vector<Stadium> BackendManager::getStadiumsByStadiumName(const vector<Stadium>& 
 PathReturn BackendManager::calculateRecursiveTrip(vector<string> trip)
 {
     PathReturn recursivePath;
-    string     startingStadium = trip[0];
-
+    
+    if (trip.empty())
+    {
+        return recursivePath;
+    }
+    
+    string startingStadium = trip[0];
     recursivePath.path.push_back(startingStadium);
     trip.erase(trip.begin());              
 
-    return shortestTripRecursion(recursivePath,trip,startingStadium);
+    return shortestTripRecursion(recursivePath, trip, startingStadium);
 }
 
-PathReturn BackendManager::shortestTripRecursion(PathReturn& calculatedPath, vector<string>& path,string prevStadium)
+PathReturn BackendManager::shortestTripRecursion(PathReturn& calculatedPath, 
+                                                   vector<string>& path, 
+                                                   string prevStadium)
 {
-    if(path.empty())
+    if (path.empty())
     {
         return calculatedPath;
     }
 
-    auto   dijkstraList = adjacencyMatrix.dijkstra(prevStadium);
-    int    closestDist  = 99999999;
+    auto dijkstraList = adjacencyMatrix.dijkstra(prevStadium);
+    int closestDist = 99999999;
+
     string nextStadium;
+    bool foundStadium = false;
 
-    for(int j = 0; j < dijkstraList.size(); ++j)
+    for (const string& stadium : path)
     {
-        string stadiumName = dijkstraList[j].path.back();
-
-        // Checks if the stadium exists inside of path vector
-        if (find(path.begin(), path.end(), stadiumName) != path.end())
+        int stadiumIndex = adjacencyMatrix.vertices[stadium];
+        
+        if (stadiumIndex >= 0 && stadiumIndex < dijkstraList.size())
         {
-            if(dijkstraList[j].distanceTraveled < closestDist)
+            if (!dijkstraList[stadiumIndex].path.empty() && dijkstraList[stadiumIndex].distanceTraveled < closestDist)
             {
-                closestDist = dijkstraList[j].distanceTraveled;
-                nextStadium = stadiumName;
+                closestDist = dijkstraList[stadiumIndex].distanceTraveled;
+                nextStadium = stadium;
+                foundStadium = true;
             }
         }
+    }
+
+    if (!foundStadium)
+    {
+        cerr << "Error: No reachable stadium found from " << prevStadium << endl;
+        return calculatedPath;
     }
 
     calculatedPath.path.push_back(nextStadium);
@@ -620,7 +636,7 @@ PathReturn BackendManager::shortestTripRecursion(PathReturn& calculatedPath, vec
 
     path.erase(find(path.begin(), path.end(), nextStadium));
 
-    return shortestTripRecursion(calculatedPath,path,nextStadium);
+    return shortestTripRecursion(calculatedPath, path, nextStadium);
 }
 
 void BackendManager::addPathToCart(vector<string> path)
