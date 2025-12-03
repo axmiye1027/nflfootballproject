@@ -15,9 +15,9 @@ function AdminPage({ stadiums })
     const handleSave = async (updatedTeam) => {
         try {
             const res = await fetch(`http://localhost:18080/updateStadium`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(updatedTeam),
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(updatedTeam),
             });
 
             const data = await res.json();

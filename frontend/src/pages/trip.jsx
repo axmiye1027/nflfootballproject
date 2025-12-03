@@ -70,14 +70,14 @@ export default function TripPage() {
             case "recursiveTrip":
                 return {
                     endpoint: "/recursiveTrip",
-                    body: { stadiums: selectedStadiums, startingStadium }
+                    body: { stadiums: [startingStadium, ...selectedStadiums] }
                 }
 
             case "customTrip":
             default:
                 return {
                     endpoint: "/customTrip",
-                    body: { stadiums: selectedStadiums, startingStadium }
+                    body: { stadiums: [startingStadium, ...selectedStadiums] }
                 };
         }
     }

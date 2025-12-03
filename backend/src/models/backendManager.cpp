@@ -171,7 +171,7 @@ void BackendManager::addStadium(string teamName, string stadiumName, int capacit
 }
 
 bool BackendManager::updateStadium(int stadiumId, string teamName, string stadiumName, int capacity, string location, string roofType, string surface,
-            int yearOpened, string conference, string division)
+            int yearOpened, string conference, string division, vector<Souvenir> souvenirs)
 {
     try 
     {
@@ -179,7 +179,7 @@ bool BackendManager::updateStadium(int stadiumId, string teamName, string stadiu
         vector<Distance> distances = adjacencyMatrix.getDistanceVector();
 
         // goes through the whole vector and finds the distance name to update
-        for(int i = 0; i < distances.size(); ++i)
+        for (int i = 0; i < distances.size(); ++i)
         {
             bool   needsUpdate  = false;
             string newLocationA = distances[i].locationA;
@@ -218,6 +218,20 @@ bool BackendManager::updateStadium(int stadiumId, string teamName, string stadiu
         databaseManager.updateStadium(stadiumId,    "conference",   conference);
         databaseManager.updateStadium(stadiumId,    "division",     division);
 
+        for (int i = 0; i < souvenirs.size(); ++i)
+        {
+            if (souvenirs[i].souvenirId == -1)
+            {
+                databaseManager.addSouvenir(souvenirs[i].stadiumId, souvenirs[i].souvenirName, souvenirs[i].souvenirPrice);
+            }
+            else 
+            {
+                databaseManager.updateSouvenirName(souvenirs[i].souvenirId, souvenirs[i].souvenirName);
+                databaseManager.updateSouvenirPrice(souvenirs[i].souvenirId, souvenirs[i].souvenirPrice);
+            }
+
+        }
+
         return true;
     }
     catch (...) 
@@ -234,9 +248,14 @@ void BackendManager::addSouvenir(int stadiumId, const string& souvenirName, doub
     databaseManager.addSouvenir(stadiumId, souvenirName, souvenirPrice);
 }
 
-void BackendManager::removeSouvenir(int stadiumId,const string&  name)
+void BackendManager::removeSouvenir(int stadiumId, const string&  name)
 {
     databaseManager.deleteSouvenir(stadiums.get(stadiumId).getSouvenirId(name));
+}
+
+void BackendManager::removeSouvenir(int souvenirId)
+{
+    databaseManager.deleteSouvenir(souvenirId);
 }
 
 void BackendManager::modifySouvenirName(int stadiumId,const string&  oldName,const string& newName)

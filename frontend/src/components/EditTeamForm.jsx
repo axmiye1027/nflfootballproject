@@ -5,10 +5,16 @@ import '../styles/editTeamForm.css'
 
 function EditTeamForm({ team, onSubmit, onDelete, disabled })
 {
-    const [formData, setFormData] = React.useState({ ...team });
+    const [formData, setFormData] = React.useState({
+        ...team,
+        souvenirs: team.souvenirs || []
+    });
 
     useEffect(() => {
-        setFormData({ ...team });
+        setFormData({
+            ...team,
+            souvenirs: team.souvenirs || []
+        });
     }, [team]);
 
     const handleChange = (e) => {
@@ -19,6 +25,37 @@ function EditTeamForm({ team, onSubmit, onDelete, disabled })
     const handleSubmit = (e) => {
         e.preventDefault();
         onSubmit(formData);
+    };
+
+    const handleSouvenirChange = (index, field, value) => {
+        setFormData(prev => {
+            const updated = [...prev.souvenirs];
+            updated[index] = { ...updated[index], [field]: value };
+            return { ...prev, souvenirs: updated };
+        });
+    };
+
+    const addSouvenir = () => {
+        setFormData(prev => ({
+            ...prev,
+            souvenirs: [
+                ...prev.souvenirs,
+                {
+                    souvenirId: -1,
+                    stadiumId: prev.stadiumId, 
+                    souvenirName: "",
+                    souvenirPrice: 0.00
+                }
+            ]
+        }));
+    };
+
+    const deleteSouvenir = (index) => {
+        setFormData(prev => {
+            const updated = [...prev.souvenirs];
+            updated.splice(index, 1);
+            return { ...prev, souvenirs: updated };
+        });
     };
 
     return (
@@ -67,6 +104,49 @@ function EditTeamForm({ team, onSubmit, onDelete, disabled })
                 <div className="form-row">
                     <label>Division:</label>
                     <input name="division" value={formData.division} onChange={handleChange} disabled={disabled} />
+                </div>
+
+                <div className="souvenir-section">
+                    <h3>Souvenirs</h3>
+
+                    {formData.souvenirs.map((souvenir, index) => (
+                        <div key={index} className="souvenir-row">
+                            <input
+                                name="name"
+                                placeholder="Name"
+                                value={souvenir.souvenirName}
+                                onChange={(e) => handleSouvenirChange(index, "souvenirName", e.target.value)}
+                                disabled={disabled}
+                            />
+
+                            <input
+                                type="number"
+                                placeholder="Price"
+                                step="0.01"
+                                value={souvenir.souvenirPrice}
+                                onChange={(e) => handleSouvenirChange(index, "souvenirPrice", parseFloat(e.target.value))}
+                                disabled={disabled}
+                            />
+
+                            <button
+                                type="button"
+                                onClick={() => deleteSouvenir(index)}
+                                disabled={disabled}
+                                className="delete-souvenir-button"
+                            >
+                                X
+                            </button>
+                        </div>
+                    ))}
+
+                    <button 
+                        type="button" 
+                        onClick={addSouvenir} 
+                        disabled={disabled}
+                        className="add-souvenir-button"
+                    >
+                        + Add Souvenir
+                    </button>
                 </div>
 
                 <div className="form-buttons">
