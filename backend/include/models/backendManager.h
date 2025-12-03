@@ -128,7 +128,7 @@ public:
     vector<Stadium> getStadiumsByStadiumName(const vector<Stadium>& stadiumsVect, const string& stadiumName);
 
 
-    void addDistance(Distance distance);
+    bool addDistance(Distance distance);
     vector<Stadium> getStadiumsBySurface(const vector<Stadium>&    stadiumsVect,string surface);
 
     DoubleHashTable<Souvenir> getTeamSouvenirs(string teamName);
