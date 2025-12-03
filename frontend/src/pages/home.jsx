@@ -152,13 +152,14 @@ function HomePage({ stadiums, setStadiums }) {
         <p>Number of {filters.roofTypes[0] || "All"} Roof Stadiums: {roofCount}</p>
       </div>
 
-     {/* DISPLAY TOTAL SEATING CAPACITY */}
+     {/* DISPLAY TOTAL SEATING CAPACITY (old - only displays values when filtering by capacity*/}
       {/* {sortBy === "capacity" && (
       <div style={{ margin: "20px", textAlign: "center" }}>
         <p>Total Seating Capacity: {totalCapacity.toLocaleString()}</p>
       </div>
       )} */}
-      
+
+    {/* NEW - DISPLAY TOTAL SEATING CAPACITY */}
     <div style={{ margin: "20px", textAlign: "center" }}>
       <p>Total Seating Capacity: {totalCapacity.toLocaleString()}</p>
     </div>
