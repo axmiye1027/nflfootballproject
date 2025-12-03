@@ -129,7 +129,7 @@ void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
         string conference  = req.url_params.get("conference")  ? req.url_params.get("conference")  : ALL_TEAMS;
         string division    = req.url_params.get("divisions")   ? req.url_params.get("divisions")   : ALL_TEAMS;
         string roofType    = req.url_params.get("roofTypes")   ? req.url_params.get("roofTypes")   : ALL_TEAMS;
-        string surface     = req.url_params.get("surface")     ? req.url_params.get("surface")     : ALL_TEAMS;
+        string surface     = req.url_params.get("surfaces")    ? req.url_params.get("surfaces")    : ALL_TEAMS;
 
         // SEARCH
         string search   = req.url_params.get("search") ? req.url_params.get("search") : "";
