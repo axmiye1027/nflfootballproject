@@ -19,6 +19,9 @@
 #ifndef BACKENDMANAGER_H
 #define BACKENDMANAGER_H
 
+#include <fstream>
+#include <sstream>
+
 /**
  * Define comparator structs
  */
@@ -79,7 +82,7 @@ public:
      * database. Automatically assumes the team will have the default souveniers
      * Will get distances and other info related to stadium
      */
-    void importStadiums(const string& json);
+    bool importStadiums(const string& json, std::string &error_out);
 
     /**
      * Grabs Stadiums info from database and stores in stadiums

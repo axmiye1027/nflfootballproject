@@ -203,6 +203,9 @@ void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
     });
 
 
+    /**
+     * @brief distances for BFS, MST
+     */
     CROW_ROUTE(app, "/calculateDist").methods(crow::HTTPMethod::POST)
     ([&backend](const crow::request& req) 
     {
@@ -243,5 +246,32 @@ void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
         return crow::response(res);
     });
 
+    /**
+     * @brief
+     */
+    CROW_ROUTE(app, "/importStadium").methods(crow::HTTPMethod::POST, crow::HTTPMethod::OPTIONS)
+    ([&backend](const crow::request& req)
+    {
+        // Handle preflight CORS OPTIONS requests by returning OK immediately
+        if (req.method == crow::HTTPMethod::OPTIONS)
+        {
+            return crow::response(200);
+        }
+
+        std::string error;
+        bool ok = backend.importStadiums(req.body, error);
+        
+        crow::json::wvalue res;
+        res["success"] = ok;
+        if (!ok) {
+            // Log the error server-side for easier debugging
+            std::cerr << "[importStadium] Error: " << error << std::endl;
+            res["message"] = error;
+            return crow::response(400, res.dump());
+        }
+
+        res["message"] = "Imported stadium successfully";
+        return crow::response(200, res.dump());
+    });
 
 }

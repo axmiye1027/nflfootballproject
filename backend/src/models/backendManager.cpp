@@ -4,6 +4,7 @@
  */
 
 #include "../../include/models/backendManager.h"
+#include "crow.h"
 
 /**
  * @brief constuctor, assumes user is not an adimin
@@ -57,9 +58,26 @@ bool BackendManager::login(string username, string password)
 /**
  * 
  */
-void BackendManager::importStadiums(const string& json)
+bool BackendManager::importStadiums(const string& json, std::string &error_out)
 {
+    // Expect `json` to be the JSON contents (not a file path)
+    auto j = crow::json::load(json);
+    if (!j)
+    {
+        error_out = "Invalid JSON";
+        return false;
+    }
+
     try {
+        // Validate required keys
+        const std::vector<std::string> requiredKeys = {"team", "stadium", "capacity", "location", "roof", "surface", "year", "conference", "division"};
+        for (const auto &k : requiredKeys) {
+            if (!j.has(k)) {
+                error_out = string("Missing required key: ") + k;
+                return false;
+            }
+        }
+
         std::string team      = j["team"].s();
         std::string stadium   = j["stadium"].s();
         int capacity          = j["capacity"].i();
@@ -70,13 +88,51 @@ void BackendManager::importStadiums(const string& json)
         std::string conference= j["conference"].s();
         std::string division  = j["division"].s();
 
-        int stadiumId = dbManager.addStadium(team, stadium, capacity, location,
-                                roofType, surface, yearOpened, conference, division);
-    }
-    catch {
+        // databaseManager.addStadium expects souvenir vector as last argument
+        std::vector<Souvenir> emptySouvenirs;
+        int stadiumId = databaseManager.addStadium(team, stadium, capacity, location,
+                                roofType, surface, yearOpened, conference, division, emptySouvenirs);
 
-    }
+        if (j.has("distances") && j["distances"].t() == crow::json::type::List) {
+            auto &arr = j["distances"];
+            for (size_t i = 0; i < arr.size(); ++i) {
+                const auto &d = arr[i];
+                if (!d.has("locationA") || !d.has("locationB") || !d.has("distanceKm"))
+                    continue; // skip invalid entry
 
+                std::string locA = d["locationA"].s();
+                std::string locB = d["locationB"].s();
+                double distKm = 0.0;
+                try {
+                    distKm = d["distanceKm"].d();
+                } catch (...) {
+                    distKm = static_cast<double>(d["distanceKm"].i());
+                }
+
+                // databaseManager is a member; call addDistance
+                try {
+                    databaseManager.addDistance(locA, locB, distKm);
+                } catch (const std::exception &ex) {
+                    // continue on error for individual distances
+                }
+            }
+        }
+
+        // Refresh in-memory structures so routes that read `stadiums` reflect the new data
+        try {
+            populateStadiums();
+            populateDistances();
+        } catch (...) {
+            // non-fatal: log and continue
+            std::cerr << "[importStadiums] Warning: failed to refresh in-memory data after import" << std::endl;
+        }
+
+        return true;
+    }
+    catch (exception &ex) {
+        error_out = string("Error! ") + ex.what();
+        return false;
+    }
 }
 
 /**

@@ -10,7 +10,7 @@ import '../styles/admin.css'
 
 function AdminPage({ stadiums })
 {
-    const [mode, setMode] = useState("edit");
+    const [mode, setMode] = useState(null);
 
     const handleSave = async (updatedTeam) => {
         try {

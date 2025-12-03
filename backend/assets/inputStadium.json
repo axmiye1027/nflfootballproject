@@ -1,14 +1,16 @@
 {
     "team": "San Diego Sailors",
     "stadium": "Qualcomm Stadium",
-    "capacity": "71,500",
+    "capacity": 71500,
     "location": "San Diego California",
     "roof": "Open",
     "surface": "Bermuda grass",
-    "opened": "2023",
+    "year": 2023,
     "conference": "American Football Conference",
     "division": "AFC West",
     "distances": [
-        { "stadiumA": "a", "stadiumB": "b", "lenght": "1" }
+        { "locationA": "Qualcomm Stadium", "locationB": "State Farm Stadium", "distanceKm": 300 },
+        { "locationA": "Qualcomm Stadium", "locationB": "SoFi Stadium", "distanceKm": 121 },
+        { "locationA": "Qualcomm Stadium", "locationB": "Empower Field at Mile High", "distanceKm": 830 }
     ]
 }
