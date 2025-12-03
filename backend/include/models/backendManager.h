@@ -119,6 +119,13 @@ public:
     vector<Stadium> getStadiumsByConference(const vector<Stadium>& stadiumsVect,string conference);
     vector<Stadium> getStadiumsByDivision(const vector<Stadium>&   stadiumsVect,string division);
     vector<Stadium> getStadiumsByGrass(const vector<Stadium>&      stadiumsVect,string grassType);
+    //NEW - for dropdown
+    vector<Stadium> getStadiumsByTeamName(const vector<Stadium>& stadiumsVect, string teamName);
+    vector<Stadium> getStadiumsByStadiumName(const vector<Stadium>& stadiumsVect, const string& stadiumName);
+
+    
+    vector<Stadium> getStadiumsBySurface(const vector<Stadium>&    stadiumsVect,string surface);
+
 
     DoubleHashTable<Souvenir> getTeamSouvenirs(string teamName);
 
