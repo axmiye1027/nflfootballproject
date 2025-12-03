@@ -96,7 +96,12 @@ void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
     ([&backend](const crow::request& req)
     {
         const string ALL_TEAMS = "All Teams";
-
+        
+        
+        //NEW - for dropdown
+        string sortBy = req.url_params.get("sortBy") ? req.url_params.get("sortBy") : ""; 
+        
+        
         // SORT
         string teamName    = req.url_params.get("teamName")    ? req.url_params.get("teamName")    : ALL_TEAMS;
         string stadiumName = req.url_params.get("stadiumName") ? req.url_params.get("stadiumName") : ALL_TEAMS;
@@ -133,6 +138,23 @@ void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
         {
             stadiums = backend.filterStadiums(stadiums, search);
         }
+
+        //NEW - for dropdown
+        if (teamName != ALL_TEAMS)
+            stadiums = backend.getStadiumsByTeamName(stadiums, teamName);
+
+        if (stadiumName != ALL_TEAMS)
+            stadiums = backend.getStadiumsByStadiumName(stadiums, stadiumName);
+
+        //NEW - for dropdown
+        if (sortBy == "teamName")
+            stadiums = backend.sortStadiumsByTeam(stadiums, "");
+        else if (sortBy == "stadiumName")
+            stadiums = backend.sortStadiumsByStadiumName(stadiums);
+        else if (sortBy == "capacity")
+            stadiums = backend.sortStadiumsByCapacity(stadiums);
+        else if (sortBy == "yearOpened")
+            stadiums = backend.sortStadiumsByDateOpened(stadiums);
 
         crow::json::wvalue json = stadiumListToJson(stadiums);
 

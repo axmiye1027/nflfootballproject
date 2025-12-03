@@ -268,7 +268,7 @@ vector<Stadium> BackendManager::sortStadiumsByStadiumName(const vector<Stadium>&
 
 vector<Stadium> BackendManager::sortStadiumsByTeam(const vector<Stadium>& stadiums, string teamName)
 {
-    return sortStadiums(stadiums, CompareByStadiumName());
+    return sortStadiums(stadiums, CompareByTeamName());
 }
 
 vector<Stadium> BackendManager::getStadiumsByRoofType(const vector<Stadium>& stadiumsVect, string roofType)
@@ -517,3 +517,26 @@ PathReturn BackendManager::calculateCustomTrip(vector<string> trip)
 // {
 
 // }
+
+
+
+
+
+///NEW - For dropdown fix
+vector<Stadium> BackendManager::getStadiumsByTeamName(const vector<Stadium>& stadiumsVect, string teamName)
+{
+    vector<Stadium> output;
+    for (auto& s : stadiumsVect)
+        if (s.getTeamName() == teamName)
+            output.push_back(s);
+    return output;
+}
+///NEW - For dropdown fix
+vector<Stadium> BackendManager::getStadiumsByStadiumName(const vector<Stadium>& stadiumsVect, const string& stadiumName)
+{
+    vector<Stadium> result;
+    for (auto& s : stadiumsVect)
+        if (s.getStadiumName() == stadiumName)
+            result.push_back(s);
+    return result;
+}
