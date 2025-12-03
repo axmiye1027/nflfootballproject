@@ -93,15 +93,18 @@ function HomePage({ stadiums, setStadiums }) {
   }, [filters.roofTypes]);
 
   //NEW - total seating capacity
-  const [totalCapacity, setTotalCapacity] = useState(0);
-  useEffect(() => {
-  if (sortBy === "capacity") {
-    const sum = stadiums.reduce((acc, stadium) => acc + (stadium.capacity || 0), 0);
-    setTotalCapacity(sum);
-  } else {
-    setTotalCapacity(0); // reset when not sorting by capacity
-  }
-  }, [stadiums, sortBy]);
+  // const [totalCapacity, setTotalCapacity] = useState(0);
+  // useEffect(() => {
+  // if (sortBy === "capacity") {
+  //   const sum = stadiums.reduce((acc, stadium) => acc + (stadium.capacity || 0), 0);
+  //   setTotalCapacity(sum);
+  // } else {
+  //   setTotalCapacity(0); // reset when not sorting by capacity
+  // }
+  // }, [stadiums, sortBy]);
+  const totalCapacity = useMemo(() => {
+    return stadiums.reduce((acc, stadium) => acc + (stadium.capacity || 0), 0);
+  }, [stadiums]);
 
 
 
@@ -144,17 +147,23 @@ function HomePage({ stadiums, setStadiums }) {
 
       {/* END SEARCH - ICON - FILTERS */}
 
-     
+     {/* DISPLAY ROOF COUNT */}
       <div className="roof-count" style={{ margin: "20px", textAlign: "center" }}>
         <p>Number of {filters.roofTypes[0] || "All"} Roof Stadiums: {roofCount}</p>
       </div>
 
-
-      {sortBy === "capacity" && (
+     {/* DISPLAY TOTAL SEATING CAPACITY */}
+      {/* {sortBy === "capacity" && (
       <div style={{ margin: "20px", textAlign: "center" }}>
         <p>Total Seating Capacity: {totalCapacity.toLocaleString()}</p>
       </div>
-      )}
+      )} */}
+      
+    <div style={{ margin: "20px", textAlign: "center" }}>
+      <p>Total Seating Capacity: {totalCapacity.toLocaleString()}</p>
+    </div>
+
+      
 
 
       {/* TEAM LIST */}
