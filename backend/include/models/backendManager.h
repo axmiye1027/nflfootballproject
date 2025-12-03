@@ -102,6 +102,7 @@ public:
     void removeSouvenir(int stadiumId,const string&  name);
     void modifySouvenirName(int stadiumId,const string&  oldName,const string& newName);
     void modifySouvenirPrice(int stadiumId, const string& name, double souvenirPrice);
+    bool deleteStadium(int stadiumId);
 
     // Move team and souvenir functions to stadium class?
 

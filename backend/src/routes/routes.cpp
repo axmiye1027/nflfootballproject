@@ -202,6 +202,37 @@ void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
         return crow::response(res);
     });
 
+    /**
+     * @brief deletes a stadium by id
+     */
+    CROW_ROUTE(app, "/deleteStadium").methods(crow::HTTPMethod::POST, crow::HTTPMethod::OPTIONS)
+    ([&backend](const crow::request& req)
+    {
+        if (req.method == crow::HTTPMethod::OPTIONS)
+        {
+            return crow::response(200);
+        }
+
+        auto body = crow::json::load(req.body);
+        if (!body)
+        {
+            crow::json::wvalue error;
+            error["success"] = false;
+            error["message"] = "Invalid JSON";
+            return crow::response(400, error.dump());
+        }
+
+        int stadiumId = body["stadiumId"].i();
+
+        bool success = backend.deleteStadium(stadiumId);
+
+        crow::json::wvalue res;
+        res["success"] = success;
+        if (!success) res["message"] = "Failed to delete stadium";
+
+        return crow::response(res.dump());
+    });
+
 
     /**
      * @brief distances for BFS, MST

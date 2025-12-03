@@ -40,15 +40,31 @@ function AdminPage({ stadiums, setStadiums })
     };
 
     const handleDelete = async (id) => {
-        // If you have a backend delete endpoint, call it here and then refresh stadium list.
-        // For now we'll refresh the list (useful if deletion was done elsewhere).
         try {
-            const r = await fetch('http://localhost:18080/stadiums');
-            const json = await r.json();
-            const list = json.stadiums ? json.stadiums : json;
-            if (typeof setStadiums === 'function') setStadiums(list);
+            const res = await fetch('http://localhost:18080/deleteStadium', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ stadiumId: id })
+            });
+
+            const data = await res.json();
+            console.log('Delete response:', data);
+
+            if (res.ok && (data.success === true || data["success"] == true)) {
+                // refresh stadium list
+                try {
+                    const r = await fetch('http://localhost:18080/stadiums');
+                    const json = await r.json();
+                    const list = json.stadiums ? json.stadiums : json;
+                    if (typeof setStadiums === 'function') setStadiums(list);
+                } catch (err) {
+                    console.error('Failed to refresh stadiums after delete:', err);
+                }
+            } else {
+                console.error('Failed to delete stadium', data);
+            }
         } catch (err) {
-            console.error('Failed to refresh stadiums after delete:', err);
+            console.error('Error calling delete endpoint:', err);
         }
     }
 

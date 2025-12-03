@@ -321,6 +321,31 @@ void BackendManager::modifySouvenirPrice(int stadiumId, const string& name, doub
     databaseManager.updateSouvenirPrice(stadiums.get(stadiumId).getSouvenirId(name),souvenirPrice);
 }
 
+    bool BackendManager::deleteStadium(int stadiumId)
+    {
+        try
+        {
+            bool ok = databaseManager.deleteStadium(stadiumId);
+
+            if (ok)
+            {
+                // Refresh in-memory structures so the cache matches DB
+                try {
+                    populateStadiums();
+                    populateDistances();
+                } catch (...) {
+                    std::cerr << "[BackendManager::deleteStadium] Warning: failed to refresh in-memory data after delete" << std::endl;
+                }
+            }
+
+            return ok;
+        }
+        catch (...) {
+            std::cerr << "[BackendManager::deleteStadium] Exception while deleting stadium" << std::endl;
+            return false;
+        }
+    }
+
 
 vector<Stadium> BackendManager::getStadiumsAsVector()
 {
