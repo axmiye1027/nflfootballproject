@@ -437,13 +437,44 @@ CROW_ROUTE(app, "/addStadium").methods(crow::HTTPMethod::POST)
             {
                 for (const auto& item : body["distances"]) 
                 {
-                    Distance d;
-                    d.id = 0; 
-                    d.locationA = stadiumName;                  
-                    d.locationB = backend.getStadiumById(item["stadiumId"].i()).getStadiumName();
-                    d.distanceKm = static_cast<int>(item["distance"].d());
+                    try 
+                    {
+                        int targetStadiumId = item["stadiumId"].i();
+                        cout << "Adding distance to stadium ID: " << targetStadiumId << endl;
+                        
+                        // Retrieve the target stadium
+                        Stadium targetStadium;
+                        try 
+                        {
+                            targetStadium = backend.getStadiumById(targetStadiumId);
+                        }
+                        catch (const exception& e) 
+                        {
+                            cout << "Warning: Could not find stadium with ID " << targetStadiumId << ": " << e.what() << endl;
+                            continue; // Skip this distance entry
+                        }
+                        
+                        Distance d;
+                        d.id = 0; 
+                        d.locationA = stadiumName;                  
+                        d.locationB = targetStadium.getStadiumName();
+                        d.distanceKm = static_cast<int>(item["distance"].d());
 
-                    backend.addDistance(d);
+                        bool distanceAdded = backend.addDistance(d);
+                        if (!distanceAdded) 
+                        {
+                            cout << "Warning: Failed to add distance between " << stadiumName << " and " << targetStadium.getStadiumName() << endl;
+                        }
+                        else 
+                        {
+                            cout << "Distance added successfully" << endl;
+                        }
+                    }
+                    catch (const exception& e) 
+                    {
+                        cout << "Error processing distance entry: " << e.what() << endl;
+                        // Continue processing other distances instead of failing completely
+                    }
                 }
             }
 
