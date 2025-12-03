@@ -1,15 +1,42 @@
 // Displaying basic team information card
 // Will modify later to accept props for dynamic data
 
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
 import '../styles/souvenirCard.css'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHorseHead }     from '@fortawesome/free-solid-svg-icons'
     
-function SouvenirCard({ stadium }) {
+function SouvenirCard({ stadium, onSubtotalChange }) {
     if (!stadium) return null;
+
+    // Track quantity per souvenir
+    const [quantities, setQuantities] = useState(() =>
+        stadium.souvenirs?.map(() => 0) || []
+    );
+
+    useEffect(() => {
+        const subtotal = stadium.souvenirs.reduce(
+            (total, s, i) => total + s.souvenirPrice * quantities[i],
+            0
+        );
+        if (onSubtotalChange) onSubtotalChange(subtotal);
+    }, [quantities, stadium.souvenirs, onSubtotalChange]);
+
+    const handleChange = (index, value) => {
+        const newQuantity = Math.max(0, Number(value) || 0); // ensure it's a number and ≥ 0
+        setQuantities(prev => {
+            const newQuantities = [...prev];
+            newQuantities[index] = newQuantity;
+            return newQuantities;
+        });
+    };
+
+    const subtotal = stadium.souvenirs.reduce(
+        (total, s, i) => total + s.souvenirPrice * quantities[i],
+        0
+    );
 
     // STYLE
     const cardContainerStyle = {
@@ -62,12 +89,30 @@ function SouvenirCard({ stadium }) {
                 <p>Souvenirs:</p>
                 <ul>
                     {stadium.souvenirs?.map((souvenir, index) => (
-                    <li key={index}>
-                        {souvenir.souvenirName} — ${souvenir.souvenirPrice}
-                    </li>
+                        <li key={index} className="souvenir-row">
+                            {souvenir.souvenirName} — ${souvenir.souvenirPrice.toFixed(2)}
+
+                            <div className="quantity-control">
+
+                                {/* <button onClick={() => handleChange(index, quantities[index] - 1)}>-</button> */}
+
+                                <input
+                                    type="number"
+                                    value={quantities[index]}
+                                    min={0}
+                                    onChange={e => handleChange(index, e.target.value)}
+                                />
+
+                                {/* <button onClick={() => handleChange(index, quantities[index] + 1)}>+</button> */}
+
+
+                            </div>
+                        </li>
                     ))}
                 </ul>
-
+                <div className="subtotal">
+                    Subtotal: ${subtotal.toFixed(2)}
+                </div>
             </div>
 
             { /* BOTTOM */}
