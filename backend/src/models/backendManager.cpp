@@ -403,15 +403,15 @@ vector<Stadium> BackendManager::getStadiumsByDivision(const vector<Stadium>& sta
     return stadiums;
 }
 
-vector<Stadium> getStadiumsByGrass(const vector<Stadium>& stadiumsVect,string grassType)
+vector<Stadium> BackendManager::getStadiumsBySurface(const vector<Stadium>& stadiumsVect,string surface)
 {
-    transform(grassType.begin(), grassType.end(), grassType.begin(), ::toupper);
+    //transform(surface.begin(), surface.end(), surface.begin(), ::toupper);
 
     vector<Stadium> stadiums;
 
     for(int i = 0; i < stadiumsVect.size(); ++i)
     {
-        if(stadiumsVect[i].getSurfaceType() == grassType)
+        if(stadiumsVect[i].getSurfaceType() == surface)
         {
             stadiums.push_back(stadiumsVect[i]);
         }
