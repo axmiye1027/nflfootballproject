@@ -2,8 +2,14 @@
 
 #pragma once
 
-#include "../database/databaseManager.h"
-#include "../models/stadium.h"
+#include "../includes.h"
+#include "stadium.h"
+
+struct StadiumNode
+{
+    Stadium stadium;
+    int     distanceFromLast;
+};
 
 class Cart
 {
@@ -16,13 +22,13 @@ public:
     void clearPurchases();
 
     /* ----- GETTERS ----- */
-    vector<Stadium> getPath();
-    vector<Souvenir> getPurchases();
+    vector<StadiumNode> getPath();
+    vector<Souvenir>    getPurchases();
     int getTotalDistance();
     int getTotalSpent();
     /* ------------------- */
 
-    void setPath(vector<Stadium> path);
+    void setPath(vector<StadiumNode> path);
     void setPurchases(vector<Souvenir> purchases);
 
     void addPurchase(Souvenir souvenir);
@@ -30,8 +36,8 @@ public:
 
 private:
 
-    vector<Stadium> outgoingPath;
-    vector<Souvenir> purchases;
+    vector<StadiumNode> outgoingPath;
+    vector<Souvenir>    purchases;
 
     int totalDistance;
     int totalSpent;

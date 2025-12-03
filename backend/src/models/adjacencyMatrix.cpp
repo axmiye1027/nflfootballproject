@@ -216,17 +216,17 @@ void AdjacencyMatrix::verticesToMatrix()
     }
 }
 
-vector<PathReturn> AdjacencyMatrix::dijkstra(const string& startVertex)
+vector<PathNode> AdjacencyMatrix::dijkstra(const string& startVertex)
 {
     cout << "[AdjacencyMatrix::Dijkstra]" << endl;
 
     const int NUMBER_OF_CITIES = vertices.getCount();
     const int INF = 999999;
 
-    vector<PathReturn> paths(NUMBER_OF_CITIES); // records all the paths found and the distance
-    vector<int>        distances(NUMBER_OF_CITIES, INF);
-    vector<int>        previous(NUMBER_OF_CITIES, -1); 
-    vector<bool>       cityVisited(NUMBER_OF_CITIES, false);
+    vector<PathNode> paths(NUMBER_OF_CITIES); // records all the paths found and the distance
+    vector<int>      distances(NUMBER_OF_CITIES, INF);
+    vector<int>      previous(NUMBER_OF_CITIES, -1); 
+    vector<bool>     cityVisited(NUMBER_OF_CITIES, false);
     
     int originVertex = vertices[startVertex];
 
@@ -300,7 +300,7 @@ vector<PathReturn> AdjacencyMatrix::dijkstra(const string& startVertex)
         }
         else
         {
-            paths[i].distanceTraveled = distances[i]; // add the path distance
+            paths[i].totalDist = distances[i]; // add the path distance
 
             cout << left << setw(5) << distances[i] << " | Path: ";
             printPathExt(previous, originVertex, i);

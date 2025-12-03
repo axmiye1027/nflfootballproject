@@ -13,6 +13,17 @@ BackendManager::BackendManager() : isAdmin{false}
 {
     populateStadiums();
     populateDistances();
+    // printStadiums();
+
+    //adjacencyMatrix.printMatrix();
+    adjacencyMatrix.bfs("State Farm Stadium");
+
+    getStadiumsByDivision(getStadiumsAsVector(),"NFC North");
+
+    //adjacencyMatrix.Dijkstra("State Farm Stadium");
+    //adjacencyMatrix.mst("State Farm Stadium");
+
+    //adjacencyList.dfs("State Farm Stadium");
 }
 
 /**
@@ -386,7 +397,7 @@ vector<Stadium> BackendManager::sortStadiumsByStadiumName(const vector<Stadium>&
 
 vector<Stadium> BackendManager::sortStadiumsByTeam(const vector<Stadium>& stadiums, string teamName)
 {
-    return sortStadiums(stadiums, CompareByTeamName());
+    return sortStadiums(stadiums, CompareByStadiumName());
 }
 
 vector<Stadium> BackendManager::getStadiumsByRoofType(const vector<Stadium>& stadiumsVect, string roofType)
@@ -488,15 +499,15 @@ vector<Stadium> BackendManager::getStadiumsByDivision(const vector<Stadium>& sta
     return stadiums;
 }
 
-vector<Stadium> BackendManager::getStadiumsBySurface(const vector<Stadium>& stadiumsVect,string surface)
+vector<Stadium> getStadiumsByGrass(const vector<Stadium>& stadiumsVect,string grassType)
 {
-    //transform(surface.begin(), surface.end(), surface.begin(), ::toupper);
+    transform(grassType.begin(), grassType.end(), grassType.begin(), ::toupper);
 
     vector<Stadium> stadiums;
 
     for(int i = 0; i < stadiumsVect.size(); ++i)
     {
-        if(stadiumsVect[i].getSurfaceType() == surface)
+        if(stadiumsVect[i].getSurfaceType() == grassType)
         {
             stadiums.push_back(stadiumsVect[i]);
         }
@@ -565,175 +576,17 @@ vector<Stadium> BackendManager::filterStadiums(const vector<Stadium>& stadiumsVe
 }
 
 
-int BackendManager::calculateBFS(const string& startingCity)
+int BackendManager::calculateBFS(string startingCity)
 {
+    transform(startingCity.begin(), startingCity.end(), startingCity.begin(), ::tolower);
+
     return adjacencyMatrix.bfs(startingCity);
 }
 
 
-int BackendManager::calculateMST(const string& startingCity)
+int BackendManager::calculateMST(string startingCity)
 {
+    transform(startingCity.begin(), startingCity.end(), startingCity.begin(), ::tolower);
+
     return adjacencyMatrix.mst(startingCity);
-}
-
-PathReturn BackendManager::calculateDijkstra(string startingStadium, string endingStadium)
-{
-    cout << "[BackendManager::calculateDijkstra]\n";
-    auto dijkstraList = adjacencyMatrix.dijkstra(startingStadium);
-
-    for (int i = 0; i < dijkstraList.size(); ++i)
-    {
-        if(!dijkstraList[i].path.empty() &&
-            dijkstraList[i].path.front() == startingStadium && 
-            dijkstraList[i].path.back()  == endingStadium)
-        {
-            cout << "[BackendManager::calculateDijkstra]: return dijkstraList[i]\n";
-            return dijkstraList[i];
-        }
-    }
-
-    throw runtime_error("Path not found");
-}
-
-PathReturn BackendManager::calculateDFS(string startingStadium)
-{
-    adjacencyList.dfs(startingStadium);
-
-    vector<AdjacencyNode> path = adjacencyList.returnPath();
-    PathReturn convertedPaths; 
-
-    // converts the path returned by dfs to PathReturn struct
-    for(int i = 0; i < path.size(); ++i)
-    {
-        convertedPaths.path.push_back(path[i].cityName);
-        convertedPaths.distanceTraveled += path[i].distanceFromLast;
-    }
-
-    return convertedPaths;
-}
-
-PathReturn BackendManager::calculateCustomTrip(vector<string> trip)
-{
-    PathReturn path;
-
-    path.path = trip; // adds the trip to paths
-
-    for(int i = 0; i < trip.size() - 1; ++i)
-    {
-        auto dijkstraList = adjacencyMatrix.dijkstra(trip[i]);
-
-        for(int j = 0; j < dijkstraList.size(); ++j)
-        {
-            if (dijkstraList[j].path.back() == trip[i+1])
-            {
-                path.distanceTraveled += dijkstraList[j].distanceTraveled;
-                break;
-            }
-        }
-    }
-
-    return path;
-}
-
-// PathReturn BackendManager::calculateRecursiveTrip(vector<Stadium> trip)
-// {
-
-// }
-
-
-
-
-
-///NEW - For dropdown fix
-vector<Stadium> BackendManager::getStadiumsByTeamName(const vector<Stadium>& stadiumsVect, string teamName)
-{
-    vector<Stadium> output;
-    for (auto& s : stadiumsVect)
-        if (s.getTeamName() == teamName)
-            output.push_back(s);
-    return output;
-}
-///NEW - For dropdown fix
-vector<Stadium> BackendManager::getStadiumsByStadiumName(const vector<Stadium>& stadiumsVect, const string& stadiumName)
-{
-    vector<Stadium> result;
-    for (auto& s : stadiumsVect)
-        if (s.getStadiumName() == stadiumName)
-            result.push_back(s);
-    return result;
-}
-
-PathReturn BackendManager::calculateRecursiveTrip(vector<string> trip)
-{
-    PathReturn recursivePath;
-    string     startingStadium = trip[0];
-
-    recursivePath.path.push_back(startingStadium);
-    trip.erase(trip.begin());              
-
-    return shortestTripRecursion(recursivePath,trip,startingStadium);
-}
-
-PathReturn BackendManager::shortestTripRecursion(PathReturn& calculatedPath, vector<string>& path,string prevStadium)
-{
-    if(path.empty())
-    {
-        return calculatedPath;
-    }
-
-    auto   dijkstraList = adjacencyMatrix.dijkstra(prevStadium);
-    int    closestDist  = 99999999;
-    string nextStadium;
-
-    for(int j = 0; j < dijkstraList.size(); ++j)
-    {
-        string stadiumName = dijkstraList[j].path.back();
-
-        // Checks if the stadium exists inside of path vector
-        if (find(path.begin(), path.end(), stadiumName) != path.end())
-        {
-            if(dijkstraList[j].distanceTraveled < closestDist)
-            {
-                closestDist = dijkstraList[j].distanceTraveled;
-                nextStadium = stadiumName;
-            }
-        }
-    }
-
-    calculatedPath.path.push_back(nextStadium);
-    calculatedPath.distanceTraveled += closestDist;
-
-    path.erase(find(path.begin(), path.end(), nextStadium));
-
-    return shortestTripRecursion(calculatedPath,path,nextStadium);
-}
-
-void BackendManager::addPathToCart(vector<string> path)
-{
-    vector<Stadium> stadiumsVect = getStadiumsAsVector();
-    vector<Stadium> pathStadiums;
-
-    for (int i = 0; i < stadiumsVect.size(); ++i)
-    {
-        for (int j = 0; j < path.size(); ++j)
-        {
-            if (path[j] == stadiumsVect[i].getStadiumName())
-            {
-                pathStadiums.push_back(stadiumsVect[i]);
-            }
-        }
-    }
-
-    cart.setPath(pathStadiums);
-}
-
-
-vector<Stadium> BackendManager::getCartPath() 
-{
-    return cart.getPath();
-}
-
-int BackendManager::getCartTotalDistance()
-{
-    return cart.getTotalDistance();
 }

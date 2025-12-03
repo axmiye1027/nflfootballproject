@@ -28,16 +28,16 @@ void Cart::clearPurchases()
 
 
 /* ----- GETTERS ----- */
-vector<Stadium> Cart::getPath()      { return outgoingPath;  }
-vector<Souvenir> Cart::getPurchases() { return purchases;     }
-int Cart::getTotalDistance()          { return totalDistance; }
-int Cart::getTotalSpent()             { return totalSpent;    }
+vector<StadiumNode> Cart::getPath()      { return outgoingPath;  }
+vector<Souvenir>    Cart::getPurchases() { return purchases;     }
+int Cart::getTotalDistance()             { return totalDistance; }
+int Cart::getTotalSpent()                { return totalSpent;    }
 /* ------------------- */
 
 
-void Cart::setPath(vector<Stadium> path)
+void Cart::setPath(vector<StadiumNode> path)
 {
-    this->outgoingPath = path;
+    outgoingPath = path;
 }
 
 
