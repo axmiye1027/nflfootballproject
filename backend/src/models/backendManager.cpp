@@ -393,11 +393,46 @@ vector<Stadium> BackendManager::getStadiumsByRoofType(const vector<Stadium>& sta
     return roofTypes;
 }
 
+void BackendManager::addDistance(Distance distance)
+{
+    databaseManager.addDistance(distance.locationA, distance.locationB, distance.distanceKm);
+}
+
+Stadium BackendManager::getStadiumById(int id)
+{
+    vector<Stadium> stadiumsVect = stadiums.getValues();
+
+    for(int i = 0; i < stadiumsVect.size(); ++i)
+    {
+        if(stadiumsVect[i].getStadiumId() == id)
+        {
+            return stadiumsVect[i];
+        }
+    }
+
+    throw runtime_error("Stadium not found");
+}
+
 Stadium BackendManager::getStadiumById(const vector<Stadium>& stadiumsVect,int id)
 {
     for(int i = 0; i < stadiumsVect.size(); ++i)
     {
         if(stadiumsVect[i].getStadiumId() == id)
+        {
+            return stadiumsVect[i];
+        }
+    }
+
+    throw runtime_error("Stadium not found");
+}
+
+Stadium BackendManager::getStadiumByName(string stadiumName)
+{
+    vector<Stadium> stadiumsVect = stadiums.getValues();
+
+    for(int i = 0; i < stadiumsVect.size(); ++i)
+    {
+        if(stadiumsVect[i].getStadiumName() == stadiumName)
         {
             return stadiumsVect[i];
         }

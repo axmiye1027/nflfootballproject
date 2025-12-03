@@ -34,7 +34,7 @@ function AddTeamForm({ existingStadiums = [], onSubmit }) {
             ...prev,
             souvenirs: [
                 ...prev.souvenirs,
-                { souvenirId: -1, stadiumId: null, souvenirName: "", souvenirPrice: 0.00 }
+                { souvenirId: -1, stadiumId: -1, souvenirName: "", souvenirPrice: 0.00 }
             ]
         }));
     };

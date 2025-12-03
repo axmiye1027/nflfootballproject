@@ -77,6 +77,7 @@ struct Souvenir
     }
 
     Souvenir() : stadiumId(-1), souvenirId(-1), souvenirName(""), souvenirPrice(0.0) {}
+    Souvenir(string name, double price) : stadiumId(-1), souvenirId(-1), souvenirName(name), souvenirPrice(price) {} 
     Souvenir(int stadiumId, string souvenirName, int souvenirPrice) : stadiumId(stadiumId), souvenirName(souvenirName), souvenirPrice(souvenirPrice) {}
 };
 

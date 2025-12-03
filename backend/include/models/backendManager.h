@@ -115,7 +115,9 @@ public:
     vector<Stadium> sortStadiumsByDateOpened(const vector<Stadium>&  stadiumsVect);
     vector<Stadium> sortStadiumsByCapacity(const vector<Stadium>&    stadiumsVect);
 
+    Stadium         getStadiumById(int id);
     Stadium         getStadiumById(const vector<Stadium>&          stadiumsVect,int    id);
+    Stadium         getStadiumByName(string stadiumName);
     Stadium         getStadiumByName(const vector<Stadium>&        stadiumsVect,string stadiumName);
     vector<Stadium> getStadiumsByRoofType(const vector<Stadium>&   stadiumsVect,string roofType);
     vector<Stadium> getStadiumsByConference(const vector<Stadium>& stadiumsVect,string conference);
@@ -125,7 +127,8 @@ public:
     vector<Stadium> getStadiumsByTeamName(const vector<Stadium>& stadiumsVect, string teamName);
     vector<Stadium> getStadiumsByStadiumName(const vector<Stadium>& stadiumsVect, const string& stadiumName);
 
-    
+
+    void addDistance(Distance distance);
     vector<Stadium> getStadiumsBySurface(const vector<Stadium>&    stadiumsVect,string surface);
 
     DoubleHashTable<Souvenir> getTeamSouvenirs(string teamName);

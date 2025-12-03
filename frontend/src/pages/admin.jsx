@@ -56,26 +56,27 @@ function AdminPage({ stadiums })
     };
 
 
-    const handleAddTeam = async (newTeam) => {
+    const handleAddTeam = async (formData) => {
         try {
-            const res = await fetch(`http://localhost:18080/addStadium`, {
+            const res = await fetch("http://localhost:18080/addStadium", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(newTeam),
+                body: JSON.stringify(formData),
             });
 
             const data = await res.json();
+            console.log("Backend response:", data);
+
             if (!data.success) {
-                console.error("Failed to add team:", data.message);
+                alert("Failed to add team: " + (data.message || "Unknown error"));
                 return;
             }
 
-            console.log("Successfully added team:", data);
-
-            // Update frontend state
-            stadiums.push(data.stadium); // assuming backend returns the created stadium object
+            // Optionally refresh the stadium list or update local state
+            alert("Team added successfully!");
         } catch (err) {
             console.error("Error adding team:", err);
+            alert("Error adding team: " + err.message);
         }
     };
 
