@@ -285,9 +285,9 @@ export default function TripPage() {
                     <label>Type of trip:</label>
                     <select value={tripType} onChange={e => setTripType(e.target.value)}>
                         <option value="customTrip">Custom trip</option>
-                        <option value="dijkstraTrip">Shortest trip</option>
+                        <option value="dijkstraTrip">Dijkstra trip</option>
                         <option value="recursiveTrip">Recursive trip</option>
-                        <option value="dfsTrip">Visit all teams</option>
+                        <option value="dfsTrip">DFS trip</option>
                         <option value="bfsTrip">BFS</option>
                         <option value="mstTrip">MST</option>
                     </select>
