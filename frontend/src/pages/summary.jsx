@@ -13,27 +13,32 @@ export default function SummaryPage() {
 	const [totals, setTotals] = useState({}); // {stadiumId: subtotal}
 
 	useEffect(() => {
-        if (!stadiums) return;
+		if (!stadiums) return;
 
-        async function fetchStadiumDetails() {
-            try {
-                const res = await fetch("http://localhost:18080/souvenirs", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ stadiums: normalizeStadiumList(stadiums) })
-                });
+		async function fetchStadiumDetails() {
+			try {
+				const res = await fetch("http://localhost:18080/souvenirs", {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({ stadiums: normalizeStadiumList(stadiums) })
+				});
 
 				const data = await res.json();
 				console.log("Backend data:", data);
 
-				setFullStadiums(data.stadiums ?? []);
-            } catch (err) {
-                console.error("Failed to fetch stadium details:", err);
-            }
-        }
+				// Reorder stadiums to match the original Dijkstra path
+				const ordered = normalizeStadiumList(stadiums).map(
+					name => data.stadiums.find(s => s.stadiumName === name)
+				);
 
-        fetchStadiumDetails();
-    }, [stadiums]);
+				setFullStadiums(ordered);
+			} catch (err) {
+				console.error("Failed to fetch stadium details:", err);
+			}
+		}
+
+		fetchStadiumDetails();
+	}, [stadiums]);
 
 	function normalizeStadiumList(stadiums) {
 		if (!stadiums) return [];
