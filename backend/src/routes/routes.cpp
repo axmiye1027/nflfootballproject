@@ -472,8 +472,47 @@ void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
     CROW_ROUTE(app, "/recursiveTrip").methods(crow::HTTPMethod::POST)
     ([&backend](const crow::request& req) 
     {
+        auto body = crow::json::load(req.body);
+        if (!body)
+        {
+            crow::json::wvalue error;
+            error["success"] = false;
+            error["message"] = "Invalid JSON";
+            return crow::response(400, error.dump());
+        }
+
+        vector<string> stadiumNames;
+
+        // Extract stadiums array
+        const auto& arr = body["stadiums"];
+        if (arr.t() != crow::json::type::List) 
+        {
+            return crow::response(400, "stadiums must be an array");
+        }
+
+        for (const auto& item : arr) 
+        {
+            if (item.t() == crow::json::type::Object) 
+            {
+                string name = item["stadiumName"].s();
+                stadiumNames.push_back(name);
+            }
+        }
+
+        PathReturn path = backend.calculateRecursiveTrip(stadiumNames);
 
         crow::json::wvalue res;
+        res["success"] = true;
+        res["totalDistance"] = path.distanceTraveled; 
+        res["stadiums"] = crow::json::wvalue(crow::json::type::List);
+
+        auto& stadiumList = res["stadiums"];
+
+        for (size_t i = 0; i < path.path.size(); ++i)
+        {
+            stadiumList[i] = crow::json::wvalue();   // allocate an empty JSON entry
+            stadiumList[i] = path.path[i];           // now safe to assign
+        }
 
         return crow::response(res.dump());
     });
