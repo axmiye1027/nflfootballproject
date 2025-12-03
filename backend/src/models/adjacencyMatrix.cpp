@@ -103,64 +103,49 @@ int AdjacencyMatrix::bfs(string origin)
     size_t matrixSize = matrix.size();
 
     vector<bool> visited(matrixSize, false);
-    vector<int> cityLevels(matrixSize, -1);
-
+    
     priority_queue<DistanceNode, vector<DistanceNode>, DistanceComparator> queue;
     int totalDistance = 0;
-    int level = -1;
 
-    queue.push(DistanceNode(origin));
+    int startCity = vertices[origin];
+    queue.push(DistanceNode(origin, 0, 0));
+    visited[startCity] = true;
 
     while (!queue.empty())
     {
-        ++level;
-
-        int currentCity = vertices[queue.top().city];
+        DistanceNode current = queue.top();
         queue.pop();
-
-        if (visited[currentCity])
-        {
-            continue;
-        }
-        visited[currentCity] = true;
-
+        
+        int currentCity = vertices[current.city];
+        
+        vector<pair<int, int>> neighbors;
+        
         for (int neighbor = 0; neighbor < matrixSize; ++neighbor)
         {
             int weight = matrix[currentCity][neighbor];
-            if (weight == 0) 
+            if (weight == 0 || visited[neighbor]) 
             {
-                continue; // no edge
+                continue;
             }
-
+            
+            neighbors.push_back({neighbor, weight});
+        }
+        
+        sort(neighbors.begin(), neighbors.end(), 
+             [](const pair<int, int>& a, const pair<int, int>& b) {
+                 return a.second < b.second;
+             });
+        
+        for (const auto& [neighbor, weight] : neighbors)
+        {
             if (!visited[neighbor])
             {
-                queue.push(DistanceNode(vertices.get(neighbor), level, weight));
-                cityLevels[neighbor] = level;
-
+                visited[neighbor] = true;
+                queue.push(DistanceNode(vertices.get(neighbor), 0, weight));
+                
                 cout << "Discovery Edge: ";
                 printPath(currentCity, neighbor);
                 totalDistance += weight;
-            }
-            else
-            {
-                // // Already visited — classify the edge type
-                // if (cityLevels[neighbor] > cityLevels[currentCity])
-                // {
-                //     cout << "Forward Edge: ";
-                // }
-                // else if (cityLevels[neighbor] < cityLevels[currentCity])
-                // {
-                //     cout << "Back Edge: ";
-                // }
-                // else if (cityLevels[neighbor] == cityLevels[currentCity])
-                // {
-                //    cout << "Cross Edge: ";
-                // }
-                // else
-                // {
-                //     cout << "Unknown Edge Type: ";
-                // }
-                // printPath(currentCity, neighbor);
             }
         }
     }
