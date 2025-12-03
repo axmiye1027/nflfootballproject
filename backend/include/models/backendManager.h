@@ -90,7 +90,7 @@ public:
     void populateDistances();
 
     void addTeam();
-    bool addStadium(string teamName, string stadiumName, int capacity, string location, RoofType roofType, string surface,
+    int addStadium(string teamName, string stadiumName, int capacity, string location, RoofType roofType, string surface,
             int yearOpened, string conference, string division, vector<Souvenir> souvenirList);
     bool deleteStadium(int stadiumId);
     bool updateStadium(int stadiumId, string teamName, string stadiumName, int capacity, string location, string roofType, string surface,

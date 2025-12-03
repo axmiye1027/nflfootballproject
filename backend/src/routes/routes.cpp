@@ -372,106 +372,125 @@ void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
         return crow::response(res);
     });
 
-    CROW_ROUTE(app, "/addStadium").methods(crow::HTTPMethod::POST)
+CROW_ROUTE(app, "/addStadium").methods(crow::HTTPMethod::POST)
     ([&backend](const crow::request& req) 
     {
-        auto body = crow::json::load(req.body);
-        if (!body) 
+        try 
         {
-            crow::json::wvalue error;
-            error["success"] = false;
-            error["message"] = "Invalid JSON";
-            return crow::response(400, error.dump());
-        }
-
-        string teamName    = body["teamName"].s();
-        string stadiumName = body["stadiumName"].s();
-        int capacity       = body["capacity"].i();
-        string location    = body["location"].s();
-        string roofType    = body["roofType"].s();
-        string surfaceType = body["surfaceType"].s();
-        int yearOpened     = body["yearOpened"].i();
-        string conference  = body["conference"].s();
-        string division    = body["division"].s();
-
-
-        RoofType stadiumRoof;
-        // convert from string to enum
-        if(roofType == "Open")
-        {
-            stadiumRoof = OPEN;
-        }
-        else if (roofType == "Fixed")
-        {
-            stadiumRoof = FIXED_ROOF;
-        }
-        else
-        {
-            stadiumRoof = RETRACTABLE;
-        }
-
-        vector<Souvenir> souvenirsTemp;
-        if (body.has("souvenirs") && body["souvenirs"].t() == crow::json::type::List) 
-        {
-            for (const auto& item : body["souvenirs"]) 
+            auto body = crow::json::load(req.body);
+            if (!body) 
             {
-                souvenirsTemp.push_back(Souvenir(item["souvenirName"].s(), item["souvenirPrice"].d()));
+                crow::json::wvalue error;
+                error["success"] = false;
+                error["message"] = "Invalid JSON";
+                return crow::response(400, error.dump());
             }
+
+            string teamName    = body["teamName"].s();
+            string stadiumName = body["stadiumName"].s();
+            int capacity       = body["capacity"].i();
+            string location    = body["location"].s();
+            string roofType    = body["roofType"].s();
+            string surfaceType = body["surfaceType"].s();
+            int yearOpened     = body["yearOpened"].i();
+            string conference  = body["conference"].s();
+            string division    = body["division"].s();
+
+            RoofType stadiumRoof;
+            if(roofType == "Open")
+            {
+                stadiumRoof = OPEN;
+            }
+            else if (roofType == "Fixed")
+            {
+                stadiumRoof = FIXED_ROOF;
+            }
+            else
+            {
+                stadiumRoof = RETRACTABLE;
+            }
+
+            vector<Souvenir> souvenirsTemp;
+            if (body.has("souvenirs") && body["souvenirs"].t() == crow::json::type::List) 
+            {
+                for (const auto& item : body["souvenirs"]) 
+                {
+                    souvenirsTemp.push_back(Souvenir(item["souvenirName"].s(), item["souvenirPrice"].d()));
+                }
+            }
+
+            // --- Insert Stadium ---
+            int newStadiumId = backend.addStadium(teamName, stadiumName, capacity, location, stadiumRoof, surfaceType, yearOpened, conference, division, souvenirsTemp);
+            
+            if (newStadiumId <= 0) 
+            {
+                crow::json::wvalue error;
+                error["success"] = false;
+                error["message"] = "Failed to add stadium";
+                return crow::response(500, error.dump());
+            }
+
+            cout << "Stadium added with ID: " << newStadiumId << endl;
+
+            // --- Distances ---
+            if (body.has("distances") && body["distances"].t() == crow::json::type::List) 
+            {
+                for (const auto& item : body["distances"]) 
+                {
+                    try 
+                    {
+                        int targetStadiumId = item["stadiumId"].i();
+                        cout << "Adding distance to stadium ID: " << targetStadiumId << endl;
+                        
+                        // Retrieve the target stadium
+                        Stadium targetStadium;
+                        try 
+                        {
+                            targetStadium = backend.getStadiumById(targetStadiumId);
+                        }
+                        catch (const exception& e) 
+                        {
+                            cout << "Warning: Could not find stadium with ID " << targetStadiumId << ": " << e.what() << endl;
+                            continue; // Skip this distance entry
+                        }
+                        
+                        Distance d;
+                        d.id = 0; 
+                        d.locationA = stadiumName;                  
+                        d.locationB = targetStadium.getStadiumName();
+                        d.distanceKm = static_cast<int>(item["distance"].d());
+
+                        bool distanceAdded = backend.addDistance(d);
+                        if (!distanceAdded) 
+                        {
+                            cout << "Warning: Failed to add distance between " << stadiumName << " and " << targetStadium.getStadiumName() << endl;
+                        }
+                        else 
+                        {
+                            cout << "Distance added successfully" << endl;
+                        }
+                    }
+                    catch (const exception& e) 
+                    {
+                        cout << "Error processing distance entry: " << e.what() << endl;
+                        // Continue processing other distances instead of failing completely
+                    }
+                }
+            }
+
+            crow::json::wvalue res;
+            res["success"] = true;
+            res["newStadiumId"] = newStadiumId;
+            return crow::response(res);
         }
-
-        // --- Insert Stadium ---
-        bool successAdd = backend.addStadium(teamName, stadiumName, capacity, location, stadiumRoof, surfaceType, yearOpened, conference, division, souvenirsTemp);
-        cout << "successAdd: " << successAdd << endl;
-
-        if (!successAdd) 
+        catch (const exception& e) 
         {
+            cout << "Error in /addStadium: " << e.what() << endl;
             crow::json::wvalue error;
             error["success"] = false;
-            error["message"] = "Failed to add stadium";
+            error["message"] = string("Server error: ") + e.what();
             return crow::response(500, error.dump());
         }
-
-        // Changed from teamName to stadiumName
-        Stadium newStadium = backend.getStadiumByName(stadiumName);
-        
-        // Add error checking
-        if (newStadium.getStadiumId() == 0 || newStadium.getStadiumName().empty()) 
-        {
-            crow::json::wvalue error;
-            error["success"] = false;
-            error["message"] = "Stadium not found after insertion";
-            return crow::response(500, error.dump());
-        }
-
-        vector<Souvenir> newStadSouvenirs = newStadium.getSouvenirList().getValues();
-
-        for (int i = 0; i < souvenirsTemp.size(); ++i)
-        {
-            souvenirsTemp[i].souvenirId = newStadSouvenirs[i].souvenirId;
-            souvenirsTemp[i].stadiumId  = newStadium.getStadiumId();
-        }
-
-        backend.updateStadium(newStadium.getStadiumId(), teamName, stadiumName, capacity, location, roofType, surfaceType, yearOpened, conference, division, souvenirsTemp);
-
-        // --- Distances ---
-        if (body.has("distances") && body["distances"].t() == crow::json::type::List) 
-        {
-            for (const auto& item : body["distances"]) 
-            {
-                Distance d;
-                d.id = 0; 
-                d.locationA = stadiumName;                  
-                d.locationB = backend.getStadiumById(item["stadiumId"].i()).getStadiumName();
-                d.distanceKm = static_cast<int>(item["distance"].d());
-
-                backend.addDistance(d);
-            }
-        }
-
-        crow::json::wvalue res;
-        res["success"] = true;
-        res["newStadiumId"] = newStadium.getStadiumId();
-        return crow::response(res);
     });
 
 
