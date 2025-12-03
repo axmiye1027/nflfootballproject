@@ -69,10 +69,10 @@ function HomePage({ stadiums, setStadiums }) {
   }, [queryString]);
 
   
-// NEW - roof type count
-const [roofCount, setRoofCount] = useState(0);
+  // NEW - roof type count
+  const [roofCount, setRoofCount] = useState(0);
 
-useEffect(() => {
+  useEffect(() => {
     const roofType = filters.roofTypes[0] || ""; // first selected roof or empty for "All"
 
     const fetchRoofCount = async () => {
@@ -90,8 +90,18 @@ useEffect(() => {
     };
 
     fetchRoofCount();
-}, [filters.roofTypes]);
+  }, [filters.roofTypes]);
 
+  //NEW - total seating capacity
+  const [totalCapacity, setTotalCapacity] = useState(0);
+  useEffect(() => {
+  if (sortBy === "capacity") {
+    const sum = stadiums.reduce((acc, stadium) => acc + (stadium.capacity || 0), 0);
+    setTotalCapacity(sum);
+  } else {
+    setTotalCapacity(0); // reset when not sorting by capacity
+  }
+  }, [stadiums, sortBy]);
 
 
 
@@ -134,9 +144,18 @@ useEffect(() => {
 
       {/* END SEARCH - ICON - FILTERS */}
 
+     
       <div className="roof-count" style={{ margin: "20px", textAlign: "center" }}>
         <p>Number of {filters.roofTypes[0] || "All"} Roof Stadiums: {roofCount}</p>
       </div>
+
+
+      {sortBy === "capacity" && (
+      <div style={{ margin: "20px", textAlign: "center" }}>
+        <p>Total Seating Capacity: {totalCapacity.toLocaleString()}</p>
+      </div>
+      )}
+
 
       {/* TEAM LIST */}
       <div className="teams-container">
