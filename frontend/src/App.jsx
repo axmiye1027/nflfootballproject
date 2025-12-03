@@ -37,11 +37,6 @@ function App() {
           <Route path="/admin"   element={<AdminPage stadiums={stadiums} />} />
           <Route path="/trip"    element={<TripPage/>} />
           <Route path="/summary" element={<SummaryPage/>} />
-          <Route path="/"      element={<HomePage stadiums={stadiums} setStadiums={setStadiums}/>} />
-          <Route path="/login" element={<LoginPage setLoggedIn={setLoggedIn} />} />
-          <Route path="/admin" element={<AdminPage stadiums={stadiums} />} />
-          <Route path="/trip"  element={<TripPage/>} />
-          <Route path="/summary" element={<SummaryPage />} />
         </Routes> 
       </>
     </BrowserRouter>
