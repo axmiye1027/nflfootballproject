@@ -282,7 +282,15 @@ bool BackendManager::updateStadium(int stadiumId, string teamName, string stadiu
         databaseManager.updateStadium(stadiumId,    "conference",   conference);
         databaseManager.updateStadium(stadiumId,    "division",     division);
 
-        return true;
+            // Refresh in-memory structures so routes that read `stadiums` reflect the updated data
+            try {
+                populateStadiums();
+                populateDistances();
+            } catch (...) {
+                std::cerr << "[BackendManager::updateStadium] Warning: failed to refresh in-memory data after update" << std::endl;
+            }
+
+            return true;
     }
     catch (...) 
     {

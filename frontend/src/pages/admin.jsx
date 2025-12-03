@@ -8,7 +8,7 @@ import AddTeamForm     from '../components/AddTeamForm'
 
 import '../styles/admin.css'
 
-function AdminPage({ stadiums })
+function AdminPage({ stadiums, setStadiums })
 {
     const [mode, setMode] = useState(null);
 
@@ -22,13 +22,34 @@ function AdminPage({ stadiums })
 
             const data = await res.json();
             console.log("Backend response:", data);
+
+            // If update succeeded, refresh the stadium list from backend so UI shows latest data
+            if (res.ok && (data["success"] == true || data.success === true)) {
+                try {
+                    const r = await fetch('http://localhost:18080/stadiums');
+                    const json = await r.json();
+                    const list = json.stadiums ? json.stadiums : json;
+                    if (typeof setStadiums === 'function') setStadiums(list);
+                } catch (err) {
+                    console.error('Failed to refresh stadiums after update:', err);
+                }
+            }
         } catch (err) {
             console.error("Failed to save:", err);
         }
     };
 
     const handleDelete = async (id) => {
-        
+        // If you have a backend delete endpoint, call it here and then refresh stadium list.
+        // For now we'll refresh the list (useful if deletion was done elsewhere).
+        try {
+            const r = await fetch('http://localhost:18080/stadiums');
+            const json = await r.json();
+            const list = json.stadiums ? json.stadiums : json;
+            if (typeof setStadiums === 'function') setStadiums(list);
+        } catch (err) {
+            console.error('Failed to refresh stadiums after delete:', err);
+        }
     }
 
     return (

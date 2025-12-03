@@ -29,7 +29,7 @@ function App() {
         <Routes>
           <Route path="/"      element={<HomePage stadiums={stadiums} setStadiums={setStadiums}/>} />
           <Route path="/login" element={<LoginPage setLoggedIn={setLoggedIn} />} />
-          <Route path="/admin" element={<AdminPage stadiums={stadiums} />} />
+          <Route path="/admin" element={<AdminPage stadiums={stadiums} setStadiums={setStadiums} />} />
           <Route path="/trip"  element={<TripPage/>} />
           <Route path="/summary" element={<SummaryPage />} />
         </Routes> 

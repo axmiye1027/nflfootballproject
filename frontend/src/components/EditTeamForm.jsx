@@ -18,7 +18,25 @@ function EditTeamForm({ team, onSubmit, onDelete, disabled })
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        onSubmit(formData);
+        // Ensure numeric fields are numbers when sending to backend
+        const payload = {
+            ...formData,
+            stadiumId: typeof formData.stadiumId === 'string' ? parseInt(formData.stadiumId) : formData.stadiumId,
+            capacity: formData.capacity === '' ? null : Number(formData.capacity),
+            yearOpened: formData.yearOpened === '' ? null : Number(formData.yearOpened)
+        };
+
+        console.debug('EditTeamForm submitting payload:', payload);
+
+        try {
+            const result = onSubmit(payload);
+            // If onSubmit returns a promise, handle errors
+            if (result && typeof result.then === 'function') {
+                result.catch(err => console.error('Save failed (async):', err));
+            }
+        } catch (err) {
+            console.error('Save failed (sync):', err);
+        }
     };
 
     return (
