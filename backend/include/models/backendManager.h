@@ -129,7 +129,7 @@ public:
     PathReturn calculateDijkstra(string startingStadium, string endingStadium);
     PathReturn calculateDFS(string startingStadium);
     PathReturn calculateCustomTrip(vector<string> trip);
-    // PathReturn calculateRecursiveTrip(vector<Stadium> trip);
+    PathReturn calculateRecursiveTrip(vector<string> trip);
 
     vector<Stadium> filterStadiums(const vector<Stadium>& stadiumsVect, string search);
 
@@ -145,6 +145,9 @@ public:
     void printStadiums() const;
 
 private:
+    
+    PathReturn shortestTripRecursion(PathReturn& calculatedPath, vector<string>& path,string prevStadium);
+
     DoubleHashTable<Stadium> stadiums;
 
     AdjacencyList   adjacencyList;   // list used for dfs

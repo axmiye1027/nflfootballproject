@@ -546,38 +546,47 @@ PathReturn BackendManager::calculateCustomTrip(vector<string> trip)
     return path;
 }
 
-// PathReturn BackendManager::calculateRecursiveTrip(vector<Stadium> trip)
-// {
-
-// }
-
-
-void BackendManager::addPathToCart(vector<string> path)
+PathReturn BackendManager::calculateRecursiveTrip(vector<string> trip)
 {
-    vector<Stadium> stadiumsVect = getStadiumsAsVector();
-    vector<Stadium> pathStadiums;
+    PathReturn recursivePath;
+    string     startingStadium = trip[0];
 
-    for (int i = 0; i < stadiumsVect.size(); ++i)
+    recursivePath.path.push_back(startingStadium);
+    trip.erase(trip.begin());              
+
+    return shortestTripRecursion(recursivePath,trip,startingStadium);
+}
+
+PathReturn BackendManager::shortestTripRecursion(PathReturn& calculatedPath, vector<string>& path,string prevStadium)
+{
+    if(path.empty())
     {
-        for (int j = 0; j < path.size(); ++j)
+        return calculatedPath;
+    }
+
+    auto   dijkstraList = adjacencyMatrix.dijkstra(prevStadium);
+    int    closestDist  = 99999999;
+    string nextStadium;
+
+    for(int j = 0; j < dijkstraList.size(); ++j)
+    {
+        string stadiumName = dijkstraList[j].path.back();
+
+        // Checks if the stadium exists inside of path vector
+        if (find(path.begin(), path.end(), stadiumName) != path.end())
         {
-            if (path[j] == stadiumsVect[i].getStadiumName())
+            if(dijkstraList[j].distanceTraveled < closestDist)
             {
-                pathStadiums.push_back(stadiumsVect[i]);
+                closestDist = dijkstraList[j].distanceTraveled;
+                nextStadium = stadiumName;
             }
         }
     }
 
-    cart.setPath(pathStadiums);
-}
+    calculatedPath.path.push_back(nextStadium);
+    calculatedPath.distanceTraveled += closestDist;
 
+    path.erase(find(path.begin(), path.end(), nextStadium));
 
-vector<Stadium> BackendManager::getCartPath() 
-{
-    return cart.getPath();
-}
-
-int BackendManager::getCartTotalDistance()
-{
-    return cart.getTotalDistance();
+    return shortestTripRecursion(calculatedPath,path,nextStadium);
 }
