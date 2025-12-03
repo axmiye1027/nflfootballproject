@@ -2,7 +2,8 @@
 .summary-page {
     padding: 1rem 2rem;
     margin: 0 auto;
-    height: calc(100vh - 80px); 
+    min-height: 100vh;
+
 }
 
 .teamRow {
@@ -21,13 +22,6 @@
     padding: 1em;
 } */
 
-.totalContainer {
-    flex-direction: column;
-    justify-content: left;
-    border: var(--border);
-    margin: 2em;
-    padding: 1em;
-}
 
 /* .souveniersContainer {
     margin-top: .5em;
@@ -45,6 +39,25 @@
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
-    justify-content: center;
-    margin-top: 40px;
+    justify-content: flex-start; /* left-align */
+    margin-top: 20px;
+}
+
+.totalContainer {
+    width: 300px; /* fixed width sidebar */
+    position: sticky;
+    top: calc(80px + 40px); /* navbar + margin */
+    align-self: flex-start;
+    border: var(--border);
+    padding: 1em;
+    background-color: #fff; /* optional: to make it stand out */
+    flex-shrink: 0; /* prevent shrinking */
+}
+
+.quantityContainer {
+    width: 20%;
+}
+
+.summaryContainer {
+    margin-top: 1em;
 }

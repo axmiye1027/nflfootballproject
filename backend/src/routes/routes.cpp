@@ -355,7 +355,7 @@ void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
 
         crow::json::wvalue res;
         res["success"] = true;
-        res["totalDistance"] = path.distanceTraveled;  // if you track totalDistance
+        res["totalDistance"] = path.distanceTraveled; 
         res["stadiums"] = crow::json::wvalue(crow::json::type::List);
 
         auto& arr = res["stadiums"];

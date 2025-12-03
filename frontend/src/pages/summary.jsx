@@ -9,6 +9,8 @@ export default function SummaryPage() {
 	const location = useLocation();
 	const { stadiums, totalDistance } = location.state || {};
 	const [ fullStadiums, setFullStadiums ] = useState([]);
+	const [ cartTotal, setCartTotal] = useState(0);
+	const [totals, setTotals] = useState({}); // {stadiumId: subtotal}
 
 	useEffect(() => {
         if (!stadiums) return;
@@ -47,6 +49,12 @@ export default function SummaryPage() {
 		return [];
 	}
 
+	const handleQuantityChange = (stadiumId, subtotal) => {
+		setTotals(prev => ({ ...prev, [stadiumId]: subtotal }));
+	};
+
+	const grandTotal = Object.values(totals).reduce((a, b) => a + b, 0);
+
 	return (
 		<div className="summary-page">
 			{ /* Header */ }
@@ -66,15 +74,13 @@ export default function SummaryPage() {
 							<div className="row">
 								<div className="fullStadiums-map">
 									{fullStadiums.map((stadium) => (
-										<SouvenirCard key={stadium.stadiumId} stadium={stadium}/>
+										<SouvenirCard 
+											key={stadium.stadiumId} 
+											stadium={stadium}
+											onSubtotalChange={(subtotal) => handleQuantityChange(stadium.stadiumId, subtotal)}
+										/>
 									))}
 								</div>
-
-								{ /* USER INPUT NUMBER */}
-								<input className="quantityContainer"
-									type="number"
-									min={0} />
-
 							</div>
 
 						</div>
@@ -94,8 +100,7 @@ export default function SummaryPage() {
 					<div>
 
 						<div className="row">
-							<div className="importantText">LOREM_STADIUM:</div>
-							<div>$ LOREM</div>
+							<div className="importantText">Cart:</div>
 						</div>
 
 					</div>
@@ -106,14 +111,14 @@ export default function SummaryPage() {
 					<div className="summaryContainer">
 						{ /* STADIUM */ }
 						<div className="row">
-							<div className="importantText">Total:</div>
-							<div>$ LOREM</div>
+							<div className="total-header">Total:</div>
+							<div className="total">${grandTotal.toFixed(2)}</div>
 						</div>
 
 						{ /* DISTANCE */ }
 						<div className="row">
-							<div className="importantText">Total Distance:</div>
-							<div>LOREM</div>
+							<div className="totalDistance-header">Total Distance:</div>
+							<div className="totalDistance">{totalDistance} mi</div>
 						</div>
 					</div>
 					{ /* END SUMMARY */ }
