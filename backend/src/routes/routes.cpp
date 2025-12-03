@@ -419,7 +419,7 @@ CROW_ROUTE(app, "/addStadium").methods(crow::HTTPMethod::POST)
                 }
             }
 
-            // --- Insert Stadium and get the new ID ---
+            // --- Insert Stadium ---
             int newStadiumId = backend.addStadium(teamName, stadiumName, capacity, location, stadiumRoof, surfaceType, yearOpened, conference, division, souvenirsTemp);
             
             if (newStadiumId <= 0) 
@@ -431,18 +431,6 @@ CROW_ROUTE(app, "/addStadium").methods(crow::HTTPMethod::POST)
             }
 
             cout << "Stadium added with ID: " << newStadiumId << endl;
-
-            // Now retrieve by ID (much more reliable than by name)
-            Stadium newStadium = backend.getStadiumById(newStadiumId);
-            vector<Souvenir> newStadSouvenirs = newStadium.getSouvenirList().getValues();
-
-            for (int i = 0; i < souvenirsTemp.size(); ++i)
-            {
-                souvenirsTemp[i].souvenirId = newStadSouvenirs[i].souvenirId;
-                souvenirsTemp[i].stadiumId  = newStadium.getStadiumId();
-            }
-
-            backend.updateStadium(newStadium.getStadiumId(), teamName, stadiumName, capacity, location, roofType, surfaceType, yearOpened, conference, division, souvenirsTemp);
 
             // --- Distances ---
             if (body.has("distances") && body["distances"].t() == crow::json::type::List) 
