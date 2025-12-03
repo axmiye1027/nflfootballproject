@@ -14,11 +14,6 @@ import HomePage    from "./pages/home.jsx"
 import AdminPage   from "./pages/admin.jsx"
 import TripPage    from "./pages/trip.jsx"
 import SummaryPage from "./pages/summary.jsx"
-import LoginPage from "./pages/login.jsx"
-import HomePage  from "./pages/home.jsx"
-import AdminPage from "./pages/admin.jsx"
-import TripPage  from "./pages/trip.jsx"
-import SummaryPage  from "./pages/summary.jsx"
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);

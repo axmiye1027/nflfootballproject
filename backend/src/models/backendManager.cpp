@@ -12,17 +12,6 @@ BackendManager::BackendManager() : isAdmin{false}
 {
     populateStadiums();
     populateDistances();
-    // printStadiums();
-
-    //adjacencyMatrix.printMatrix();
-    adjacencyMatrix.bfs("State Farm Stadium");
-
-    getStadiumsByDivision(getStadiumsAsVector(),"NFC North");
-
-    //adjacencyMatrix.Dijkstra("State Farm Stadium");
-    //adjacencyMatrix.mst("State Farm Stadium");
-
-    //adjacencyList.dfs("State Farm Stadium");
 }
 
 /**
@@ -561,3 +550,34 @@ PathReturn BackendManager::calculateCustomTrip(vector<string> trip)
 // {
 
 // }
+
+
+void BackendManager::addPathToCart(vector<string> path)
+{
+    vector<Stadium> stadiumsVect = getStadiumsAsVector();
+    vector<Stadium> pathStadiums;
+
+    for (int i = 0; i < stadiumsVect.size(); ++i)
+    {
+        for (int j = 0; j < path.size(); ++j)
+        {
+            if (path[j] == stadiumsVect[i].getStadiumName())
+            {
+                pathStadiums.push_back(stadiumsVect[i]);
+            }
+        }
+    }
+
+    cart.setPath(pathStadiums);
+}
+
+
+vector<Stadium> BackendManager::getCartPath() 
+{
+    return cart.getPath();
+}
+
+int BackendManager::getCartTotalDistance()
+{
+    return cart.getTotalDistance();
+}

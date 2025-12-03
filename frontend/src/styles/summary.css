@@ -1,3 +1,12 @@
+
+.summary-page {
+    padding: 1rem 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+    height: calc(100vh - 80px);
+    padding-top: 12em;   
+}
+
 .teamRow {
     flex: 0 0 calc(55% - 2em);
     display: flex;
@@ -33,4 +42,12 @@
 
 .summaryContainer {
     margin-top: 1em;
+}
+
+.fullStadiums-map {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 40px;
 }

@@ -8,12 +8,12 @@
 #include <algorithm>
 
 #include "../includes.h"
-#include "stadium.h"
 
 #include "hash.h"
 #include "adjacencyList.h"
 #include "adjacencyMatrix.h"
 #include "database/databaseManager.h"
+#include "cart.h"
 
 
 #ifndef BACKENDMANAGER_H
@@ -53,14 +53,6 @@ struct CompareByTeamName
         return a.getTeamName() > b.getTeamName();
     }
 };
-
-// struct PathReturn 
-// {
-//     vector<string> path;
-//     int distanceTraveled;
-
-//     PathReturn(vector<string> path, int distanceTraveled) : path(path), distanceTraveled(distanceTraveled) {}
-// };
 
 class BackendManager
 {
@@ -141,6 +133,11 @@ public:
 
     vector<Stadium> filterStadiums(const vector<Stadium>& stadiumsVect, string search);
 
+    void addPathToCart(vector<string> path);
+
+    int getCartTotalDistance();
+    vector<Stadium> getCartPath();
+
     /* ----- PRINT TO TERMINAL -----*/
     /**
      * Prints stadiums to terminal
@@ -155,6 +152,7 @@ private:
 
     DatabaseManager databaseManager;
 
+    Cart cart;
     bool isAdmin;
 };
 

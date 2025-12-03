@@ -7,7 +7,6 @@
 #include "../models/backendManager.h"
 #include "includes.h"
 
-
 /* ----  Helper Functions ----- */
 crow::json::wvalue stadiumToJson(const Stadium& stadium);
 crow::json::wvalue souvenirToJson(const Souvenir& s);

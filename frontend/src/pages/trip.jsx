@@ -100,7 +100,7 @@ export default function TripPage() {
 
             sessionStorage.setItem("tripResult", JSON.stringify(json));
 
-            navigate("/summary", { state: { result: json } });
+            navigate("/summary", { state: { stadiums: json.stadiums, totalDistance: json.totalDistance } });
 
         } catch (err) {
             console.error("Failed to calculate trip:", err);
