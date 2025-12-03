@@ -493,12 +493,16 @@ int BackendManager::calculateMST(const string& startingCity)
 
 PathReturn BackendManager::calculateDijkstra(string startingStadium, string endingStadium)
 {
+    cout << "[BackendManager::calculateDijkstra]\n";
     auto dijkstraList = adjacencyMatrix.dijkstra(startingStadium);
 
     for (int i = 0; i < dijkstraList.size(); ++i)
     {
-        if(dijkstraList[i].path.front() == startingStadium && dijkstraList[i].path.back() == endingStadium)
+        if(!dijkstraList[i].path.empty() &&
+            dijkstraList[i].path.front() == startingStadium && 
+            dijkstraList[i].path.back()  == endingStadium)
         {
+            cout << "[BackendManager::calculateDijkstra]: return dijkstraList[i]\n";
             return dijkstraList[i];
         }
     }
@@ -589,4 +593,34 @@ PathReturn BackendManager::shortestTripRecursion(PathReturn& calculatedPath, vec
     path.erase(find(path.begin(), path.end(), nextStadium));
 
     return shortestTripRecursion(calculatedPath,path,nextStadium);
+}
+
+void BackendManager::addPathToCart(vector<string> path)
+{
+    vector<Stadium> stadiumsVect = getStadiumsAsVector();
+    vector<Stadium> pathStadiums;
+
+    for (int i = 0; i < stadiumsVect.size(); ++i)
+    {
+        for (int j = 0; j < path.size(); ++j)
+        {
+            if (path[j] == stadiumsVect[i].getStadiumName())
+            {
+                pathStadiums.push_back(stadiumsVect[i]);
+            }
+        }
+    }
+
+    cart.setPath(pathStadiums);
+}
+
+
+vector<Stadium> BackendManager::getCartPath() 
+{
+    return cart.getPath();
+}
+
+int BackendManager::getCartTotalDistance()
+{
+    return cart.getTotalDistance();
 }

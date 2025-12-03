@@ -56,7 +56,9 @@ export default function TripPage() {
             case "dijkstraTrip":
                 return {
                     endpoint: "/dijkstraTrip",
-                    body: { stadiums: selectedStadiums, startingStadium }
+                    body: { startingStadium: startingStadium,
+                            endingStadium: selectedStadiums[0]
+                     }
                 };
 
             case "dfsTrip":
@@ -84,6 +86,8 @@ export default function TripPage() {
     {
         const { endpoint, body } = buildTripRequest(tripType, startingId, stadiums);
 
+        console.log("Sending to backend:", endpoint, JSON.stringify(body, null, 2));
+
         try {
             const res = await fetch(`http://localhost:18080${endpoint}`, {
                 method: "POST",
@@ -100,7 +104,7 @@ export default function TripPage() {
 
             sessionStorage.setItem("tripResult", JSON.stringify(json));
 
-            navigate("/summary", { state: { stadiums: json.stadiums, totalDistance: json.totalDistance } });
+            navigate("/summary", { state: { stadiums: json.stadiums, totalDistance: json.distance } });
 
         } catch (err) {
             console.error("Failed to calculate trip:", err);

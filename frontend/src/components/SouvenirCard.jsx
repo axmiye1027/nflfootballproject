@@ -3,8 +3,10 @@
 
 import React from 'react'
 
+import '../styles/souvenirCard.css'
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHorseHead } from '@fortawesome/free-solid-svg-icons'
+import { faHorseHead }     from '@fortawesome/free-solid-svg-icons'
     
 function SouvenirCard({ stadium }) {
     if (!stadium) return null;
@@ -42,16 +44,6 @@ function SouvenirCard({ stadium }) {
         borderTop: 'var(--border)',
     };
 
-    // info card container
-    const infoCardStyle = {
-        width: 'calc(100% - 4em)',
-        padding: '1em',
-        marginLeft: '.5em',
-        marginRight: '.5em', 
-        borderRight: 'var(--border)',
-        borderLeft: 'var(--border)',
-    };
-
     // DISPLAY
     return (
         <div style={cardWidth}>
@@ -64,10 +56,10 @@ function SouvenirCard({ stadium }) {
             </div>
 
             { /* MIDDLE - INFO CARD */}
-            <div style={infoCardStyle}>
+            <div className="infoCardStyle">
                 <h2>{stadium.stadiumName}</h2>
                 <p>{stadium.teamName}</p>
-                <p><b>Souvenirs:</b></p>
+                <p>Souvenirs:</p>
                 <ul>
                     {stadium.souvenirs?.map((souvenir, index) => (
                     <li key={index}>

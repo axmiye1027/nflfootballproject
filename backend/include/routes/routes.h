@@ -10,6 +10,7 @@
 /* ----  Helper Functions ----- */
 crow::json::wvalue stadiumToJson(const Stadium& stadium);
 crow::json::wvalue souvenirToJson(const Souvenir& s);
+crow::json::wvalue stringListToJson(const std::vector<std::string>& vec);
 crow::json::wvalue stadiumListToJson(const vector<Stadium>& stadiums);
 /* ---------------------------- */
 

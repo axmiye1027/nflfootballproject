@@ -1,10 +1,8 @@
 
 .summary-page {
     padding: 1rem 2rem;
-    max-width: 900px;
     margin: 0 auto;
-    height: calc(100vh - 80px);
-    padding-top: 12em;   
+    height: calc(100vh - 80px); 
 }
 
 .teamRow {
@@ -17,14 +15,13 @@
     justify-content: center;
 }
 
-.teamContainer {
+/* .teamContainer {
     flex: 0 0 calc(47% - 2em);
     border: var(--border);
     padding: 1em;
-}
+} */
 
 .totalContainer {
-    flex: 1 0 0;
     flex-direction: column;
     justify-content: left;
     border: var(--border);
@@ -32,9 +29,9 @@
     padding: 1em;
 }
 
-.souveniersContainer {
+/* .souveniersContainer {
     margin-top: .5em;
-}
+} */
 
 .quantityContainer {
     width: 20%;

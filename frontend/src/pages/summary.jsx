@@ -24,7 +24,7 @@ export default function SummaryPage() {
 				const data = await res.json();
 				console.log("Backend data:", data);
 
-				setFullStadiums(data.fullStadiums ?? []);
+				setFullStadiums(data.stadiums ?? []);
             } catch (err) {
                 console.error("Failed to fetch stadium details:", err);
             }
@@ -60,7 +60,6 @@ export default function SummaryPage() {
 					{ /* TEAM CONTAINER*/ }
 					<div className="teamContainer">
 
-						<div className="subHead">LOREM_STADIUM</div>
 						{ /* SOUVENIERS */ }
 						<div className="souveniersContainer">
 
