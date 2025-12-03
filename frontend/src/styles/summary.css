@@ -1,0 +1,36 @@
+.teamRow {
+    flex: 0 0 calc(55% - 2em);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1em;
+    margin: 2em;
+    justify-content: center;
+}
+
+.teamContainer {
+    flex: 0 0 calc(47% - 2em);
+    border: var(--border);
+    padding: 1em;
+}
+
+.totalContainer {
+    flex: 1 0 0;
+    flex-direction: column;
+    justify-content: left;
+    border: var(--border);
+    margin: 2em;
+    padding: 1em;
+}
+
+.souveniersContainer {
+    margin-top: .5em;
+}
+
+.quantityContainer {
+    width: 20%;
+}
+
+.summaryContainer {
+    margin-top: 1em;
+}

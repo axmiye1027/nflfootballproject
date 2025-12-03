@@ -1,5 +1,10 @@
 /**
  * @file databaseManager.h
+ * @brief managing database, stadium info, distances and souveniers
+ * 
+ * Header file for functions to manipulate our database. Gets data from the CSV
+ * files and organize it into the database. CSV files are located in the "assets"
+ * folder. Does not modify or edit only adds or removes or updates
  */
 #pragma once
 
@@ -7,6 +12,9 @@
 #include "../models/hash.h"
 #include "../includes.h"
 
+/**
+ * @brief struct for storing distances between two stadiums
+ */
 struct Distance 
 {
     int    id;
@@ -15,6 +23,9 @@ struct Distance
     int    distanceKm;
 };
 
+/**
+ * @brief stores all of a Stadium's information: ID, team name, etc.
+ */
 struct StadiumStruct
 {
     int    stadiumId;
@@ -29,6 +40,9 @@ struct StadiumStruct
     string division;
 };
 
+/**
+ * @brief stores souvenier information 
+ */
 struct Souvenir
 {
     int    stadiumId;
@@ -66,6 +80,9 @@ struct Souvenir
     Souvenir(int stadiumId, string souvenirName, int souvenirPrice) : stadiumId(stadiumId), souvenirName(souvenirName), souvenirPrice(souvenirPrice) {}
 };
 
+/**
+ * @brief class to manipulate the database. Allows editing and accessing
+ */
 class DatabaseManager
 {
 public:

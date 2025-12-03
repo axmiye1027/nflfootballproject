@@ -1,4 +1,10 @@
-
+/**
+ * @file backendManager.h
+ * @brief functions for adding and modifying or using database data
+ * 
+ * Does a variety of features such as comparing, editing data, adding data,
+ * removing data and calculations 
+ */
 #include <algorithm>
 
 #include "../includes.h"
@@ -13,7 +19,9 @@
 #ifndef BACKENDMANAGER_H
 #define BACKENDMANAGER_H
 
-// Define comparator structs
+/**
+ * Define comparator structs
+ */
 struct CompareByCapacity 
 {
     bool operator()(const Stadium& a, const Stadium& b) const 
@@ -53,10 +61,34 @@ public:
     BackendManager();
     ~BackendManager();
 
+    /**
+     * @param username user input for username
+     * @param password user input for password
+     * @return boolean, true or false
+     * 
+     * User inputs 2 strings, a username and password and checks if they're valid
+     * credentials. If valid returns true, invalid returns false
+     */
     bool login(string username, string password);
 
-    void populateStadiums(); // Grabs Stadiums info from database and stores in stadiums
-    void populateDistances(); // Grabs Distance info from database and stores in adjacencyMatrix and adjacencyList
+    /**
+     * @brief reads data from file and adds to database
+     * @param json file
+     * 
+     * Reads data from a file and adds the team(s) and its related data to the 
+     * database. Automatically assumes the team will have the default souveniers
+     * Will get distances and other info related to stadium
+     */
+    void importStadiums(const string& json);
+
+    /**
+     * Grabs Stadiums info from database and stores in stadiums
+     */
+    void populateStadiums();
+    /**
+     * Grabs Distance info from database and stores in adjacencyMatrix and adjacencyList
+     */
+    void populateDistances();
 
     void addTeam();
     void addStadium(string teamName, string stadiumName, int capacity, string location, RoofType roofType, string surface,
@@ -98,6 +130,9 @@ public:
     vector<Stadium> filterStadiums(const vector<Stadium>& stadiumsVect, string search);
 
     /* ----- PRINT TO TERMINAL -----*/
+    /**
+     * Prints stadiums to terminal
+     */
     void printStadiums() const;
 
 private:

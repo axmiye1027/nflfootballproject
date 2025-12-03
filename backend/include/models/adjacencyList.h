@@ -1,8 +1,8 @@
 /**
  * @file adjacencyList.h
- * @brief DFS
+ * @brief DFS logic
  * 
- * Testings to see if it workds
+ * Preforms a DFS
  */
 #include "includes.h"
 
