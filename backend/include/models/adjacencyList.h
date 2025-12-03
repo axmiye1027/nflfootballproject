@@ -48,7 +48,7 @@ public:
     int                   returnDist() const;
 
 private:
-    void dfsRecusion(int vertexIndex, int lastIndex, vector<bool>& visited,set<pair<int, int>>& printedEdges, int& totalDistance);
+    void dfsRecursion(int vertexIndex,int lastIndex,vector<bool>& visited,set<pair<int,int>>& printedEdges,vector<int>& distances,int currentDistance);
 
     vector<edge*> list;
 

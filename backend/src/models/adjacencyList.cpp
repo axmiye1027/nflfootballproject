@@ -153,52 +153,61 @@ void AdjacencyList::dfs(string originVertex)
     vector<bool> visited(list.size(), false);
     set<pair<int, int>> printedEdges;
 
-    int totalDistance;
-    int startIndex;
+    int startIndex = findIndex(originVertex);
 
-    totalDistance = 0;
-    startIndex    = 0;
+    // NEW: distances vector to hold distance from origin to each vertex
+    vector<int> distances(list.size(), -1);
 
-    startIndex = findIndex(originVertex);
+    // Start recursion with currentDistance = 0
+    dfsRecursion(startIndex, startIndex, visited, printedEdges, distances, 0);
 
-    dfsRecusion(startIndex, startIndex, visited,printedEdges, totalDistance);
-
-    totalDist = totalDistance;
-
-    cout << "Total distance traveled: " << totalDistance << endl;
+    // Example: print distances for each vertex
+    for (int i = 0; i < list.size(); i++) {
+        cout << "Distance from " << originVertex
+             << " to " << list[i]->originVertex
+             << " = " << distances[i] << endl;
+    }
 }
 
-void AdjacencyList::dfsRecusion(int vertexIndex, int lastIndex, vector<bool>& visited,set<pair<int, int>>& printedEdges, int& totalDistance)
-{
-    edge* iterator;
+void AdjacencyList::dfsRecursion(
+    int vertexIndex,
+    int lastIndex,
+    vector<bool>& visited,
+    set<pair<int,int>>& printedEdges,
+    vector<int>& distances,
+    int currentDistance
+) {
+    visited[vertexIndex] = true;
+    distances[vertexIndex] = currentDistance;
 
-    visited[vertexIndex] = true; 
-    iterator = list[vertexIndex];
-    
-    // goes through each edge connected to the vertex
-    while(iterator != nullptr)
-    {
+    edge* iterator = list[vertexIndex];
+
+    while (iterator != nullptr) {
         int destIndex = findIndex(iterator->destinationVertex);
 
-        // used to mark if a specific edge has been printed both ways
-        pair<int, int> edgeKey = {vertexIndex, destIndex};
-        pair<int, int> reverseEdgeKey = {destIndex, vertexIndex};
+        pair<int,int> edgeKey = {vertexIndex, destIndex};
+        pair<int,int> reverseEdgeKey = {destIndex, vertexIndex};
 
-        // if edge was not visited before
-        if(!visited[destIndex])
-        {
-            cout << "Discovery Edge: " << iterator->originVertex << " -> " << iterator->destinationVertex << endl;
-            totalDistance += iterator->distance;
+        if (!visited[destIndex]) {
+            cout << "Discovery Edge: " << iterator->originVertex
+                 << " -> " << iterator->destinationVertex << endl;
+
             printedEdges.insert(edgeKey);
             printedEdges.insert(reverseEdgeKey);
 
-            path.push_back(AdjacencyNode(iterator->destinationVertex,iterator->distance));
+            path.push_back(AdjacencyNode(iterator->destinationVertex,
+                                         iterator->distance));
 
-            dfsRecusion(destIndex,vertexIndex ,visited,printedEdges, totalDistance);
+            dfsRecursion(destIndex,
+                         vertexIndex,
+                         visited,
+                         printedEdges,
+                         distances,
+                         currentDistance + iterator->distance);
         }
-        else if(destIndex != lastIndex && printedEdges.count(edgeKey) == 0)
-        {
-            cout << "Back Edge: " << iterator->originVertex << " -> " << iterator->destinationVertex << endl;
+        else if (destIndex != lastIndex && printedEdges.count(edgeKey) == 0) {
+            cout << "Back Edge: " << iterator->originVertex
+                 << " -> " << iterator->destinationVertex << endl;
             printedEdges.insert(edgeKey);
             printedEdges.insert(reverseEdgeKey);
         }
