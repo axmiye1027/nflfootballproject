@@ -59,23 +59,23 @@ bool BackendManager::login(string username, string password)
  */
 void BackendManager::importStadiums(const string& json)
 {
-    try {
-        std::string team      = j["team"].s();
-        std::string stadium   = j["stadium"].s();
-        int capacity          = j["capacity"].i();
-        std::string location  = j["location"].s();
-        std::string roofType  = j["roof"].s();
-        std::string surface   = j["surface"].s();
-        int yearOpened        = j["year"].i();
-        std::string conference= j["conference"].s();
-        std::string division  = j["division"].s();
+    // try {
+    //     std::string team      = j["team"].s();
+    //     std::string stadium   = j["stadium"].s();
+    //     int capacity          = j["capacity"].i();
+    //     std::string location  = j["location"].s();
+    //     std::string roofType  = j["roof"].s();
+    //     std::string surface   = j["surface"].s();
+    //     int yearOpened        = j["year"].i();
+    //     std::string conference= j["conference"].s();
+    //     std::string division  = j["division"].s();
 
-        int stadiumId = dbManager.addStadium(team, stadium, capacity, location,
-                                roofType, surface, yearOpened, conference, division);
-    }
-    catch {
+    //     int stadiumId = dbManager.addStadium(team, stadium, capacity, location,
+    //                             roofType, surface, yearOpened, conference, division);
+    // }
+    // catch {
 
-    }
+    // }
 
 }
 
