@@ -1,30 +1,35 @@
-// backendManager.cpp
+/**
+ * @file backendManager.cpp
+ * @brief implmenetaion for backendManager
+ */
 
 #include "../../include/models/backendManager.h"
 
+/**
+ * @brief constuctor, assumes user is not an adimin
+ */
 BackendManager::BackendManager() : isAdmin{false}
 {
     populateStadiums();
     populateDistances();
-    // printStadiums();
-
-    //adjacencyMatrix.printMatrix();
-    adjacencyMatrix.bfs("State Farm Stadium");
-
-    getStadiumsByDivision(getStadiumsAsVector(),"NFC North");
-
-    //adjacencyMatrix.Dijkstra("State Farm Stadium");
-    //adjacencyMatrix.mst("State Farm Stadium");
-
-    //adjacencyList.dfs("State Farm Stadium");
 }
 
+/**
+ * @brief destructor
+ */
 BackendManager::~BackendManager()
 {
 
 }
 
-
+/**
+ * @param username user input for username
+ * @param password user input for password
+ * @return boolean, true or false
+ * 
+ * User inputs 2 strings, a username and password and checks if they're valid
+ * credentials. If valid returns true, invalid returns false
+ */
 bool BackendManager::login(string username, string password)
 {
     if(username == "admin" && password == "admin")
@@ -38,6 +43,34 @@ bool BackendManager::login(string username, string password)
     return false;
 }
 
+/**
+ * 
+ */
+void BackendManager::importStadiums(const string& json)
+{
+    // try {
+    //     std::string team      = j["team"].s();
+    //     std::string stadium   = j["stadium"].s();
+    //     int capacity          = j["capacity"].i();
+    //     std::string location  = j["location"].s();
+    //     std::string roofType  = j["roof"].s();
+    //     std::string surface   = j["surface"].s();
+    //     int yearOpened        = j["year"].i();
+    //     std::string conference= j["conference"].s();
+    //     std::string division  = j["division"].s();
+
+    //     int stadiumId = dbManager.addStadium(team, stadium, capacity, location,
+    //                             roofType, surface, yearOpened, conference, division);
+    // }
+    // catch {
+
+    // }
+
+}
+
+/**
+ * 
+ */
 void BackendManager::populateStadiums() 
 {
     stadiums.clearTable();
@@ -370,15 +403,15 @@ vector<Stadium> BackendManager::getStadiumsByDivision(const vector<Stadium>& sta
     return stadiums;
 }
 
-vector<Stadium> getStadiumsByGrass(const vector<Stadium>& stadiumsVect,string grassType)
+vector<Stadium> BackendManager::getStadiumsBySurface(const vector<Stadium>& stadiumsVect,string surface)
 {
-    transform(grassType.begin(), grassType.end(), grassType.begin(), ::toupper);
+    //transform(surface.begin(), surface.end(), surface.begin(), ::toupper);
 
     vector<Stadium> stadiums;
 
     for(int i = 0; i < stadiumsVect.size(); ++i)
     {
-        if(stadiumsVect[i].getSurfaceType() == grassType)
+        if(stadiumsVect[i].getSurfaceType() == surface)
         {
             stadiums.push_back(stadiumsVect[i]);
         }
@@ -460,12 +493,16 @@ int BackendManager::calculateMST(const string& startingCity)
 
 PathReturn BackendManager::calculateDijkstra(string startingStadium, string endingStadium)
 {
+    cout << "[BackendManager::calculateDijkstra]\n";
     auto dijkstraList = adjacencyMatrix.dijkstra(startingStadium);
 
     for (int i = 0; i < dijkstraList.size(); ++i)
     {
-        if(dijkstraList[i].path.front() == startingStadium && dijkstraList[i].path.back() == endingStadium)
+        if(!dijkstraList[i].path.empty() &&
+            dijkstraList[i].path.front() == startingStadium && 
+            dijkstraList[i].path.back()  == endingStadium)
         {
+            cout << "[BackendManager::calculateDijkstra]: return dijkstraList[i]\n";
             return dijkstraList[i];
         }
     }
@@ -513,10 +550,12 @@ PathReturn BackendManager::calculateCustomTrip(vector<string> trip)
     return path;
 }
 
-// PathReturn BackendManager::calculateRecursiveTrip(vector<Stadium> trip)
-// {
+PathReturn BackendManager::calculateRecursiveTrip(vector<string> trip)
+{
+    PathReturn recursivePath;
+    string     startingStadium = trip[0];
 
-// }
+}
 
 
 

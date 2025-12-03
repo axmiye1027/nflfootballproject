@@ -1,0 +1,10 @@
+
+
+.infoCardStyle {
+    width: calc(100% - 4em);
+    padding: 1em;
+    margin-left: 10em;
+    margin-right: 10em;
+    border-right: var(--border);
+    border-left: var(--border);
+}

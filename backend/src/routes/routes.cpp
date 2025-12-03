@@ -65,6 +65,28 @@ crow::json::wvalue souvenirToJson(const Souvenir& s)
     return json;
 }
 
+crow::json::wvalue stringToJson(const string& s)
+{
+    crow::json::wvalue json;
+    json["stadiumName"] = s;
+    return json;
+}
+
+crow::json::wvalue stringListToJson(const vector<string>& vec)
+{
+    crow::json::wvalue json;
+
+    json["stadiums"] = crow::json::wvalue(crow::json::type::List);
+    auto& jsonArr = json["stadiums"];
+
+    for (int i = 0; i < vec.size(); ++i)
+    {
+        jsonArr[i] = stringToJson(vec[i]);
+    }
+
+    return json;
+}
+
 
 /**
  * @brief converts the stadiums in a json and puts it into an array
@@ -112,7 +134,7 @@ void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
         string conference  = req.url_params.get("conference")  ? req.url_params.get("conference")  : ALL_TEAMS;
         string division    = req.url_params.get("divisions")   ? req.url_params.get("divisions")   : ALL_TEAMS;
         string roofType    = req.url_params.get("roofTypes")   ? req.url_params.get("roofTypes")   : ALL_TEAMS;
-
+        string surface     = req.url_params.get("surface")     ? req.url_params.get("surface")     : ALL_TEAMS;
 
         // SEARCH
         string search   = req.url_params.get("search") ? req.url_params.get("search") : "";
@@ -132,6 +154,11 @@ void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
         if (roofType != ALL_TEAMS)
         {
             stadiums = backend.getStadiumsByRoofType(stadiums, roofType);
+        }
+
+        if (surface != ALL_TEAMS)
+        {
+            stadiums = backend.getStadiumsBySurface(stadiums, surface);
         }
 
         if (!search.empty())
@@ -224,7 +251,6 @@ void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
         return crow::response(res);
     });
 
-
     /* ------------------------------- TRIPS -------------------------------*/
     CROW_ROUTE(app, "/bfsTrip").methods(crow::HTTPMethod::POST)
     ([&backend](const crow::request& req) 
@@ -238,9 +264,9 @@ void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
             return crow::response(400, error.dump());
         }
 
-        string bfsCity = body["bfsStadium"].s();
+        string bfsStadium = body["bfsStadium"].s();
 
-        if (bfsCity.empty())
+        if (bfsStadium.empty())
         {
             crow::json::wvalue error;
             error["success"] = false;
@@ -250,12 +276,13 @@ void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
 
         int bfsResult = 0;
         
-        if (!bfsCity.empty())
-            bfsResult = backend.calculateBFS(bfsCity);
+        if (!bfsStadium.empty())
+            bfsResult = backend.calculateBFS(bfsStadium);
 
         crow::json::wvalue res;
-        res["success"] = true;
-        res["bfs"]     = bfsResult;
+        res["success"]       = true;
+        res["totalDistance"] = bfsResult;
+        res["stadiums"]      = bfsStadium;
 
         return crow::response(res.dump());
     });
@@ -273,9 +300,9 @@ void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
             return crow::response(400, error.dump());
         }
 
-        string mstCity = body["mstStadium"].s();
+        string mstStadium = body["mstStadium"].s();
 
-        if (mstCity.empty())
+        if (mstStadium.empty())
         {
             crow::json::wvalue error;
             error["success"] = false;
@@ -285,13 +312,13 @@ void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
 
         int mstResult = 0;
         
-        if (!mstCity.empty())
-            mstResult = backend.calculateMST(mstCity);
+        if (!mstStadium.empty())
+            mstResult = backend.calculateMST(mstStadium);
 
         crow::json::wvalue res;
-        res["success"] = true;
-        res["mst"]     = mstResult;
-
+        res["success"]       = true;
+        res["totalDistance"] = mstResult;
+        res["stadiums"]      = mstStadium;
         return crow::response(res.dump());
     });
 
@@ -299,6 +326,8 @@ void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
     CROW_ROUTE(app, "/dijkstraTrip").methods(crow::HTTPMethod::POST)
     ([&backend](const crow::request& req) 
     {
+        std::cout << "Raw request body:\n" << req.body << "\n"; // <-- ADD THIS
+
         auto body = crow::json::load(req.body);
         if (!body)
         {
@@ -308,26 +337,36 @@ void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
             return crow::response(400, error.dump());
         }
 
-        auto stadiumsJson = body["stadiums"];
-        // if (!stadiumsJson || !stadiumsJson.is_list() || stadiumsJson.size() < 2) 
-        // {
-        //     crow::json::wvalue error;
-        //     error["success"] = false;
-        //     error["message"] = "Two stadiums required";
-        //     return crow::response(400, error.dump());
-        // }
+        auto startingStadiumJson = body["startingStadium"];
+        auto endingStadiumJson   = body["endingStadium"];
 
-        string firstStadiumName  = stadiumsJson[0]["stadiumName"].s();
-        string secondStadiumName = stadiumsJson[1]["stadiumName"].s();
+        string startingName = startingStadiumJson["stadiumName"].s();
+        string endingName   = endingStadiumJson["stadiumName"].s();
 
-        PathReturn path = backend.calculateDijkstra(firstStadiumName, secondStadiumName);
+        PathReturn path = backend.calculateDijkstra(startingName, endingName);
+        vector<string> stringPath = path.path;
+
+        cout << "[DEBUG] Path size: " << stringPath.size() << endl;
+        for (size_t i = 0; i < stringPath.size(); ++i)
+        {
+            if (stringPath.empty()) cout << "[DEBUG] path[" << i << "] is empty\n";
+            else cout << "[DEBUG] path[" << i << "]: " << stringPath[i] << endl;
+        }
 
         crow::json::wvalue res;
-        res["success"]  = true;
-        res["path"]     = path.path;
-        res["distance"] = path.distanceTraveled;
+        res["success"] = true;
+        res["totalDistance"] = path.distanceTraveled;  // if you track totalDistance
+        res["stadiums"] = crow::json::wvalue(crow::json::type::List);
+
+        auto& arr = res["stadiums"];
+        for (size_t i = 0; i < path.path.size(); ++i)
+        {
+            arr[i] = path.path[i];
+        }
+
         return crow::response(res.dump());
     });
+
 
     CROW_ROUTE(app, "/dfsTrip").methods(crow::HTTPMethod::POST)
     ([&backend](const crow::request& req) 
@@ -346,9 +385,9 @@ void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
         PathReturn path = backend.calculateDFS(startingStadium);
  
         crow::json::wvalue res;
-        res["success"]  = true;
-        res["path"]     = path.path;
-        res["distance"] = path.distanceTraveled;
+        res["success"]       = true;
+        res["stadiums"]      = path.path;
+        res["totalDistance"] = path.distanceTraveled;
         return crow::response(res.dump());
 
     });
@@ -372,4 +411,43 @@ void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
         return crow::response(res.dump());
     });
 
+
+    CROW_ROUTE(app, "/souvenirs").methods(crow::HTTPMethod::POST)
+    ([&backend](const crow::request& req) 
+    {
+        auto body = crow::json::load(req.body);
+        if (!body)
+        {
+            crow::json::wvalue error;
+            error["success"] = false;
+            error["message"] = "Invalid JSON";
+            return crow::response(400, error.dump());
+        }
+
+        vector<string> stadiumNames;
+        if (body.has("stadiums") && body["stadiums"].t() == crow::json::type::List)
+        {
+            for (auto& s : body["stadiums"])
+            {
+                stadiumNames.push_back(s.s());
+                cout << "stadiumNames.push_back(s.s()): " << s;
+            }
+        }
+        else
+        {
+            crow::json::wvalue error;
+            error["success"] = false;
+            error["message"] = "stadiums must be an array of strings";
+            return crow::response(400, error.dump());
+        }
+
+        // Put path into the cart (converts strings to Stadium)
+        backend.addPathToCart(stadiumNames);
+        vector<Stadium> updatedPath = backend.getCartPath();
+
+        crow::json::wvalue res;
+        res = stadiumListToJson(updatedPath);
+        cout << endl << endl << endl << "res" << res.dump() << endl << endl << endl;
+        return crow::response(res.dump());
+    });
 }
