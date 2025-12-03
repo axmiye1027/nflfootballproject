@@ -396,7 +396,7 @@ void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
 
 
         RoofType stadiumRoof;
-        // convert fron string to enum
+        // convert from string to enum
         if(roofType == "Open")
         {
             stadiumRoof = OPEN;
@@ -423,7 +423,26 @@ void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
         bool successAdd = backend.addStadium(teamName, stadiumName, capacity, location, stadiumRoof, surfaceType, yearOpened, conference, division, souvenirsTemp);
         cout << "successAdd: " << successAdd << endl;
 
-        Stadium newStadium = backend.getStadiumByName(teamName);
+        if (!successAdd) 
+        {
+            crow::json::wvalue error;
+            error["success"] = false;
+            error["message"] = "Failed to add stadium";
+            return crow::response(500, error.dump());
+        }
+
+        // Changed from teamName to stadiumName
+        Stadium newStadium = backend.getStadiumByName(stadiumName);
+        
+        // Add error checking
+        if (newStadium.getStadiumId() == 0 || newStadium.getStadiumName().empty()) 
+        {
+            crow::json::wvalue error;
+            error["success"] = false;
+            error["message"] = "Stadium not found after insertion";
+            return crow::response(500, error.dump());
+        }
+
         vector<Souvenir> newStadSouvenirs = newStadium.getSouvenirList().getValues();
 
         for (int i = 0; i < souvenirsTemp.size(); ++i)
