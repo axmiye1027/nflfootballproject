@@ -133,6 +133,8 @@ void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
         // FILTER
         string conference  = req.url_params.get("conference")  ? req.url_params.get("conference")  : ALL_TEAMS;
         string division    = req.url_params.get("divisions")   ? req.url_params.get("divisions")   : ALL_TEAMS;
+        string roofTypes   = req.url_params.get("roofTypes")   ? req.url_params.get("roofTypes")   : ALL_TEAMS; //changed roofType => roofTypes
+        string surface     = req.url_params.get("surface")     ? req.url_params.get("surface")     : ALL_TEAMS;
         string roofType    = req.url_params.get("roofTypes")   ? req.url_params.get("roofTypes")   : ALL_TEAMS;
         string surface     = req.url_params.get("surfaces")    ? req.url_params.get("surfaces")    : ALL_TEAMS;
 
@@ -151,9 +153,9 @@ void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
             stadiums = backend.getStadiumsByDivision(stadiums, division);
         }
 
-        if (roofType != ALL_TEAMS)
+        if (roofTypes != ALL_TEAMS)
         {
-            stadiums = backend.getStadiumsByRoofType(stadiums, roofType);
+            stadiums = backend.getStadiumsByRoofType(stadiums, roofTypes);
         }
 
         if (surface != ALL_TEAMS)
@@ -187,6 +189,25 @@ void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
 
         return crow::response{ json.dump() };
     });
+
+
+    // NEW ROUTE - get count of stadiums with a specific roof type
+    CROW_ROUTE(app, "/stadiums/count").methods(crow::HTTPMethod::GET)
+    ([&backend](const crow::request& req) {
+        // MATCH frontend 'roofTypes' parameter
+        string roofType = req.url_params.get("roofTypes") ? req.url_params.get("roofTypes") : "";
+
+        vector<Stadium> stadiums = backend.getStadiumsAsVector();
+
+        if (!roofType.empty()) {
+            stadiums = backend.getStadiumsByRoofType(stadiums, roofType);
+        }
+
+        crow::json::wvalue res;
+        res["count"] = static_cast<int>(stadiums.size());
+        return crow::response(res.dump());
+    });
+
 
     /**
      * @brief gets user login credentials 
