@@ -540,20 +540,22 @@ PathReturn BackendManager::calculateCustomTrip(vector<string> trip)
     for (int i = 0; i < trip.size() - 1; ++i)
     {
         auto dijkstraList = adjacencyMatrix.dijkstra(trip[i]);
-        
-        int destIndex = adjacencyMatrix.vertices[trip[i+1]];
-        
-        if (destIndex >= 0 && destIndex < dijkstraList.size())
+
+        bool foundPath = false;
+        for (int j = 0; j < dijkstraList.size(); ++j)
         {
-            if (!dijkstraList[destIndex].path.empty())
+            if (!dijkstraList[j].path.empty() && dijkstraList[j].path.back() == trip[i+1])
             {
-                path.distanceTraveled += dijkstraList[destIndex].distanceTraveled;
+                path.distanceTraveled += dijkstraList[j].distanceTraveled;
+                foundPath = true;
+                break;
             }
-            else
-            {
-                cerr << "Error: No path from " << trip[i] 
-                     << " to " << trip[i+1]    << endl;
-            }
+        }
+
+        if (!foundPath)
+        {
+            cerr << "Error: No path found from " << trip[i] 
+                 << " to " << trip[i+1] << endl;
         }
     }
 
@@ -595,9 +597,7 @@ PathReturn BackendManager::calculateRecursiveTrip(vector<string> trip)
     return shortestTripRecursion(recursivePath, trip, startingStadium);
 }
 
-PathReturn BackendManager::shortestTripRecursion(PathReturn& calculatedPath, 
-                                                   vector<string>& path, 
-                                                   string prevStadium)
+PathReturn BackendManager::shortestTripRecursion(PathReturn& calculatedPath, vector<string>& path, string prevStadium)
 {
     if (path.empty())
     {
@@ -606,20 +606,24 @@ PathReturn BackendManager::shortestTripRecursion(PathReturn& calculatedPath,
 
     auto dijkstraList = adjacencyMatrix.dijkstra(prevStadium);
     int closestDist = 99999999;
-
     string nextStadium;
     bool foundStadium = false;
 
-    for (const string& stadium : path)
+    for (int j = 0; j < dijkstraList.size(); ++j)
     {
-        int stadiumIndex = adjacencyMatrix.vertices[stadium];
-        
-        if (stadiumIndex >= 0 && stadiumIndex < dijkstraList.size())
+        if (dijkstraList[j].path.empty())
         {
-            if (!dijkstraList[stadiumIndex].path.empty() && dijkstraList[stadiumIndex].distanceTraveled < closestDist)
+            continue;
+        }
+        
+        string stadiumName = dijkstraList[j].path.back();
+
+        if (find(path.begin(), path.end(), stadiumName) != path.end())
+        {
+            if (dijkstraList[j].distanceTraveled < closestDist)
             {
-                closestDist = dijkstraList[stadiumIndex].distanceTraveled;
-                nextStadium = stadium;
+                closestDist = dijkstraList[j].distanceTraveled;
+                nextStadium = stadiumName;
                 foundStadium = true;
             }
         }
@@ -657,7 +661,6 @@ void BackendManager::addPathToCart(vector<string> path)
 
     cart.setPath(pathStadiums);
 }
-
 
 vector<Stadium> BackendManager::getCartPath() 
 {
