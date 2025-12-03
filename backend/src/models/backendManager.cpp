@@ -55,9 +55,6 @@ bool BackendManager::login(string username, string password)
     return false;
 }
 
-/**
- * 
- */
 bool BackendManager::importStadiums(const string& json, std::string &error_out)
 {
     // Expect `json` to be the JSON contents (not a file path)
