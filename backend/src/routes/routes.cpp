@@ -95,63 +95,48 @@ void registerRoutes(crow::App<crow::CORSHandler>& app, BackendManager& backend)
     CROW_ROUTE(app, "/stadiums").methods(crow::HTTPMethod::GET)
     ([&backend](const crow::request& req)
     {
-        try {
-            const string ALL_TEAMS = "All Teams";
+        const string ALL_TEAMS = "All Teams";
 
-            // SORT
-            string teamName    = req.url_params.get("teamName")    ? req.url_params.get("teamName")    : ALL_TEAMS;
-            string stadiumName = req.url_params.get("stadiumName") ? req.url_params.get("stadiumName") : ALL_TEAMS;
-            string yearOpened  = req.url_params.get("yearOpened")  ? req.url_params.get("yearOpened")  : ALL_TEAMS;
-            string capacity    = req.url_params.get("capacity")    ? req.url_params.get("capacity")    : ALL_TEAMS;
+        // SORT
+        string teamName    = req.url_params.get("teamName")    ? req.url_params.get("teamName")    : ALL_TEAMS;
+        string stadiumName = req.url_params.get("stadiumName") ? req.url_params.get("stadiumName") : ALL_TEAMS;
+        string yearOpened  = req.url_params.get("yearOpened")  ? req.url_params.get("yearOpened")  : ALL_TEAMS;
+        string capacity    = req.url_params.get("capacity")    ? req.url_params.get("capacity")    : ALL_TEAMS;
 
-            // FILTER
-            string conference  = req.url_params.get("conference")  ? req.url_params.get("conference")  : ALL_TEAMS;
-            string division    = req.url_params.get("divisions")   ? req.url_params.get("divisions")   : ALL_TEAMS;
-            string roofType    = req.url_params.get("roofTypes")   ? req.url_params.get("roofTypes")   : ALL_TEAMS;
+        // FILTER
+        string conference  = req.url_params.get("conference")  ? req.url_params.get("conference")  : ALL_TEAMS;
+        string division    = req.url_params.get("divisions")   ? req.url_params.get("divisions")   : ALL_TEAMS;
+        string roofType    = req.url_params.get("roofTypes")   ? req.url_params.get("roofTypes")   : ALL_TEAMS;
 
-            // SEARCH
-            string search   = req.url_params.get("search") ? req.url_params.get("search") : "";
 
-            vector<Stadium> stadiums = backend.getStadiumsAsVector();
+        // SEARCH
+        string search   = req.url_params.get("search") ? req.url_params.get("search") : "";
 
-            if (conference != ALL_TEAMS)
-            {
-                stadiums = backend.getStadiumsByConference(stadiums, conference);
-            }
+        vector<Stadium> stadiums = backend.getStadiumsAsVector();
 
-            if (division != ALL_TEAMS)
-            {
-                stadiums = backend.getStadiumsByDivision(stadiums, division);
-            }
-
-            if (roofType != ALL_TEAMS)
-            {
-                stadiums = backend.getStadiumsByRoofType(stadiums, roofType);
-            }
-
-            if (!search.empty())
-            {
-                stadiums = backend.filterStadiums(stadiums, search);
-            }
-
-            crow::json::wvalue json = stadiumListToJson(stadiums);
-
-            return crow::response{ json.dump() };
+        if (conference != ALL_TEAMS)
+        {
+            stadiums = backend.getStadiumsByConference(stadiums, conference);
         }
-        catch (const std::exception& ex) {
-            std::cerr << "[routes::/stadiums] Exception: " << ex.what() << std::endl;
-            crow::json::wvalue err;
-            err["success"] = false;
-            err["message"] = string("Server error: ") + ex.what();
-            return crow::response(500, err.dump());
+
+        if (division != ALL_TEAMS)
+        {
+            stadiums = backend.getStadiumsByDivision(stadiums, division);
         }
-        catch (...) {
-            std::cerr << "[routes::/stadiums] Unknown exception" << std::endl;
-            crow::json::wvalue err;
-            err["success"] = false;
-            err["message"] = "Server error";
-            return crow::response(500, err.dump());
+
+        if (roofType != ALL_TEAMS)
+        {
+            stadiums = backend.getStadiumsByRoofType(stadiums, roofType);
         }
+
+        if (!search.empty())
+        {
+            stadiums = backend.filterStadiums(stadiums, search);
+        }
+
+        crow::json::wvalue json = stadiumListToJson(stadiums);
+
+        return crow::response{ json.dump() };
     });
 
     /**
