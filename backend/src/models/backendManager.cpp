@@ -351,10 +351,9 @@ vector<Stadium> BackendManager::getStadiumsAsVector()
 {
     vector<Stadium> stadiumsVect;
 
-    for (int i = 0; i < stadiums.getCount(); ++i)
-    {
-        stadiumsVect.push_back(stadiums.get(i + 1));
-    }
+    // Use getValues() to avoid relying on numeric keys being contiguous.
+    // DoubleHashTable::get(key) can throw if a numeric key is missing.
+    stadiumsVect = stadiums.getValues();
 
     return stadiumsVect;
 }
