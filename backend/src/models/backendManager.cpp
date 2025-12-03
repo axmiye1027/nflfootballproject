@@ -557,7 +557,47 @@ PathReturn BackendManager::calculateCustomTrip(vector<string> trip)
     return path;
 }
 
-// PathReturn BackendManager::calculateRecursiveTrip(vector<Stadium> trip)
-// {
+PathReturn BackendManager::calculateRecursiveTrip(vector<string> trip)
+{
+    PathReturn recursivePath;
+    string     startingStadium = trip[0];
 
-// }
+    recursivePath.path.push_back(startingStadium);
+    trip.erase(trip.begin());              
+
+    return shortestTripRecursion(recursivePath,trip,startingStadium);
+}
+
+PathReturn BackendManager::shortestTripRecursion(PathReturn& calculatedPath, vector<string>& path,string prevStadium)
+{
+    if(path.empty())
+    {
+        return calculatedPath;
+    }
+
+    auto   dijkstraList = adjacencyMatrix.dijkstra(prevStadium);
+    int    closestDist  = 99999999;
+    string nextStadium;
+
+    for(int j = 0; j < dijkstraList.size(); ++j)
+    {
+        string stadiumName = dijkstraList[j].path.back();
+
+        // Checks if the stadium exists inside of path vector
+        if (find(path.begin(), path.end(), stadiumName) != path.end())
+        {
+            if(dijkstraList[j].distanceTraveled < closestDist)
+            {
+                closestDist = dijkstraList[j].distanceTraveled;
+                nextStadium = stadiumName;
+            }
+        }
+    }
+
+    calculatedPath.path.push_back(nextStadium);
+    calculatedPath.distanceTraveled += closestDist;
+
+    path.erase(find(path.begin(), path.end(), nextStadium));
+
+    return shortestTripRecursion(calculatedPath,path,nextStadium);
+}
