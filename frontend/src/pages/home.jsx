@@ -68,6 +68,33 @@ function HomePage({ stadiums, setStadiums }) {
     return () => clearTimeout(t);
   }, [queryString]);
 
+  
+// NEW - roof type count
+const [roofCount, setRoofCount] = useState(0);
+
+useEffect(() => {
+    const roofType = filters.roofTypes[0] || ""; // first selected roof or empty for "All"
+
+    const fetchRoofCount = async () => {
+      try {
+        let url = "http://localhost:18080/stadiums/count";
+        if (roofType) {
+          url += `?roofTypes=${encodeURIComponent(roofType)}`;
+        }
+        const res = await fetch(url);
+        const data = await res.json();
+        setRoofCount(data.count); // update count
+      } catch (err) {
+        console.error("Failed to fetch roof count:", err);
+      }
+    };
+
+    fetchRoofCount();
+}, [filters.roofTypes]);
+
+
+
+
 
   return (
     <div className="home-page">
@@ -106,6 +133,10 @@ function HomePage({ stadiums, setStadiums }) {
       </div>
 
       {/* END SEARCH - ICON - FILTERS */}
+
+      <div className="roof-count" style={{ margin: "20px", textAlign: "center" }}>
+        <p>Number of {filters.roofTypes[0] || "All"} Roof Stadiums: {roofCount}</p>
+      </div>
 
       {/* TEAM LIST */}
       <div className="teams-container">
