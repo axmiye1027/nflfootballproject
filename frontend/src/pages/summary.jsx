@@ -1,46 +1,54 @@
 import { useState, useEffect } from 'react'
-import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
+import { useTrip } from '../context/TripProvider.jsx';
 
 import SouvenirCard from '../components/SouvenirCard';
 
 import '../styles/summary.css'
 
 export default function SummaryPage() {
-	const location = useLocation();
-	const { stadiums, totalDistance } = location.state || {};
-	const [ fullStadiums, setFullStadiums ] = useState([]);
-	const [ cartTotal, setCartTotal] = useState(0);
-	const [totals, setTotals] = useState({}); // {stadiumId: subtotal}
+	const navigate = useNavigate();
+	const { tripResult, clearTrip } = useTrip();
+	const { stadiums = [], totalDistance = 0 } = tripResult || {};
 
-	useEffect(() => {
-		if (!stadiums) return;
+	const [totals, setTotals] = useState({});
+	
+	// useEffect(() => {
+	// 	if (!stadiums || stadiums.length === 0) 
+	// 	{
+	// 		setFullStadiums([]);
+	// 		return;
+	// 	}
 
-		async function fetchStadiumDetails() {
-			try {
-				const res = await fetch("http://localhost:18080/souvenirs", {
-					method: "POST",
-					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({ stadiums: normalizeStadiumList(stadiums) })
-				});
+	// 	async function fetchStadiumDetails() 
+	// 	{
+	// 		try {
+	// 			const res = await fetch("http://localhost:18080/souvenirs", {
+	// 				method: "POST",
+	// 				headers: { "Content-Type": "application/json" },
+	// 				body: JSON.stringify({ stadiums: normalizeStadiumList(stadiums) })
+	// 			});
 
-				const data = await res.json();
-				console.log("Backend data:", data);
+	// 			const data = await res.json();
 
-				// Reorder stadiums to match the original Dijkstra path
-				const ordered = normalizeStadiumList(stadiums).map(
-					name => data.stadiums.find(s => s.stadiumName === name)
-				);
+	// 			const ordered = normalizeStadiumList(stadiums).map(
+	// 				name => data.stadiums.find(s => s.stadiumName === name)
+	// 			);
 
-				setFullStadiums(ordered);
-			} catch (err) {
-				console.error("Failed to fetch stadium details:", err);
-			}
-		}
+	// 			setFullStadiums(ordered);
+	// 		} 
+	// 		catch (err) 
+	// 		{
+	// 			console.error("Failed to fetch stadium details:", err);
+	// 		}
+	// 	}
 
-		fetchStadiumDetails();
-	}, [stadiums]);
+	// 	fetchStadiumDetails();
+	// }, [stadiums]);
 
-	function normalizeStadiumList(stadiums) {
+	function normalizeStadiumList(stadiums) 
+	{
 		if (!stadiums) return [];
 
 		if (typeof stadiums === "string") return [stadiums];
@@ -64,6 +72,11 @@ export default function SummaryPage() {
 		<div className="summary-page">
 			{ /* Header */ }
 			<div className="title">Summary</div>
+			<div>
+				<button onClick={() => { clearTrip(); navigate("/trip"); }}>
+					Start Over
+				</button>
+			</div>
 
 			<div className="row">
 
@@ -77,8 +90,8 @@ export default function SummaryPage() {
 						<div className="souveniersContainer">
 
 							<div className="row">
-								<div className="fullStadiums-map">
-									{fullStadiums.map((stadium) => (
+								<div className="stadiums-map">
+									{stadiums.map((stadium) => (
 										<SouvenirCard 
 											key={stadium.stadiumId} 
 											stadium={stadium}

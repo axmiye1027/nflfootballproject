@@ -6,6 +6,7 @@
 #include "../models/stadium.h"
 #include "../models/backendManager.h"
 #include "includes.h"
+#include <unordered_set>
 
 /* ----  Helper Functions ----- */
 crow::json::wvalue stadiumToJson(const Stadium& stadium);

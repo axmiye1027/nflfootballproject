@@ -586,28 +586,34 @@ CROW_ROUTE(app, "/addStadium").methods(crow::HTTPMethod::POST)
         string startingName = startingStadiumJson["stadiumName"].s();
         string endingName   = endingStadiumJson["stadiumName"].s();
 
-        PathReturn path = backend.calculateDijkstra(startingName, endingName);
-        vector<string> stringPath = path.path;
 
-        cout << "[DEBUG] Path size: " << stringPath.size() << endl;
-        for (size_t i = 0; i < stringPath.size(); ++i)
+        try {
+            PathReturn path = backend.calculateDijkstra(startingName, endingName);
+            vector<string> stringPath = path.path;
+            cout << "calculateDijkstra returned" << endl;
+
+            backend.addPathToCart(path.path);
+            cout << "addPathToCart finished" << endl;
+
+            vector<Stadium> updatedPath = backend.getCartPath();
+            cout << "getCartPath finished" << endl;
+
+            crow::json::wvalue res;
+            res["success"] = true;
+            res["totalDistance"] = path.distanceTraveled; 
+            res["stadiums"] = stadiumListToJson(updatedPath);
+            cout << "res = " << res.dump() << endl;
+
+            return crow::response(res.dump());
+        } 
+        catch (const std::exception& e) 
         {
-            if (stringPath.empty()) cout << "[DEBUG] path[" << i << "] is empty\n";
-            else cout << "[DEBUG] path[" << i << "]: " << stringPath[i] << endl;
+            cout << "Exception in trip calculation: " << e.what() << endl;
+            crow::json::wvalue error;
+            error["success"] = false;
+            error["message"] = e.what();
+            return crow::response(500, error.dump());
         }
-
-        crow::json::wvalue res;
-        res["success"] = true;
-        res["totalDistance"] = path.distanceTraveled; 
-        res["stadiums"] = crow::json::wvalue(crow::json::type::List);
-
-        auto& arr = res["stadiums"];
-        for (size_t i = 0; i < path.path.size(); ++i)
-        {
-            arr[i] = path.path[i];
-        }
-
-        return crow::response(res.dump());
     });
 
 
@@ -625,21 +631,32 @@ CROW_ROUTE(app, "/addStadium").methods(crow::HTTPMethod::POST)
 
         string startingStadium = body["dfsStadium"].s();
 
-        PathReturn path = backend.calculateDFS(startingStadium);
- 
-        crow::json::wvalue res;
-        res["success"]       = true;
-        res["totalDistance"] = path.distanceTraveled;
-        res["stadiums"] = crow::json::wvalue(crow::json::type::List);
+        try {
+            PathReturn path = backend.calculateDFS(startingStadium);
+            cout << "calculateDFS returned" << endl;
 
-        auto& arr = res["stadiums"];
-        for (size_t i = 0; i < path.path.size(); ++i)
+            backend.addPathToCart(path.path);
+            cout << "addPathToCart finished" << endl;
+
+            vector<Stadium> updatedPath = backend.getCartPath();
+            cout << "getCartPath finished" << endl;
+
+            crow::json::wvalue res;
+            res["success"] = true;
+            res["totalDistance"] = path.distanceTraveled; 
+            res["stadiums"] = stadiumListToJson(updatedPath);
+            cout << "res = " << res.dump() << endl;
+
+            return crow::response(res.dump());
+        } 
+        catch (const std::exception& e) 
         {
-            arr[i] = path.path[i];
+            cout << "Exception in trip calculation: " << e.what() << endl;
+            crow::json::wvalue error;
+            error["success"] = false;
+            error["message"] = e.what();
+            return crow::response(500, error.dump());
         }
-
-        return crow::response(res.dump());
-
     });
 
 
@@ -657,44 +674,63 @@ CROW_ROUTE(app, "/addStadium").methods(crow::HTTPMethod::POST)
 
         vector<string> stadiumNames;
 
-        // Extract stadiums array
         const auto& arr = body["stadiums"];
         if (arr.t() != crow::json::type::List) 
         {
             return crow::response(400, "stadiums must be an array");
         }
 
+        unordered_set<int> stadiumIds;
         for (const auto& item : arr) 
         {
             if (item.t() == crow::json::type::Object) 
             {
                 string name = item["stadiumName"].s();
+                int id = item["stadiumId"].i();
+
                 stadiumNames.push_back(name);
+                stadiumIds.insert(id);
             }
         }
 
-        PathReturn path = backend.calculateCustomTrip(stadiumNames);
+        try {
+            PathReturn path = backend.calculateCustomTrip(stadiumNames);
 
-        crow::json::wvalue res;
-        res["success"] = true;
-        res["totalDistance"] = path.distanceTraveled; 
-        res["stadiums"] = crow::json::wvalue(crow::json::type::List);
+            backend.addPathToCart(path.path);
+            vector<Stadium> updatedPath = backend.getCartPath();
 
-        auto& stadiumList = res["stadiums"];
+            updatedPath.erase(
+                remove_if(updatedPath.begin(), updatedPath.end(),
+                    [&stadiumIds](const Stadium& s) {
+                        return stadiumIds.find(s.getStadiumId()) == stadiumIds.end();
+                    }),
+                updatedPath.end()
+            );
 
-        for (size_t i = 0; i < path.path.size(); ++i)
+            crow::json::wvalue res;
+            res["success"] = true;
+            res["totalDistance"] = path.distanceTraveled; 
+            res["stadiums"] = stadiumListToJson(updatedPath);
+            cout << "res = " << res.dump() << endl;
+
+            return crow::response(res.dump());
+        } 
+        catch (const std::exception& e) 
         {
-            stadiumList[i] = crow::json::wvalue();   // allocate an empty JSON entry
-            stadiumList[i] = path.path[i];           // now safe to assign
+            cout << "Exception in trip calculation: " << e.what() << endl;
+            crow::json::wvalue error;
+            error["success"] = false;
+            error["message"] = e.what();
+            return crow::response(500, error.dump());
         }
-
-        return crow::response(res.dump());
     });
 
 
     CROW_ROUTE(app, "/recursiveTrip").methods(crow::HTTPMethod::POST)
     ([&backend](const crow::request& req) 
     {
+        cout << "[CROW_ROUTE(app, /recursiveTrip)]";
+
         auto body = crow::json::load(req.body);
         if (!body)
         {
@@ -713,31 +749,49 @@ CROW_ROUTE(app, "/addStadium").methods(crow::HTTPMethod::POST)
             return crow::response(400, "stadiums must be an array");
         }
 
+        unordered_set<int> stadiumIds;
         for (const auto& item : arr) 
         {
             if (item.t() == crow::json::type::Object) 
             {
                 string name = item["stadiumName"].s();
+                int id = item["stadiumId"].i();
+
                 stadiumNames.push_back(name);
+                stadiumIds.insert(id);
             }
         }
 
-        PathReturn path = backend.calculateRecursiveTrip(stadiumNames);
+        try {
+            PathReturn path = backend.calculateRecursiveTrip(stadiumNames);
+            cout << "calculateRecursiveTrip returned" << endl;
 
-        crow::json::wvalue res;
-        res["success"] = true;
-        res["totalDistance"] = path.distanceTraveled; 
-        res["stadiums"] = crow::json::wvalue(crow::json::type::List);
+            backend.addPathToCart(path.path);
+            vector<Stadium> updatedPath = backend.getCartPath();
 
-        auto& stadiumList = res["stadiums"];
+            updatedPath.erase(
+                remove_if(updatedPath.begin(), updatedPath.end(),
+                    [&stadiumIds](const Stadium& s) {
+                        return stadiumIds.find(s.getStadiumId()) == stadiumIds.end();
+                    }),
+                updatedPath.end()
+            );
+            crow::json::wvalue res;
+            res["success"] = true;
+            res["totalDistance"] = path.distanceTraveled; 
+            res["stadiums"] = stadiumListToJson(updatedPath);
+            cout << "res = " << res.dump() << endl;
 
-        for (size_t i = 0; i < path.path.size(); ++i)
+            return crow::response(res.dump());
+        } 
+        catch (const std::exception& e) 
         {
-            stadiumList[i] = crow::json::wvalue();   // allocate an empty JSON entry
-            stadiumList[i] = path.path[i];           // now safe to assign
+            cout << "Exception in trip calculation: " << e.what() << endl;
+            crow::json::wvalue error;
+            error["success"] = false;
+            error["message"] = e.what();
+            return crow::response(500, error.dump());
         }
-
-        return crow::response(res.dump());
     });
 
 

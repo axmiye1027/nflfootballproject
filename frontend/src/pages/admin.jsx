@@ -68,7 +68,7 @@ function AdminPage({ stadiums })
             console.log("Backend response:", data);
 
             if (!data.success) {
-                alert("Failed to add team: " + (data.message || "Unknown error"));
+                alert("Failed to add team: " + (data.message || "Unknown error")); 
                 return;
             }
 

@@ -2,6 +2,8 @@
 import React, { use, useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import { useTrip } from '../context/TripProvider.jsx'
+
 import '../styles/trip.css'
 
 export default function TripPage() {
@@ -14,6 +16,8 @@ export default function TripPage() {
     const [startingId, setStartingId] = useState(null)
 
     const [tripType, setTripType] = useState("customTrip");
+
+    const { tripResult, setTripResult, resetTrip } = useTrip();
 
     useEffect(() => {
         let mounted = true
@@ -82,11 +86,10 @@ export default function TripPage() {
         }
     }
 
+
     async function handleCreateTrip() 
     {
         const { endpoint, body } = buildTripRequest(tripType, startingId, stadiums);
-
-        console.log("Sending to backend:", endpoint, JSON.stringify(body, null, 2));
 
         try {
             const res = await fetch(`http://localhost:18080${endpoint}`, {
@@ -96,16 +99,16 @@ export default function TripPage() {
             });
 
             const json = await res.json();
-            console.log("Trip calculation result:", json);
-
-            if (!json.success) {
+            if (!json.success) 
                 throw new Error(json.message || "Unknown error");
-            }
 
-            sessionStorage.setItem("tripResult", JSON.stringify(json));
+            // json.stadiums is now the full stadium objects
+            setTripResult({
+                stadiums: json.stadiums.stadiums,  
+                totalDistance: json.totalDistance
+            });
 
-            navigate("/summary", { state: { stadiums: json.stadiums, totalDistance: json.totalDistance } });
-
+            navigate("/summary");
         } catch (err) {
             console.error("Failed to calculate trip:", err);
             setError(err.message);
