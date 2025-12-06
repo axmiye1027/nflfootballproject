@@ -454,20 +454,33 @@ CROW_ROUTE(app, "/addStadium").methods(crow::HTTPMethod::POST)
                             continue; // Skip this distance entry
                         }
                         
-                        Distance d;
-                        d.id = 0; 
-                        d.locationA = stadiumName;                  
-                        d.locationB = targetStadium.getStadiumName();
-                        d.distanceKm = static_cast<int>(item["distance"].d());
+                        int distanceValue = static_cast<int>(item["distance"].d());
+                        
+                        // Add distance from new stadium to existing stadium
+                        Distance d1;
+                        d1.id = 0; 
+                        d1.locationA = stadiumName;                  
+                        d1.locationB = targetStadium.getStadiumName();
+                        d1.distanceKm = distanceValue;
 
-                        bool distanceAdded = backend.addDistance(d);
-                        if (!distanceAdded) 
+                        bool distance1Added = backend.addDistance(d1);
+                        
+                        // Add reverse distance from existing stadium to new stadium
+                        Distance d2;
+                        d2.id = 0;
+                        d2.locationA = targetStadium.getStadiumName();
+                        d2.locationB = stadiumName;
+                        d2.distanceKm = distanceValue;
+                        
+                        bool distance2Added = backend.addDistance(d2);
+                        
+                        if (!distance1Added || !distance2Added) 
                         {
-                            cout << "Warning: Failed to add distance between " << stadiumName << " and " << targetStadium.getStadiumName() << endl;
+                            cout << "Warning: Failed to add bidirectional distance between " << stadiumName << " and " << targetStadium.getStadiumName() << endl;
                         }
                         else 
                         {
-                            cout << "Distance added successfully" << endl;
+                            cout << "Bidirectional distance added successfully between " << stadiumName << " and " << targetStadium.getStadiumName() << endl;
                         }
                     }
                     catch (const exception& e) 
