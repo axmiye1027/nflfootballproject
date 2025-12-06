@@ -85,14 +85,19 @@ void AdjacencyMatrix::setDistances(vector<Distance> distances)
 
 void AdjacencyMatrix::populateVertices(DoubleHashTable<Stadium> stadiums)
 {
-    for (int i = 1; i <= stadiums.getCount(); ++i)
+void AdjacencyMatrix::populateVertices(DoubleHashTable<Stadium> stadiums)
+{
+    vector<Stadium> allStadiums = stadiums.getValues();
+    
+    for (const auto& stadium : allStadiums)
     {
-        cout << "insert vertices: ";
-        vertices.insert(stadiums.get(i).getStadiumName(), stadiums.get(i).getStadiumId());
+        cout << "insert vertices: " << stadium.getStadiumName() << " (ID: " << stadium.getStadiumId() << ")" << endl;
+        vertices.insert(stadium.getStadiumName(), stadium.getStadiumId());
     }
 
     initializeMatrix(vertices.getCount());
     verticesToMatrix();
+}
 }
 
 
