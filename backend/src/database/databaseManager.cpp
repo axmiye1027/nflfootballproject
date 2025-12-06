@@ -591,3 +591,38 @@ int DatabaseManager::getColumnInt(sqlite3_stmt* stmt, int col)
 {
     return sqlite3_column_int(stmt, col);
 }
+
+void BackendManager::ensureBidirectionalDistances()
+{
+    vector<Distance> allDistances = databaseManager.getAllDistances();
+    vector<Distance> toAdd;
+    
+    for (const auto& d : allDistances)
+    {
+        // Check if reverse exists
+        bool found = false;
+        for (const auto& check : allDistances)
+        {
+            if (check.locationA == d.locationB && check.locationB == d.locationA)
+            {
+                found = true;
+                break;
+            }
+        }
+        
+        if (!found)
+        {
+            Distance reverse;
+            reverse.locationA = d.locationB;
+            reverse.locationB = d.locationA;
+            reverse.distanceKm = d.distanceKm;
+            toAdd.push_back(reverse);
+        }
+    }
+    
+    cout << "Adding " << toAdd.size() << " missing reverse distances..." << endl;
+    for (auto& d : toAdd)
+    {
+        databaseManager.addDistance(d.locationA, d.locationB, d.distanceKm);
+    }
+}

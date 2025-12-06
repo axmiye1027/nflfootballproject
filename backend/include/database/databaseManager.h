@@ -94,6 +94,7 @@ public:
     DatabaseManager& operator=(const DatabaseManager&) = delete;
 
     void initializeDatabase();
+    void ensureBidirectionalDistances();
 
 
     /****************** EDIT DATABASE ******************/

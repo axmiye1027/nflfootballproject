@@ -10,6 +10,8 @@
  */
 BackendManager::BackendManager() : isAdmin{false}
 {
+    databaseManager.ensureBidirectionalDistances();
+
     populateStadiums();
     populateDistances();
 }
