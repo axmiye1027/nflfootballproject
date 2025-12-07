@@ -2,7 +2,7 @@ name: ci
 
 on:
   schedule:
-      - cron: "13 4 * * *" # every day at midnight UTC (min / hour / day / month / week)
+      - cron: "35 4 * * *" # every day at midnight UTC (min / hour / day / month / week)
   push:
     banches:
       - '**'        # matches every branch
