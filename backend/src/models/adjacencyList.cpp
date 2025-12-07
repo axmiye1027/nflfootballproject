@@ -155,17 +155,18 @@ void AdjacencyList::dfs(string originVertex)
 
     int startIndex = findIndex(originVertex);
 
-    // NEW: distances vector to hold distance from origin to each vertex
+    // distances vector to hold distance from origin to each vertex
     vector<int> distances(list.size(), -1);
+
+    path.push_back(AdjacencyNode(originVertex, 0));
 
     // Start recursion with currentDistance = 0
     dfsRecursion(startIndex, startIndex, visited, printedEdges, distances, 0);
 
-    // Example: print distances for each vertex
-    for (int i = 0; i < list.size(); i++) {
-        cout << "Distance from " << originVertex
-             << " to " << list[i]->originVertex
-             << " = " << distances[i] << endl;
+    // prints path
+    for (int i = 0; i < list.size(); i++) 
+    {
+        cout << path[i].cityName << endl;
     }
 }
 
