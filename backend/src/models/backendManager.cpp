@@ -396,7 +396,10 @@ vector<Stadium> BackendManager::getStadiumsByRoofType(const vector<Stadium>& sta
 
 bool BackendManager::addDistance(Distance distance)
 {
-    databaseManager.addDistance(distance.locationA, distance.locationB, distance.distanceKm);
+    if(distance.distanceKm > 0)
+    {
+        databaseManager.addDistance(distance.locationA, distance.locationB, distance.distanceKm);
+    }
 
     return true;
 }
