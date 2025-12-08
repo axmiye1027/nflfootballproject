@@ -457,30 +457,17 @@ CROW_ROUTE(app, "/addStadium").methods(crow::HTTPMethod::POST)
                         int distanceValue = static_cast<int>(item["distance"].d());
                         
                         // Add distance from new stadium to existing stadium
-                        Distance d1;
-                        d1.id = 0; 
-                        d1.locationA = stadiumName;                  
-                        d1.locationB = targetStadium.getStadiumName();
-                        d1.distanceKm = distanceValue;
+                        Distance d;
+                        d.id = 0; 
+                        d.locationA = stadiumName;                  
+                        d.locationB = targetStadium.getStadiumName();
+                        d.distanceKm = distanceValue;
 
-                        bool distance1Added = backend.addDistance(d1);
+                        bool distanceAdded = backend.addDistance(d);
                         
-                        // Add reverse distance from existing stadium to new stadium
-                        Distance d2;
-                        d2.id = 0;
-                        d2.locationA = targetStadium.getStadiumName();
-                        d2.locationB = stadiumName;
-                        d2.distanceKm = distanceValue;
-                        
-                        bool distance2Added = backend.addDistance(d2);
-                        
-                        if (!distance1Added || !distance2Added) 
+                        if (distanceAdded) 
                         {
-                            cout << "Warning: Failed to add bidirectional distance between " << stadiumName << " and " << targetStadium.getStadiumName() << endl;
-                        }
-                        else 
-                        {
-                            cout << "Bidirectional distance added successfully between " << stadiumName << " and " << targetStadium.getStadiumName() << endl;
+                            cout << "distance added successfully between " << stadiumName << " and " << targetStadium.getStadiumName() << ": " << d.distanceKm << endl;
                         }
                     }
                     catch (const exception& e) 

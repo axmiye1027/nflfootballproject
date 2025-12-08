@@ -17,7 +17,7 @@ export default function TripPage() {
 
     const [tripType, setTripType] = useState("customTrip");
 
-    const { tripResult, setTripResult, resetTrip } = useTrip();
+    const { tripResult, setTripResult, clearTrip } = useTrip();
 
     useEffect(() => {
         let mounted = true
@@ -89,6 +89,8 @@ export default function TripPage() {
 
     async function handleCreateTrip() 
     {
+        clearTrip();
+
         const { endpoint, body } = buildTripRequest(tripType, startingId, stadiums);
 
         try {
@@ -102,7 +104,6 @@ export default function TripPage() {
             if (!json.success) 
                 throw new Error(json.message || "Unknown error");
 
-            // json.stadiums is now the full stadium objects
             setTripResult({
                 stadiums: json.stadiums.stadiums,  
                 totalDistance: json.totalDistance

@@ -1,9 +1,6 @@
 
 .summary-page {
     padding: 1rem 2rem;
-    margin: 0 auto;
-    min-height: 100vh;
-
 }
 
 .teamRow {
@@ -35,7 +32,7 @@
     margin-top: 1em;
 }
 
-.fullStadiums-map {
+.stadiums-map {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
