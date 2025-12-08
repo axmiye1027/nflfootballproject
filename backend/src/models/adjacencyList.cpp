@@ -148,6 +148,8 @@ int  AdjacencyList::findIndex(string vertex) const
 
 void AdjacencyList::dfs(string originVertex)
 {
+    path.clear();
+
     cout << "[AdjacencyList::DFS]" << endl;
 
     vector<bool> visited(list.size(), false);
