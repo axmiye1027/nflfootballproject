@@ -16,13 +16,15 @@ function SouvenirCard({ stadium, onSubtotalChange }) {
         stadium.souvenirs?.map(() => 0) || []
     );
 
+    const subtotal = stadium.souvenirs.reduce(
+        (total, s, i) => total + s.souvenirPrice * quantities[i],
+        0
+    );
+
     useEffect(() => {
-        const subtotal = stadium.souvenirs.reduce(
-            (total, s, i) => total + s.souvenirPrice * quantities[i],
-            0
-        );
         if (onSubtotalChange) onSubtotalChange(subtotal);
-    }, [quantities, stadium.souvenirs, onSubtotalChange]);
+    }, [subtotal]);
+
 
     const handleChange = (index, value) => {
         const newQuantity = Math.max(0, Number(value) || 0); // ensure it's a number and ≥ 0
@@ -32,11 +34,6 @@ function SouvenirCard({ stadium, onSubtotalChange }) {
             return newQuantities;
         });
     };
-
-    const subtotal = stadium.souvenirs.reduce(
-        (total, s, i) => total + s.souvenirPrice * quantities[i],
-        0
-    );
 
     // STYLE
     const cardContainerStyle = {
