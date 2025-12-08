@@ -738,13 +738,13 @@ void BackendManager::addPathToCart(vector<string> path)
     vector<Stadium> stadiumsVect = getStadiumsAsVector();
     vector<Stadium> pathStadiums;
 
-    for (int i = 0; i < stadiumsVect.size(); ++i)
+    for (int i = 0; i < path.size(); ++i)
     {
-        for (int j = 0; j < path.size(); ++j)
+        for (int j = 0; j < stadiumsVect.size(); ++j)
         {
-            if (path[j] == stadiumsVect[i].getStadiumName())
+            if (path[i] == stadiumsVect[j].getStadiumName())
             {
-                pathStadiums.push_back(stadiumsVect[i]);
+                pathStadiums.push_back(stadiumsVect[j]);
             }
         }
     }
