@@ -1,8 +1,8 @@
 name: ci
 
 on:
-  schedule:
-      - cron: "35 4 * * *" # every day at midnight UTC (min / hour / day / month / week)
+  #schedule:
+      #- cron: "35 4 * * *" every day at midnight UTC (min / hour / day / month / week)
   push:
     banches:
       - '**'        # matches every branch
